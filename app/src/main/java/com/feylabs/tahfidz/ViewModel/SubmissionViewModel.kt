@@ -26,13 +26,13 @@ class SubmissionViewModel : ViewModel(){
                         val submission = response.getJSONArray("submission")
                         for (i in 0 until submission.length()){
                             val sub_id = submission.getJSONObject(i).getString("id_submission")
-                            val sub_student_id = submission.getJSONObject(i).getString("id_submission")
-                            val sub_status = submission.getJSONObject(i).getString("id_submission")
-                            val sub_date = submission.getJSONObject(i).getString("id_submission")
-                            val sub_student_name = submission.getJSONObject(i).getString("id_submission")
-                            val sub_start = submission.getJSONObject(i).getString("id_submission")
-                            val sub_end = submission.getJSONObject(i).getString("id_submission")
-                            val sub_audio = submission.getJSONObject(i).getString("id_submission")
+                            val sub_student_id = submission.getJSONObject(i).getString("id_student")
+                            val sub_status = submission.getJSONObject(i).getString("status")
+                            val sub_date = submission.getJSONObject(i).getString("date")
+                            val sub_student_name = submission.getJSONObject(i).getString("student_name")
+                            val sub_start = submission.getJSONObject(i).getString("start")
+                            val sub_end = submission.getJSONObject(i).getString("end")
+                            val sub_audio = submission.getJSONObject(i).getString("audio")
 
                             dataSubmissionAPI.add(
                                 SubmissionModel(

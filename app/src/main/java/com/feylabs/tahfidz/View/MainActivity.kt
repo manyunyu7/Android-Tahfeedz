@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.feylabs.tahfidz.R
 import com.feylabs.tahfidz.Util.SharedPreference.Preference
+import com.feylabs.tahfidz.View.Base.BaseActivity
 import com.feylabs.tahfidz.ViewModel.StudentLoginViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.layout_loading_transparent.*
@@ -20,6 +21,9 @@ class MainActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        if(Preference(this).getPrefString("student_id").toString().isNotEmpty()){
+            startActivity(Intent(this,StudentContainer::class.java))
+        }
         buttonLayoutBinding()
 
         var loginViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())

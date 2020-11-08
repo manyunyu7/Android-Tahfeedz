@@ -1,19 +1,17 @@
 package com.feylabs.tahfidz.View
 
-import android.graphics.Bitmap
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.webkit.WebChromeClient
-import android.webkit.WebView
-import android.webkit.WebViewClient
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.feylabs.tahfidz.Model.SubmissionAdapter
 import com.feylabs.tahfidz.R
 import com.feylabs.tahfidz.Util.SharedPreference.Preference
-import com.feylabs.tahfidz.Util.URL
+import com.feylabs.tahfidz.View.Base.BaseFragment
 import com.feylabs.tahfidz.ViewModel.SubmissionViewModel
 import kotlinx.android.synthetic.main.fragment_student_history.*
 
@@ -32,6 +30,8 @@ class StudentHistoryFragment : BaseFragment() {
     private var param1: String? = null
     private var param2: String? = null
 
+    lateinit var submissionAdapter: SubmissionAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -40,11 +40,11 @@ class StudentHistoryFragment : BaseFragment() {
         }
     }
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         val submissionViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())
             .get(SubmissionViewModel::class.java)
 
@@ -54,11 +54,14 @@ class StudentHistoryFragment : BaseFragment() {
 
         submissionViewModel.status.observe(viewLifecycleOwner, Observer { status->
             if (status){
-                "Berhasil Retrieve Data".showToast()
+
+                anim_loading.visibility=View.GONE
             }else{
+                anim_loading.visibility=View.GONE
                 "Gagal Retrieve Data".showToast()
             }
         })
+
 
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_student_history, container, false)
@@ -67,6 +70,20 @@ class StudentHistoryFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        anim_loading.visibility=View.VISIBLE
+
+        val submissionViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())
+            .get(SubmissionViewModel::class.java)
+
+        submissionViewModel.dataSubmission.observe(viewLifecycleOwner, Observer { list->
+            submissionAdapter = SubmissionAdapter()
+            submissionAdapter.setData(list)
+            recycler_submission.setHasFixedSize(true)
+            recycler_submission.layoutManager=(LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false))
+            recycler_submission.adapter=submissionAdapter
+            "Berhasil Retrieve Data Sejumlah : ${submissionAdapter.itemCount}".showToast()
+        })
+
     }
 
     companion object {

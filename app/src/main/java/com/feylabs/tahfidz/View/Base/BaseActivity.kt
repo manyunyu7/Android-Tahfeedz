@@ -1,4 +1,4 @@
-package com.feylabs.tahfidz.View
+package com.feylabs.tahfidz.View.Base
 
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
