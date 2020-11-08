@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph.xml"
+    app:startDestination="@id/studentHomeFragment"
+ >
+
+    <fragment
+        android:id="@+id/studentHomeFragment"
+        tools:layout="@layout/fragment_student_home"
+        android:name="com.feylabs.tahfidz.View.StudentHomeFragment"
+        android:label="StudentHomeFragment" />
+    <fragment
+        android:id="@+id/studentInfoFragment"
+        android:name="com.feylabs.tahfidz.View.StudentInfoFragment"
+        android:label="fragment_student_info"
+        tools:layout="@layout/fragment_student_info" />
+    <fragment
+        android:id="@+id/studentHistoryFragment"
+        android:name="com.feylabs.tahfidz.View.StudentHistoryFragment"
+        android:label="fragment_student_history"
+        tools:layout="@layout/fragment_student_history" />
+    <fragment
+        android:id="@+id/studentSubmissionFragment"
+        android:name="com.feylabs.tahfidz.View.StudentSubmissionFragment"
+        android:label="fragment_student_submission"
+        tools:layout="@layout/fragment_student_submission" />
+</navigation>
