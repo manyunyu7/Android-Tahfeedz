@@ -21,8 +21,12 @@ class MainActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        if(Preference(this).getPrefString("student_id").toString().isNotEmpty()){
+
+
+        if(Preference(this).getPrefString("student_id") != null){
             startActivity(Intent(this,StudentContainer::class.java))
+        }else{
+            //DO NOTHING
         }
         buttonLayoutBinding()
 

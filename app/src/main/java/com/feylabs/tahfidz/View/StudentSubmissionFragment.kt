@@ -4,16 +4,18 @@ import android.content.pm.PackageManager
 import android.media.MediaPlayer
 import android.media.MediaRecorder
 import android.os.Bundle
-import android.os.Environment
 import android.os.SystemClock
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.feylabs.tahfidz.R
 import com.feylabs.tahfidz.View.Base.BaseFragment
+import com.feylabs.tahfidz.ViewModel.SurahViewModel
+import com.github.squti.androidwaverecorder.WaveRecorder
 import kotlinx.android.synthetic.main.fragment_student_submission.*
 import java.io.File
 
@@ -35,6 +37,7 @@ class StudentSubmissionFragment : BaseFragment() {
 
     lateinit var mr: MediaRecorder
     lateinit var mp: MediaPlayer
+    var timeWhenStopped: Long = 0 // for chronometer
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,25 +58,27 @@ class StudentSubmissionFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if (ActivityCompat.checkSelfPermission(
-                requireContext(),
-                android.Manifest.permission.RECORD_AUDIO
-            ) != PackageManager.PERMISSION_GRANTED
-        )
-            ActivityCompat.requestPermissions(
-                requireActivity(),
-                arrayOf(
-                    android.Manifest.permission.RECORD_AUDIO,
-                    android.Manifest.permission.WRITE_EXTERNAL_STORAGE
-                ),
-                111
-            )
+       val surahViewModel = ViewModelProvider(this,ViewModelProvider.NewInstanceFactory())
+           .get(SurahViewModel::class.java)
 
+        surahViewModel.getSurahList().observe(requireActivity(), Observer { it ->
+            if (it!=null){
+                var sL = mutableListOf<String>()
+                sL.add("Pilih Surat")
+                sL.addAll(it)
+                spinnerSurahStart.setItems(sL)
+                spinnerSurahEnd.setItems(sL)
+            }
+        })
+
+        checkPermission() // CHECKING PERMISSION
         mr = MediaRecorder()
         mp = MediaPlayer()
-        var path = context?.getExternalFilesDir(null)?.absolutePath + "/audio.mpeg4"
+        btnStop.visibility = View.VISIBLE
+        btnStop.isEnabled = false
+        var path = context?.getExternalFilesDir(null)?.absolutePath + "/audio.wav"
 
-
+        val waveRecorder = WaveRecorder(path)
 //        if (!File(path).exists()) {
 //            btnPlayLastRecorder.isEnabled = false
 //            btnStopLastRecorder.isEnabled = false
@@ -87,49 +92,60 @@ class StudentSubmissionFragment : BaseFragment() {
             }
         }
 
-        btnStop.visibility=View.GONE
-
-        btnPlayLastRecorder.setOnClickListener {
-            playSound(path)
-        }
-
-        btnStopLastRecorder.setOnClickListener {
-            mp.stop()
-        }
-
-
         //START RECORDING
         btnStart.setOnClickListener {
-            btnStart.visibility=View.GONE
-            btnStop.visibility = View.VISIBLE
-
-            mr.setAudioSource(MediaRecorder.AudioSource.MIC)
-            mr.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
-            mr.setAudioEncoder(MediaRecorder.OutputFormat.MPEG_4)
-            mr.setOutputFile(path)
-            mr.prepare()
-            mr.start()
-
+            btnStart.visibility = View.GONE
+            btnPause.visibility = View.VISIBLE
+            btnStop.isEnabled = true
+            statusRecord.text = "Merekam Suara"
+            waveRecorder.startRecording()
             timer.base = SystemClock.elapsedRealtime()
             timer.start()
         }
 
-        btnStop.setOnClickListener {
-            mr.stop()
-
-            btnStop.visibility = View.GONE
-            btnStart.visibility = View.VISIBLE
-            
+        btnPause.setOnClickListener {
+            btnPause.visibility = View.GONE
+            btnResume.visibility = View.VISIBLE
             timer.stop()
-            var a = File(path)
-            a.length().toString().showToast()
+
+            //COUNTING THE TIME WHEN CHRONOMETER STOPPED THEN ADD IT TO THE timeWhenStopped
+            timeWhenStopped = timer.base - SystemClock.elapsedRealtime()
+            statusRecord.text = "Rekaman Dijeda"
+            waveRecorder.pauseRecording()
+
+        }
+
+        btnResume.setOnClickListener {
+
+            btnResume.visibility = View.GONE
+            btnPause.visibility = View.VISIBLE
+
+            //ADJUSTING CHRONOMETER VALUE WITH TIME PASSED WHEN IN PAUSE STATE
+            timer.base = SystemClock.elapsedRealtime() + timeWhenStopped
+            timer.start()
+
+            statusRecord.text = "Merekam Suara"
+            waveRecorder.resumeRecording()
+        }
+
+        btnStop.setOnClickListener {
+            waveRecorder.stopRecording()
+            btnStart.visibility = View.VISIBLE
+            timer.base = SystemClock.elapsedRealtime()
+            timer.stop()
+            statusRecord.text = getString(R.string.label_init_record)
             lastRecorderFileLabel.text = path
         }
 
-        btnPlay.setOnClickListener {
+        btnPlayLastRecorder.setOnClickListener {
             playSound(path)
         }
+        btnStopLastRecorder.setOnClickListener {
+            stopSound()
+        }
+
     }
+
 
     override fun onRequestPermissionsResult(
         requestCode: Int,
@@ -142,6 +158,29 @@ class StudentSubmissionFragment : BaseFragment() {
         }
     }
 
+    private fun playSound(path:String) {
+        try {
+            mp.reset();
+            mp.setDataSource(path)
+            mp.prepare()
+            mp.start()
+        } catch (e: Exception) {
+            e.toString().showToast()
+        }
+    }
+
+    private fun stopSound() {
+        try {
+            if (mp.isPlaying && mp != null) {
+                mp.pause();
+                mp.seekTo(0);
+            } else {
+                "Tidak Ada Audio Yang Sedang Dimainkan".showToast()
+            }
+        } catch (e: Exception) {
+            e.toString().showToast()
+        }
+    }
 
 
     companion object {
@@ -163,11 +202,6 @@ class StudentSubmissionFragment : BaseFragment() {
                 }
             }
 
-        fun playSound(path : String){
-            var mp = MediaPlayer()
-            mp.setDataSource(path)
-            mp.prepare()
-            mp.start()
-        }
+
     }
 }
