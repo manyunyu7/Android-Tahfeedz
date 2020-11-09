@@ -62,6 +62,7 @@ dependencies {
     implementation 'com.loopj.android:android-async-http:1.4.9'
 
     implementation 'com.github.jeancsanchez:JcPlayer:2.6.11'
+    implementation 'com.cleveroad:audiovisualization:1.0.1'
 
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
