@@ -45,8 +45,8 @@ class StudentHistoryFragment : BaseFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val submissionViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())
-            .get(SubmissionViewModel::class.java)
+        val submissionViewModel =
+            ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(SubmissionViewModel::class.java)
 
         submissionViewModel.retrieveSubmissionStudent(
             Preference(requireContext()).getPrefString("student_id").toString()

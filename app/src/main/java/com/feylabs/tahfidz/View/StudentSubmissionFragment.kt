@@ -14,7 +14,9 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.feylabs.tahfidz.R
 import com.feylabs.tahfidz.View.Base.BaseFragment
+import com.feylabs.tahfidz.ViewModel.SubmissionViewModel
 import com.feylabs.tahfidz.ViewModel.SurahViewModel
+import com.feylabs.tahfidz.ViewModel.UploadViewModel
 import com.github.squti.androidwaverecorder.WaveRecorder
 import kotlinx.android.synthetic.main.fragment_student_submission.*
 import java.io.File
@@ -60,57 +62,81 @@ class StudentSubmissionFragment : BaseFragment() {
 
         checkPermission()             // CHECKING PERMISSION
         addSurat()
+        initID()
 
         mr = MediaRecorder()
         mp = MediaPlayer()
-
+        //PATH FOR SAVING FILE
+        var path = context?.getExternalFilesDir(null)?.absolutePath + "/audio.wav"
 
         spinnerSurahStart?.setItems(s)
         spinnerSurahEnd?.setItems(s)
-        val mapSurah = mutableMapOf<String,Int>()
+
+        var init = mutableListOf(1,2,3,4,5,6,7)
+        spinnerAyahStart.setItems(init)
+        spinnerAyahEnd.setItems(init)
+
+        val mapSurah = mutableMapOf<String, Int>()
 
         //Mapping Surah with each of it ayah count
-        for (i in - 0  until s.size){
+        for (i in 0 until s.size) {
             mapSurah[s[i]] = a[i]
         }
 
+
+
         spinnerSurahStart.setOnItemSelectedListener { view, position, id, item ->
             val ayahSpecStart = mutableListOf<Int>()
-            val ayahCount : Int = mapSurah[item.toString()] ?:0
-            for ( i in 0 until ayahCount){
-                ayahSpecStart.add(i+1)
+            val ayahCount: Int = mapSurah[item.toString()] ?: 0
+            for (i in 0 until ayahCount) {
+                ayahSpecStart.add(i + 1)
             }
             spinnerAyahStart.setItems(ayahSpecStart)
         }
 
         spinnerSurahEnd.setOnItemSelectedListener { view, position, id, item ->
             val ayahSpecEnd = mutableListOf<Int>()
-            val ayahCount : Int = mapSurah[item.toString()] ?:0
-            for ( i in 0 until ayahCount){
-                ayahSpecEnd.add(i+1)
+            val ayahCount: Int = mapSurah[item.toString()] ?: 0
+            for (i in 0 until ayahCount) {
+                ayahSpecEnd.add(i + 1)
             }
             spinnerAyahEnd.setItems(ayahSpecEnd)
         }
 
+        //Initiating upload VM
+        var uploadViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(
+            UploadViewModel::class.java
+        )
         btnUpload.setOnClickListener {
-            spinnerSurahStart.getItems<MutableList<String>>()[spinnerAyahStart.selectedIndex].toString().showToast()
+            anim_upload.visibility = View.VISIBLE
+
+            var surahStart = spinnerSurahStart.selectedIndex+1
+            var surahEnd = spinnerSurahEnd.selectedIndex+1
+            var ayahStart = spinnerAyahStart.selectedIndex+1
+            var ayahEnd = spinnerAyahEnd.selectedIndex+1
+
+            var start = "$surahStart:$ayahStart"
+            var end = "$surahEnd:$ayahEnd"
+
+            uploadViewModel.uploadFile(File(path),xstudent_id,xstudent_name,xgroup_id,start,end)
+            uploadViewModel.status.observe(viewLifecycleOwner, Observer {
+                if (it) {
+                    anim_upload.visibility = View.GONE
+                    "Success".showToast()
+                } else {
+                    anim_upload.visibility = View.GONE
+                    "Gagal".showToast()
+                }
+            })
+
         }
-
-
-
-
-
 
         btnStop.visibility = View.VISIBLE
         btnStop.isEnabled = false
-        var path = context?.getExternalFilesDir(null)?.absolutePath + "/audio.wav"
 
+        //Initiating Wave Recorder
         val waveRecorder = WaveRecorder(path)
-//        if (!File(path).exists()) {
-//            btnPlayLastRecorder.isEnabled = false
-//            btnStopLastRecorder.isEnabled = false
-//        }
-
+        //CREATE MEDIA DIRECTORY
         val mediaStorageDir = File(context?.externalCacheDir?.absolutePath, "Rekaman Tahfidz")
         Log.i("path ", context?.externalCacheDir?.absolutePath.toString())
         if (!mediaStorageDir.exists()) {
@@ -124,7 +150,7 @@ class StudentSubmissionFragment : BaseFragment() {
             btnStart.visibility = View.GONE
             btnPause.visibility = View.VISIBLE
             btnStop.isEnabled = true
-            statusRecord.text = "Merekam Suara"
+            statusRecord.text = "\nMerekam Suara"
             waveRecorder.startRecording()
             timer.base = SystemClock.elapsedRealtime()
             timer.start()
@@ -137,7 +163,7 @@ class StudentSubmissionFragment : BaseFragment() {
 
             //COUNTING THE TIME WHEN CHRONOMETER STOPPED THEN ADD IT TO THE timeWhenStopped
             timeWhenStopped = timer.base - SystemClock.elapsedRealtime()
-            statusRecord.text = "Rekaman Dijeda"
+            statusRecord.text = "\nRekaman Dijeda"
             waveRecorder.pauseRecording()
 
         }
@@ -151,7 +177,7 @@ class StudentSubmissionFragment : BaseFragment() {
             timer.base = SystemClock.elapsedRealtime() + timeWhenStopped
             timer.start()
 
-            statusRecord.text = "Merekam Suara"
+            statusRecord.text = "\nMerekam Suara"
             waveRecorder.resumeRecording()
         }
 
@@ -185,7 +211,7 @@ class StudentSubmissionFragment : BaseFragment() {
         }
     }
 
-    private fun playSound(path:String) {
+    private fun playSound(path: String) {
         try {
             mp.reset();
             mp.setDataSource(path)

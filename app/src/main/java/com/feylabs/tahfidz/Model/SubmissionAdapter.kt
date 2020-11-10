@@ -46,7 +46,6 @@ class SubmissionAdapter() : RecyclerView.Adapter<SubmissionAdapter.SubmissionHol
         holder.sub_student_name.text = listData[position].studentName
         holder.sub_id.text="#SE"+listData[position].id
         holder.sub_date.text=listData[position].date
-        holder.sub_start_end
         var status = listData[position].status
         when(status){
             "0"->{
@@ -57,11 +56,12 @@ class SubmissionAdapter() : RecyclerView.Adapter<SubmissionAdapter.SubmissionHol
             }
         }
         holder.sub_status.text=status
+        holder.sub_start_end.text=listData[position].start +"-\n"+ listData[position].end
 
         val intent =  Intent(holder.itemView.context,SubmissionDetailStudent::class.java)
         holder.btn_sub_detail.setOnClickListener { v->
             intent.putExtra("data",listData[position])
-            intent.putExtra("title",holder.sub_start_end.text)
+            intent.putExtra("title",holder.sub_start_end.text.toString())
             v.context.startActivity(intent)
         }
 

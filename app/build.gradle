@@ -67,9 +67,14 @@ dependencies {
 
     implementation 'com.github.squti:Android-Wave-Recorder:1.4.0'
 
+    //EXOPLAYER
+    implementation "com.google.android.exoplayer:exoplayer:2.12.1"
 
     //CUSTOM SPINNER
     implementation 'com.jaredrummler:material-spinner:1.3.1'
+
+    //WYSIWYG EDITOR
+    implementation 'in.nashapp.androidsummernote:androidsummernote:1.0.5'
 
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"

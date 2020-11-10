@@ -22,8 +22,8 @@
             android:id="@+id/salam"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/quicksand_bold"
-            android:text="Assalamualaikum"
+            android:fontFamily="@font/quicksand_regular"
+            android:text="Hallo "
             android:textColor="@color/colorBlack"
             android:textSize="32sp" />
 
@@ -39,6 +39,7 @@
                 android:padding="10dp">
 
                 <androidx.cardview.widget.CardView
+                    android:visibility="gone"
                     android:id="@+id/card"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -108,6 +109,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:visibility="gone"
                     android:layout_below="@id/info_group"
                     android:id="@+id/info_student"
                     android:layout_width="match_parent"

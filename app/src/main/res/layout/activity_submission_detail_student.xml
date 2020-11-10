@@ -6,10 +6,22 @@
     android:layout_height="match_parent"
     tools:context=".View.SubmissionDetailStudent">
 
+    <EditText
+        android:id="@+id/textSource"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/jcplayer" />
+
+
+
     <com.example.jean.jcplayer.view.JcPlayerView
         android:id="@+id/jcplayer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:pause_icon="@drawable/ic_pause_detail"
+        app:play_icon="@drawable/ic_play_detail"
+        app:progress_color="#CFF09E"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

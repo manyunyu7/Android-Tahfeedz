@@ -9,7 +9,10 @@ object URL {
 
 //    const val SUBMISSION_HISTORY = BASE_URL+"submission/get_submission_student.php"
     const val SUBMISSION = BASE_URL+"submission/api_get_submission.php"
+    const val UPLOAD_SUBMISSION = BASE_URL+"submission/upload_submission.php"
     const val MP3 = BASE_URL+"submission/"
+
+
 
 
 }

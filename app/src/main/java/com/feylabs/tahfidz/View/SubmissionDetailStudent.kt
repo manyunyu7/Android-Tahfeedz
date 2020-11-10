@@ -18,12 +18,13 @@ class SubmissionDetailStudent : BaseActivity() {
 
         var mp3Pathz = dataIntentParcel.audio
         var mp3Path = mp3Pathz.replaceFirst(".","");
-
         "$mp3Path".showToast()
+
         var title = intent.getStringExtra("title")
         val jcAudios: ArrayList<JcAudio> = ArrayList()
         jcAudios.add(JcAudio.createFromURL("$title", URL.MP3+mp3Path));
         jcplayer.initPlaylist(jcAudios, null);
+        textSource.setText(URL.MP3+mp3Path)
 
 
     }

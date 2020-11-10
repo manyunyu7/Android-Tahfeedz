@@ -1,14 +1,45 @@
 package com.feylabs.tahfidz.View.Base
 
 import android.content.pm.PackageManager
+import android.util.Log
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContentProviderCompat
 import androidx.fragment.app.Fragment
+import com.feylabs.tahfidz.Util.SharedPreference.Preference
 
 open class BaseFragment : Fragment() {
     var s = mutableListOf<String>()
     var a = mutableListOf<Int>()
+
+//    tempStudentData["login_type"] = "student"
+//    tempStudentData["student_id"] = id
+//    tempStudentData["student_name"] = name
+//    tempStudentData["student_nisn"] = nisn
+//    tempStudentData["student_email"] = email
+//    tempStudentData["student_group"] = kelompok
+//    tempStudentData["student_contact"] = contact
+//    tempStudentData["student_gender"] = gender
+//    tempStudentData["created_at"] = created_at
+//    tempStudentData["updated_at"] = update_at
+//    tempGroupData["id_group"] = groupID
+//    tempGroupData["group_name"] = groupName
+//    tempGroupData["group_mentor_id"] = mentor_id
+//    tempGroupData["group_mentor_name"] = mentor_name
+//    tempGroupData["group_mentor_contact"] = mentor_contact
+
+  var xstudent_id=""
+  var xstudent_name=""
+  var xgroup_id=""
+
+    fun initID(){
+        xstudent_id = Preference(requireContext()).getPrefString("student_id").toString()
+        xstudent_name = Preference(requireContext()).getPrefString("student_name").toString()
+        xgroup_id = Preference(requireContext()).getPrefString("id_group").toString()
+        Log.i("deytaInit",xstudent_id)
+        Log.i("deytaInit",xstudent_name)
+        Log.i("deytaInit",xgroup_id)
+    }
 
     public fun String.showToast() {
         Toast.makeText(requireContext(), this, Toast.LENGTH_LONG).show()
