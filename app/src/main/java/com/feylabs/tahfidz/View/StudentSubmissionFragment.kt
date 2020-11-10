@@ -58,22 +58,49 @@ class StudentSubmissionFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-       val surahViewModel = ViewModelProvider(this,ViewModelProvider.NewInstanceFactory())
-           .get(SurahViewModel::class.java)
+        checkPermission()             // CHECKING PERMISSION
+        addSurat()
 
-        surahViewModel.getSurahList().observe(requireActivity(), Observer { it ->
-            if (it!=null){
-                var sL = mutableListOf<String>()
-                sL.add("Pilih Surat")
-                sL.addAll(it)
-                spinnerSurahStart.setItems(sL)
-                spinnerSurahEnd.setItems(sL)
-            }
-        })
-
-        checkPermission() // CHECKING PERMISSION
         mr = MediaRecorder()
         mp = MediaPlayer()
+
+
+        spinnerSurahStart?.setItems(s)
+        spinnerSurahEnd?.setItems(s)
+        val mapSurah = mutableMapOf<String,Int>()
+
+        //Mapping Surah with each of it ayah count
+        for (i in - 0  until s.size){
+            mapSurah[s[i]] = a[i]
+        }
+
+        spinnerSurahStart.setOnItemSelectedListener { view, position, id, item ->
+            val ayahSpecStart = mutableListOf<Int>()
+            val ayahCount : Int = mapSurah[item.toString()] ?:0
+            for ( i in 0 until ayahCount){
+                ayahSpecStart.add(i+1)
+            }
+            spinnerAyahStart.setItems(ayahSpecStart)
+        }
+
+        spinnerSurahEnd.setOnItemSelectedListener { view, position, id, item ->
+            val ayahSpecEnd = mutableListOf<Int>()
+            val ayahCount : Int = mapSurah[item.toString()] ?:0
+            for ( i in 0 until ayahCount){
+                ayahSpecEnd.add(i+1)
+            }
+            spinnerAyahEnd.setItems(ayahSpecEnd)
+        }
+
+        btnUpload.setOnClickListener {
+            spinnerSurahStart.getItems<MutableList<String>>()[spinnerAyahStart.selectedIndex].toString().showToast()
+        }
+
+
+
+
+
+
         btnStop.visibility = View.VISIBLE
         btnStop.isEnabled = false
         var path = context?.getExternalFilesDir(null)?.absolutePath + "/audio.wav"

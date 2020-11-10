@@ -54,7 +54,6 @@ class StudentHistoryFragment : BaseFragment() {
 
         submissionViewModel.status.observe(viewLifecycleOwner, Observer { status->
             if (status){
-
                 anim_loading.visibility=View.GONE
             }else{
                 anim_loading.visibility=View.GONE
