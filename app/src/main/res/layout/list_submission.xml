@@ -12,9 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardCornerRadius="20dp"
-        android:layout_margin="20dp">
-
-
+        android:layout_margin="5dp">
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -104,8 +102,10 @@
                             android:layout_weight="1"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:maxLines="1"
+                            android:ellipsize="end"
                             android:fontFamily="@font/quicksand_regular"
-                            android:text="Al-Baqoroh:1  \nAl-Baqoroh:256"
+                            android:text="Al-Baqoroh:1 - Al-Baqoroh:256"
                             android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
                             android:textColor="@color/colorBlack"/>
 
@@ -121,6 +121,7 @@
                     >
 
                     <Button
+                        android:visibility="gone"
                         android:id="@+id/btnSeeDetail"
                         android:layout_gravity="end"
                         android:layout_width="wrap_content"

@@ -19,157 +19,229 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_rounded_bottom"
+                android:backgroundTint="@color/colorNeoBlue">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/quicksand_bold"
+                        android:text="Setoran Hafalan"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="29sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_medium"
+                        android:text="Pilih Surat dan Ayat yang akan disetorkan kemudian rekam dan upload "
+                        android:textColor="@color/colorWhite" />
+
+
+                </LinearLayout>
+
+
+            </RelativeLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="top"
                 android:orientation="vertical"
+                android:padding="10dp"
                 app:layout_constraintBottom_toTopOf="@+id/linearLayout"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginEnd="10dp"
-                    android:fontFamily="@font/quicksand_bold"
-                    android:text="Setoran Hafalan"
-                    android:textColor="@color/colorBlack"
-                    android:textSize="29sp" />
-
-                <TextView
-                    android:id="@+id/lastRecorderFileLabel"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginEnd="10dp"
-                    android:fontFamily="@font/quicksand_regular"
-                    android:text="Pilih Surat dan Ayat yang akan disetorkan kemudian rekam dan upload "
-                    android:textColor="@color/colorBlack" />
-
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                <androidx.cardview.widget.CardView
                     android:layout_margin="10dp"
-                    android:orientation="vertical"
-                    android:padding="2dp">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/quicksand_regular"
-                        android:text="Dari : " />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <androidx.cardview.widget.CardView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="1dp"
-                            android:layout_weight="1"
-                            app:cardCornerRadius="20dp">
-
-                            <com.jaredrummler.materialspinner.MaterialSpinner
-                                android:id="@+id/spinnerSurahStart"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:padding="10dp" />
-                        </androidx.cardview.widget.CardView>
-
-                        <androidx.cardview.widget.CardView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="1dp"
-                            android:layout_marginStart="10dp"
-                            android:layout_weight="2"
-                            app:cardCornerRadius="20dp">
-
-                            <com.jaredrummler.materialspinner.MaterialSpinner
-                                android:id="@+id/spinnerAyahStart"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:padding="10dp" />
-                        </androidx.cardview.widget.CardView>
-
-                    </LinearLayout>
-
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/quicksand_regular"
-                        android:text="Sampai : " />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <androidx.cardview.widget.CardView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="1dp"
-                            android:layout_weight="1"
-                            app:cardCornerRadius="20dp">
-
-                            <com.jaredrummler.materialspinner.MaterialSpinner
-                                android:id="@+id/spinnerSurahEnd"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:padding="10dp" />
-                        </androidx.cardview.widget.CardView>
-
-                        <androidx.cardview.widget.CardView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="1dp"
-                            android:layout_marginStart="10dp"
-                            android:layout_weight="2"
-                            app:cardCornerRadius="20dp">
-
-                            <com.jaredrummler.materialspinner.MaterialSpinner
-                                android:id="@+id/spinnerAyahEnd"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:padding="10dp" />
-                        </androidx.cardview.widget.CardView>
-
-
-                    </LinearLayout>
-                </LinearLayout>
-
-                <Button
-                    android:id="@+id/btnShowLength"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="ShowLength" />
+                    android:elevation="5dp"
+                    app:cardCornerRadius="20dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="10dp">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/montserrat_regular"
+                            android:text="Surat dan Ayat yang disetor"
+                            android:textColor="@color/colorNeoBlue"
+                            android:textSize="15sp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/quicksand_regular"
+                            android:text="Dari : "
+                            android:textColor="@color/colorNeoBlue" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <androidx.cardview.widget.CardView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="1dp"
+                                android:layout_weight="1"
+                                app:cardCornerRadius="20dp">
+
+                                <com.jaredrummler.materialspinner.MaterialSpinner
+                                    android:id="@+id/spinnerSurahStart"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:padding="10dp" />
+                            </androidx.cardview.widget.CardView>
+
+                            <androidx.cardview.widget.CardView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="1dp"
+                                android:layout_marginStart="10dp"
+                                android:layout_weight="2"
+                                app:cardCornerRadius="20dp">
+
+                                <com.jaredrummler.materialspinner.MaterialSpinner
+                                    android:id="@+id/spinnerAyahStart"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:padding="10dp" />
+                            </androidx.cardview.widget.CardView>
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/quicksand_regular"
+                            android:text="Sampai : "
+                            android:textColor="@color/colorNeoBlue" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <androidx.cardview.widget.CardView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="1dp"
+                                android:layout_weight="1"
+                                app:cardCornerRadius="20dp">
+
+                                <com.jaredrummler.materialspinner.MaterialSpinner
+                                    android:id="@+id/spinnerSurahEnd"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:padding="10dp" />
+                            </androidx.cardview.widget.CardView>
+
+                            <androidx.cardview.widget.CardView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="1dp"
+                                android:layout_marginStart="10dp"
+                                android:layout_weight="2"
+                                app:cardCornerRadius="20dp">
+
+                                <com.jaredrummler.materialspinner.MaterialSpinner
+                                    android:id="@+id/spinnerAyahEnd"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:padding="10dp" />
+                            </androidx.cardview.widget.CardView>
+                        </LinearLayout>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+
+                <androidx.cardview.widget.CardView
+                    android:layout_margin="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:elevation="5dp"
+                    app:cardCornerRadius="20dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="10dp"
+                        >
+
+
+                        <TextView
+                            android:textColor="@color/colorNeoBlue"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/poppins_medium"
+                            android:text="Dengarkan Rekaman Terakhir : " />
+
+                        <TextView
+                            android:visibility="gone"
+                            android:id="@+id/lastRecorderFileLabel"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/ambit_regular"
+                            android:text="Belum Ada Rekaman"
+                            android:textColor="@color/colorBlack" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <ImageButton
+                                android:layout_gravity="center"
+                                android:src="@drawable/ic_play"
+                                android:tint="@color/colorNeoBlue"
+                                android:background="@android:color/transparent"
+                                android:id="@+id/btnPlayLastRecorder"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:scaleType="fitXY"
+                                android:text="Play Last Recorded" />
+
+                            <ImageButton
+                                android:layout_gravity="center"
+                                android:src="@drawable/ic_stop"
+                                android:scaleType="fitXY"
+                                android:id="@+id/btnStopLastRecorder"
+                                android:background="@android:color/transparent"
+                                android:layout_width="50dp"
+                                android:layout_height="50dp"
+                                android:text="Stop Last Recorded" />
+                            <TextView
+                                android:layout_marginStart="10dp"
+                                android:layout_gravity="center"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/ambit_regular"
+                                android:text="Surat dan Ayat yang disetor"
+                                android:textColor="@color/colorBlack"
+                                android:textSize="15sp" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
 
                 <Button
                     android:id="@+id/btnUpload"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Upload" />
-
-                <Button
-                    android:id="@+id/btnShowStat"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="ShowStatus" />
-
-                <Button
-                    android:id="@+id/btnPlayLastRecorder"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Play Last Recorded" />
-
-                <Button
-                    android:id="@+id/btnStopLastRecorder"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Stop Last Recorded" />
 
 
             </LinearLayout>
@@ -181,7 +253,10 @@
         android:id="@+id/relativeLayout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="10dp"
+        android:background="@drawable/shape_rounded_top"
+        android:backgroundTint="@color/colorNeoBlue"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp"
         app:layout_constraintBottom_toBottomOf="parent">
 
         <Chronometer
@@ -193,6 +268,7 @@
             android:layout_marginStart="10dp"
             android:fontFamily="@font/quicksand_regular"
             android:textAlignment="center"
+            android:textColor="@color/colorWhite"
             android:textSize="35sp" />
 
         <TextView
@@ -201,9 +277,9 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_marginStart="10dp"
-            android:fontFamily="@font/quicksand_regular"
+            android:fontFamily="@font/poppins_medium"
             android:text="@string/label_init_record"
-            android:textColor="@color/colorNeoBlue" />
+            android:textColor="@color/colorWhite" />
 
 
         <ImageButton

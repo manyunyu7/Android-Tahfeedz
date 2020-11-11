@@ -59,7 +59,7 @@ class SubmissionAdapter() : RecyclerView.Adapter<SubmissionAdapter.SubmissionHol
         holder.sub_start_end.text=listData[position].start +"-\n"+ listData[position].end
 
         val intent =  Intent(holder.itemView.context,SubmissionDetailStudent::class.java)
-        holder.btn_sub_detail.setOnClickListener { v->
+        holder.itemView.setOnClickListener { v->
             intent.putExtra("data",listData[position])
             intent.putExtra("title",holder.sub_start_end.text.toString())
             v.context.startActivity(intent)

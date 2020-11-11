@@ -30,10 +30,10 @@
 
                     <ImageView
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/shape_rounded_bottom"
+                        android:layout_height="220dp"
+                        android:background="@drawable/bg_header_daylight"
                         android:scaleType="fitXY"
-                        android:src="@drawable/img_default_half_morning" />
+                        android:src="@drawable/bg_header_daylight" />
 
                     <RelativeLayout
                         android:layout_width="match_parent"
