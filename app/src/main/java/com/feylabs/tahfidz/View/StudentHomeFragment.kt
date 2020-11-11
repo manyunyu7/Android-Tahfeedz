@@ -6,9 +6,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.feylabs.tahfidz.Model.MotAdapter
+import com.feylabs.tahfidz.Model.MotModel
 import com.feylabs.tahfidz.R
 import com.feylabs.tahfidz.Util.SharedPreference.Preference
+import com.feylabs.tahfidz.ViewModel.MotivationViewModel
 import com.feylabs.tahfidz.ViewModel.StudentLoginViewModel
 import kotlinx.android.synthetic.main.fragment_student_home.*
 
@@ -35,11 +40,37 @@ class StudentHomeFragment : Fragment() {
         }
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+    }
+
+    override fun onResume() {
+        super.onResume()
+    }
+
     @SuppressLint("SetTextI18n")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         student_name.text=Preference(requireContext()).getPrefString("student_name")
-        student_nisn.text=Preference(requireContext()).getPrefString("student_nisn")
+
+        val motViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())
+            .get(MotivationViewModel::class.java)
+
+        motViewModel.getMot()
+        motViewModel.listMot.observe(viewLifecycleOwner, Observer {
+            if (it!=null){
+                recycler_mot_placeholder.visibility=View.GONE
+                recycler_mot.setHasFixedSize(true)
+                recycler_mot.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+                var motAdapter = MotAdapter()
+                motAdapter.setData(it)
+                recycler_mot.adapter=motAdapter
+            }else{
+
+            }
+        })
+
+
 
         if (Preference(requireContext()).sharedPref.contains("id_group")){
             studentGroup.text="${Preference(requireContext()).getPrefString("group_name")}"

@@ -5,13 +5,17 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.animation.AnimationUtils.loadAnimation
+import android.widget.LinearLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.feylabs.tahfidz.R
 import com.feylabs.tahfidz.Util.SharedPreference.Preference
 import com.feylabs.tahfidz.View.Base.BaseActivity
+import com.feylabs.tahfidz.ViewModel.MotivationViewModel
 import com.feylabs.tahfidz.ViewModel.StudentLoginViewModel
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_student_home.*
 import kotlinx.android.synthetic.main.layout_loading_transparent.*
 import kotlinx.android.synthetic.main.layout_login_student.*
 import kotlinx.android.synthetic.main.layout_login_ustadz.*
@@ -23,15 +27,18 @@ class MainActivity : BaseActivity() {
 
 
 
-        if(Preference(this).getPrefString("student_id") != null){
-            startActivity(Intent(this,StudentContainer::class.java))
-        }else{
+        if (Preference(this).getPrefString("student_id") != null) {
+            startActivity(Intent(this, StudentContainer::class.java))
+        } else {
             //DO NOTHING
         }
         buttonLayoutBinding()
 
         var loginViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())
             .get(StudentLoginViewModel::class.java);
+
+        val motViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())
+            .get(MotivationViewModel::class.java)
 
         btnLoginStudent.setOnClickListener {
             val usr = etUsernameStudent.text.toString()
@@ -67,9 +74,9 @@ class MainActivity : BaseActivity() {
                 if (studentMap["kelompok"] != null || studentMap["kelompok"] != "null") {
                     groupData.value?.toMap(groupMap)
                     //Save Group Mapping to SharedPreference
-                    for ((key,value) in groupMap){
+                    for ((key, value) in groupMap) {
                         Log.i(key, value)
-                        Preference(this).save(key,value)
+                        Preference(this).save(key, value)
                     }
                 }
 
