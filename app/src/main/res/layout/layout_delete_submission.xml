@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardBackgroundColor="@color/colorRedPastel">
+
+    <LinearLayout
+        android:padding="20dp"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/alertTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawablePadding="5dp"
+            android:fontFamily="@font/montserrat_regular"
+            android:text="Anda Yakin Ingin Menghapus Submission Ini ???"
+            android:textColor="@color/colorWhite"
+            android:textSize="25sp" />
+
+        <TextView
+            android:id="@+id/alertDesc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawablePadding="5dp"
+            android:fontFamily="@font/sf_pro_rounded"
+            android:text="Tindakan ini tidak dapat dibatalkan"
+            android:textColor="@color/colorWhite"
+            android:textSize="15sp" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_marginTop="10dp"
+            android:layout_below="@id/alertTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+            <TextView
+                android:id="@+id/btnDeleteSubmission"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="YA HAPUS SAJA,"
+                android:textColor="@color/colorWhite"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:fontFamily="@font/montserrat_regular"/>
+            <TextView
+                android:id="@+id/btnAlerterDelete"
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="KEMBALI"
+                android:textColor="@color/colorWhite"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:fontFamily="@font/montserrat_regular"/>
+        </LinearLayout>
+
+
+
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

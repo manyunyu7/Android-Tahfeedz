@@ -1,7 +1,9 @@
 package com.feylabs.tahfidz.View
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -10,12 +12,13 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.feylabs.tahfidz.Model.MotAdapter
-import com.feylabs.tahfidz.Model.MotModel
 import com.feylabs.tahfidz.R
 import com.feylabs.tahfidz.Util.SharedPreference.Preference
+import com.feylabs.tahfidz.View.Base.BaseFragment
 import com.feylabs.tahfidz.ViewModel.MotivationViewModel
-import com.feylabs.tahfidz.ViewModel.StudentLoginViewModel
+import com.feylabs.tahfidz.ViewModel.StudentViewModel
 import kotlinx.android.synthetic.main.fragment_student_home.*
+import kotlinx.android.synthetic.main.layout_loading_transparent.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -27,7 +30,7 @@ private const val ARG_PARAM2 = "param2"
  * Use the [StudentHomeFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class StudentHomeFragment : Fragment() {
+class StudentHomeFragment : BaseFragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -46,42 +49,99 @@ class StudentHomeFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        shimmerMotLayout.visibility = View.VISIBLE
+        shimmerMotLayout.startShimmer()
     }
+
+    override fun onPause() {
+        super.onPause()
+        shimmerMotLayout.visibility = View.VISIBLE
+        shimmerMotLayout.startShimmer()
+    }
+
 
     @SuppressLint("SetTextI18n")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        student_name.text=Preference(requireContext()).getPrefString("student_name")
+        updatingStudentData()
+        updatingStudentGroupData()
+        settingUpStudentUI()
+    }
 
+    private fun updatingStudentGroupData() {
+        if (Preference(requireContext()).sharedPref.contains("id_group")) {
+            studentGroup.text = "${Preference(requireContext()).getPrefString("group_name")}"
+            studentMentor.text = Preference(requireContext()).getPrefString("group_mentor_name")
+            student_mentor_contact.text =
+                "${Preference(requireContext()).getPrefString("group_mentor_contact")}"
+        } else {
+            studentGroup.text = "${getString(R.string.group)} :\nAnda Belum Terdaftar Di Kelompok"
+            studentMentor.text = "-"
+            student_mentor_contact.text= "-"
+        }
+    }
+
+    private fun settingUpStudentUI() {
+        student_name_home.text = Preference(requireContext()).getPrefString("student_name")
         val motViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())
             .get(MotivationViewModel::class.java)
 
         motViewModel.getMot()
         motViewModel.listMot.observe(viewLifecycleOwner, Observer {
-            if (it!=null){
-                recycler_mot_placeholder.visibility=View.GONE
+            shimmerMotLayout.stopShimmer()
+            shimmerMotLayout.visibility = View.GONE
+            if (it != null) {
                 recycler_mot.setHasFixedSize(true)
-                recycler_mot.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+                recycler_mot.layoutManager =
+                    LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
                 var motAdapter = MotAdapter()
                 motAdapter.setData(it)
-                recycler_mot.adapter=motAdapter
-            }else{
+                recycler_mot.adapter = motAdapter
+            } else {
 
             }
         })
-
-
-
-        if (Preference(requireContext()).sharedPref.contains("id_group")){
-            studentGroup.text="${Preference(requireContext()).getPrefString("group_name")}"
-            studentMentor.text=Preference(requireContext()).getPrefString("group_mentor_name")
-            student_mentor_contact.text="${Preference(requireContext()).getPrefString("group_mentor_contact")}"
-        }else{
-            studentGroup.text="${getString(R.string.group)} :\nAnda Belum Terdaftar Di Kelompok"
-        }
     }
 
 
+    private fun updatingStudentData() {
+        val studentViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(
+            StudentViewModel::class.java
+        )
+        studentViewModel.getStudentData(
+            Preference(requireContext()).getPrefString("student_id").toString()
+        )
+        studentViewModel.status.observe(viewLifecycleOwner, Observer {
+            if (it) {
+                anim_loading.visibility = View.GONE
+                var studentData = studentViewModel.getStudentData()
+                var groupData = studentViewModel.getGroupData()
+                var studentMap = mutableMapOf<String, String>()
+                var groupMap = mutableMapOf<String, String>()
+
+
+                //Saving value of studentData from LiveData to studentMap
+                studentData.value?.toMap(studentMap)
+                groupData.value?.toMap(groupMap)
+
+                if (studentMap["kelompok"] != null || studentMap["kelompok"] != "null") {
+                    groupData.value?.toMap(groupMap)
+                    //Save Group Mapping to SharedPreference
+                    for ((key, value) in groupMap) {
+                        Log.i(key, value)
+                        Preference(requireContext()).save(key, value)
+                    }
+                }
+                //Saving Student Mapping to SharedPref
+                for ((key, value) in studentMap) {
+                    Log.i(key, value)
+                    Preference(requireContext()).save(key, value)
+                }
+            } else {
+
+            }
+        })
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -90,6 +150,7 @@ class StudentHomeFragment : Fragment() {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_student_home, container, false)
     }
+
 
     companion object {
         /**

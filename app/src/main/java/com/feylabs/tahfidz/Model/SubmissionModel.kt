@@ -9,7 +9,7 @@ data class SubmissionModel(
     val id_student : String,
     val date : String,
     val studentName : String,
-    val status : String,
+    var status : String,
     val start : String,
     val end :String,
     val audio : String

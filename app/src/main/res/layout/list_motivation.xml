@@ -15,7 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="90dp"
             android:scaleType="fitXY"
-            android:src="@drawable/dummy_img" />
+            android:src="@android:color/darker_gray" />
 
         <LinearLayout
             android:id="@+id/mot_container1"

@@ -5,17 +5,14 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.animation.AnimationUtils.loadAnimation
-import android.widget.LinearLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.feylabs.tahfidz.R
 import com.feylabs.tahfidz.Util.SharedPreference.Preference
 import com.feylabs.tahfidz.View.Base.BaseActivity
 import com.feylabs.tahfidz.ViewModel.MotivationViewModel
-import com.feylabs.tahfidz.ViewModel.StudentLoginViewModel
+import com.feylabs.tahfidz.ViewModel.StudentViewModel
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_student_home.*
 import kotlinx.android.synthetic.main.layout_loading_transparent.*
 import kotlinx.android.synthetic.main.layout_login_student.*
 import kotlinx.android.synthetic.main.layout_login_ustadz.*
@@ -35,7 +32,7 @@ class MainActivity : BaseActivity() {
         buttonLayoutBinding()
 
         var loginViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())
-            .get(StudentLoginViewModel::class.java);
+            .get(StudentViewModel::class.java);
 
         val motViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())
             .get(MotivationViewModel::class.java)

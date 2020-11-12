@@ -55,6 +55,7 @@ class SubmissionAdapter() : RecyclerView.Adapter<SubmissionAdapter.SubmissionHol
                 status = "Sudah Dinilai"
             }
         }
+        listData[position].status=status
         holder.sub_status.text=status
         holder.sub_start_end.text=listData[position].start +"-\n"+ listData[position].end
 
@@ -66,5 +67,4 @@ class SubmissionAdapter() : RecyclerView.Adapter<SubmissionAdapter.SubmissionHol
         }
 
     }
-
 }

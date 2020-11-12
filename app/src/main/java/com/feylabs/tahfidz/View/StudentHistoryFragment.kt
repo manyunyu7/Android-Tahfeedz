@@ -40,6 +40,31 @@ class StudentHistoryFragment : BaseFragment() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        val submissionViewModel =
+            ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(SubmissionViewModel::class.java)
+        submissionViewModel.retrieveSubmissionStudent(
+            Preference(requireContext()).getPrefString("student_id").toString()
+        )
+
+        submissionViewModel.dataSubmission.observe(viewLifecycleOwner, Observer { list->
+            anim_loading.visibility=View.GONE
+            if (list!=null){
+                submissionAdapter = SubmissionAdapter()
+                submissionAdapter.listData.clear()
+                submissionAdapter.setData(list)
+                recycler_submission.setHasFixedSize(true)
+                recycler_submission.layoutManager=(LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false))
+                recycler_submission.adapter=submissionAdapter
+            }else{
+
+            }
+
+        })
+
+    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -52,16 +77,6 @@ class StudentHistoryFragment : BaseFragment() {
             Preference(requireContext()).getPrefString("student_id").toString()
         )
 
-        submissionViewModel.status.observe(viewLifecycleOwner, Observer { status->
-            if (status){
-                anim_loading.visibility=View.GONE
-            }else{
-                anim_loading.visibility=View.GONE
-                "Gagal Retrieve Data".showToast()
-            }
-        })
-
-
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_student_history, container, false)
     }
@@ -69,18 +84,27 @@ class StudentHistoryFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        submissionAdapter = SubmissionAdapter()
         anim_loading.visibility=View.VISIBLE
 
         val submissionViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())
             .get(SubmissionViewModel::class.java)
 
         submissionViewModel.dataSubmission.observe(viewLifecycleOwner, Observer { list->
-            submissionAdapter = SubmissionAdapter()
+            anim_loading.visibility=View.GONE
             submissionAdapter.setData(list)
             recycler_submission.setHasFixedSize(true)
             recycler_submission.layoutManager=(LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false))
             recycler_submission.adapter=submissionAdapter
-            "Berhasil Retrieve Data Sejumlah : ${submissionAdapter.itemCount}".showToast()
+
+        })
+
+        submissionViewModel.status.observe(viewLifecycleOwner, Observer {
+            if (it){
+                anim_loading.visibility=View.GONE
+            }else{
+                anim_loading.visibility=View.GONE
+            }
         })
 
     }

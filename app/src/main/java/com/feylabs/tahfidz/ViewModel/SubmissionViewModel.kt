@@ -10,49 +10,75 @@ import com.feylabs.tahfidz.Model.SubmissionModel
 import com.feylabs.tahfidz.Util.URL
 import org.json.JSONObject
 
-class SubmissionViewModel : ViewModel(){
+class SubmissionViewModel : ViewModel() {
     var status = MutableLiveData<Boolean>()
+    var statusDelete = MutableLiveData<Boolean>()
     val dataSubmission = MutableLiveData<MutableList<SubmissionModel>>()
 
-    fun retrieveSubmissionStudent(id:String){
+    fun retrieveSubmissionStudent(id: String) {
         val dataSubmissionAPI = mutableListOf<SubmissionModel>()
         AndroidNetworking.post(URL.SUBMISSION)
-            .addBodyParameter("student_id",id)
+            .addBodyParameter("student_id", id)
             .build()
-            .getAsJSONObject(object : JSONObjectRequestListener{
+            .getAsJSONObject(object : JSONObjectRequestListener {
                 override fun onResponse(response: JSONObject) {
-                    Log.i("responSub",response.toString())
-                    if (response.getInt("response_code")==1){
+                    Log.i("responSub", response.toString())
+                    if (response.getInt("response_code") == 1) {
                         val submission = response.getJSONArray("submission")
-                        for (i in 0 until submission.length()){
+                        for (i in 0 until submission.length()) {
                             val sub_id = submission.getJSONObject(i).getString("id_submission")
                             val sub_student_id = submission.getJSONObject(i).getString("id_student")
                             val sub_status = submission.getJSONObject(i).getString("status")
                             val sub_date = submission.getJSONObject(i).getString("date")
-                            val sub_student_name = submission.getJSONObject(i).getString("student_name")
+                            val sub_student_name =
+                                submission.getJSONObject(i).getString("student_name")
                             val sub_start = submission.getJSONObject(i).getString("start")
                             val sub_end = submission.getJSONObject(i).getString("end")
                             val sub_audio = submission.getJSONObject(i).getString("audio")
 
                             dataSubmissionAPI.add(
                                 SubmissionModel(
-                                sub_id,sub_student_id,sub_date,sub_student_name,sub_status,
-                                sub_start,sub_end,sub_audio
-                            ))
+                                    sub_id, sub_student_id, sub_date, sub_student_name, sub_status,
+                                    sub_start, sub_end, sub_audio
+                                )
+                            )
 
                         }
                         status.postValue(true)
                         dataSubmission.postValue(dataSubmissionAPI)
-                    }else{
+                    } else {
                         status.postValue(false)
                     }
                 }
 
                 override fun onError(anError: ANError?) {
-                    Log.i("responSub",anError.toString())
+                    Log.i("responSub", anError.toString())
                     status.postValue(false)
                 }
+            })
+    }
 
+    fun deleteSubmission(
+        submissionID: String
+    ) {
+        Log.i("id_submission", submissionID)
+        AndroidNetworking.post(URL.DELETE_SUBMISSION)
+            .addBodyParameter("submission_id", submissionID)
+            .build()
+            .getAsJSONObject(object : JSONObjectRequestListener {
+                override fun onResponse(response: JSONObject) {
+                    Log.i("FAN-delSub",response.toString())
+                    if (response.getInt("response_code") == 1) {
+                        statusDelete.postValue(true)
+                    } else {
+                        statusDelete.postValue(false)
+                    }
+                }
+
+                override fun onError(anError: ANError) {
+                    Log.i("FAN-delSub",anError.toString())
+                    statusDelete.postValue(false)
+                }
             })
     }
 }

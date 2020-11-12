@@ -71,7 +71,7 @@
                             android:textStyle="bold" />
 
                         <TextView
-                            android:id="@+id/student_name"
+                            android:id="@+id/student_name_home"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_below="@id/greeting"
@@ -220,14 +220,23 @@
                         app:layout_constraintTop_toTopOf="parent"
                         tools:listitem="@layout/list_motivation" />
 
-                    <include
-                        android:id="@+id/recycler_mot_placeholder"
-                        layout="@layout/layout_recycler_mot_placeholder"
-                        android:visibility="gone"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
+                    >
 
-                    </include>
+                    <com.facebook.shimmer.ShimmerFrameLayout
+                        android:id="@+id/shimmerMotLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:orientation="vertical">
+
+                        <!-- Adding 15 rows of placeholders -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+                            <include layout="@layout/layout_recycler_mot_placeholder" />
+                        </LinearLayout>
+                    </com.facebook.shimmer.ShimmerFrameLayout>
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
 
