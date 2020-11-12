@@ -94,11 +94,13 @@ class StudentViewModel(): ViewModel() {
     fun getStudentData(id:String){
         AndroidNetworking.post(URL.STUDENT_DATA)
             .addBodyParameter("id",id)
+            .addHeaders("id",id)
             .build()
             .getAsJSONObject(object :JSONObjectRequestListener{
                 override fun onResponse(response: JSONObject) {
 //                    TODO("Not yet implemented"
-                    Log.e("FAN INFO",response.toString())
+                    Log.i("FAN-getStudentData",response.toString())
+                    Log.i("FAN-getStudentData",id)
                     if(response.getInt("http_code") == 200){
 
                         val student = response.getJSONObject("student")
@@ -110,9 +112,7 @@ class StudentViewModel(): ViewModel() {
                         val gender = student.getString("gender")
                         val created_at = student.getString("created_at")
                         val update_at = student.getString("updated_at")
-
                         val kelompok = student.getString("kelompok")
-
 
                         tempStudentData["login_type"] = "student"
                         tempStudentData["student_id"] = id
@@ -125,7 +125,7 @@ class StudentViewModel(): ViewModel() {
                         tempStudentData["created_at"] = created_at
                         tempStudentData["updated_at"] = update_at
 
-                        if (kelompok!=null || kelompok != "null"){
+                        if (kelompok.toString()!="null"){
                             val group = response.getJSONObject("group_data")
                             val groupID = group.getString("id")
                             val groupName = group.getString("group_name")
@@ -133,14 +133,17 @@ class StudentViewModel(): ViewModel() {
                             val mentor_id = group.getString("mentor_id")
                             val mentor_contact = group.getString("mentor_contact")
 
-
                             tempGroupData["id_group"] = groupID
                             tempGroupData["group_name"] = groupName
                             tempGroupData["group_mentor_id"] = mentor_id
                             tempGroupData["group_mentor_name"] = mentor_name
                             tempGroupData["group_mentor_contact"] = mentor_contact
-
-
+                        }else{
+                            tempGroupData["id_group"] = "null"
+                            tempGroupData["group_name"] = "null"
+                            tempGroupData["group_mentor_id"] = "null"
+                            tempGroupData["group_mentor_name"] = "null"
+                            tempGroupData["group_mentor_contact"] ="null"
                         }
                         studentData.postValue(tempStudentData)
                         groupData.postValue(tempGroupData)

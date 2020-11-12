@@ -64,12 +64,11 @@ class StudentHomeFragment : BaseFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         updatingStudentData()
-        updatingStudentGroupData()
         settingUpStudentUI()
     }
 
     private fun updatingStudentGroupData() {
-        if (Preference(requireContext()).sharedPref.contains("id_group")) {
+        if (Preference(requireContext()).getPrefString("id_group")!="null") {
             studentGroup.text = "${Preference(requireContext()).getPrefString("group_name")}"
             studentMentor.text = Preference(requireContext()).getPrefString("group_mentor_name")
             student_mentor_contact.text =
@@ -113,13 +112,10 @@ class StudentHomeFragment : BaseFragment() {
         )
         studentViewModel.status.observe(viewLifecycleOwner, Observer {
             if (it) {
-                anim_loading.visibility = View.GONE
                 var studentData = studentViewModel.getStudentData()
                 var groupData = studentViewModel.getGroupData()
                 var studentMap = mutableMapOf<String, String>()
                 var groupMap = mutableMapOf<String, String>()
-
-
                 //Saving value of studentData from LiveData to studentMap
                 studentData.value?.toMap(studentMap)
                 groupData.value?.toMap(groupMap)
@@ -132,13 +128,10 @@ class StudentHomeFragment : BaseFragment() {
                         Preference(requireContext()).save(key, value)
                     }
                 }
-                //Saving Student Mapping to SharedPref
-                for ((key, value) in studentMap) {
-                    Log.i(key, value)
-                    Preference(requireContext()).save(key, value)
-                }
+                //UPDATE THE UI
+                updatingStudentGroupData()
             } else {
-
+               //IF FAILED TO FETCH NEW DATA
             }
         })
     }
