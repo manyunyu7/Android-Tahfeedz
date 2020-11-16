@@ -51,6 +51,9 @@ dependencies {
     //Picasso easy image rendering
     implementation 'com.squareup.picasso:picasso:2.71828'
 
+    //CODIGAMI ALERT DIALOG
+    implementation 'com.crowdfire.cfalertdialog:cfalertdialog:1.1.0'
+
     //FAST ANDROID NETWORKING CONNECTION LIBRARY
     implementation 'com.amitshekhar.android:android-networking:1.0.2'
 

@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".TeacherRateSubmission">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
-        android:id="@+id/linearLayout2"
+        android:id="@+id/bottomNav"
+        android:padding="15dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="top"
+        android:background="@color/colorWhite"
         android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-
         <TextView
+            android:id="@+id/titleDetailCorrection"
+            android:drawableStart="@drawable/ic_baseline_arrow_back_24"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
@@ -25,7 +26,6 @@
             android:text="Nilai Setoran Hafalan"
             android:textColor="@color/colorBlack"
             android:textSize="29sp" />
-
         <TextView
             android:id="@+id/lastRecorderFileLabel"
             android:layout_width="match_parent"
@@ -37,10 +37,21 @@
             android:textColor="@color/colorBlack" />
     </LinearLayout>
 
-
-
-
-    <!-- TODO: Update blank fragment layout -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/colorWhite"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bottomNav"
+        >
+        <WebView
+            android:id="@+id/correction_note"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+          />
+    </LinearLayout>
 
 
 

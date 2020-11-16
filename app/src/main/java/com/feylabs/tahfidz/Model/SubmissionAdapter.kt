@@ -7,22 +7,30 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.webkit.DownloadListener
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import com.androidnetworking.AndroidNetworking
+import com.androidnetworking.error.ANError
+import com.androidnetworking.interfaces.JSONObjectRequestListener
+import com.crowdfire.cfalertdialog.CFAlertDialog
 import com.feylabs.tahfidz.R
 import com.feylabs.tahfidz.Util.SubBottomSheet
 import com.feylabs.tahfidz.Util.URL
-import com.feylabs.tahfidz.View.SubmissionDetailStudent
+import com.feylabs.tahfidz.View.CorrectionDetailActivity
+import kotlinx.android.synthetic.main.layout_detail_submission.*
 import kotlinx.android.synthetic.main.layout_detail_submission.view.*
 import kotlinx.android.synthetic.main.list_submission.view.*
 import kotlinx.android.synthetic.main.list_submission.view.sub_start_end
+import org.json.JSONObject
+
 
 class SubmissionAdapter : RecyclerView.Adapter<SubmissionAdapter.SubmissionHolder>() {
 
     var listData = mutableListOf<SubmissionModel>()
-
+    lateinit var subDetailBottomSheet: SubBottomSheet
 
     fun setData(listSetter: MutableList<SubmissionModel>) {
         listData.clear()
@@ -55,81 +63,175 @@ class SubmissionAdapter : RecyclerView.Adapter<SubmissionAdapter.SubmissionHolde
 
     override fun onBindViewHolder(holder: SubmissionHolder, position: Int) {
         holder.sub_student_name.text = listData[position].studentName
-        listData[position].id="SE"+listData[position].id
+        listData[position].id = "#SE" + listData[position].id
         holder.sub_id.text = listData[position].id
         holder.sub_date.text = listData[position].date
         var status = listData[position].status
-        var checkStatus =0
+        var checkStatus = 0
         when (status) {
             "0" -> {
-                checkStatus=0
+                checkStatus = 0
                 status = "Menunggu Dinilai"
-                listData[position].status=status
+                listData[position].status = status
             }
             "1" -> {
-                checkStatus=1
+                checkStatus = 1
                 status = "Sudah Dinilai"
-                listData[position].status=status
+                listData[position].status = status
             }
         }
         holder.sub_status.text = status
         holder.sub_start_end.text = listData[position].start + "-\n" + listData[position].end
 
-        val intent = Intent(holder.itemView.context, SubmissionDetailStudent::class.java)
         holder.itemView.setOnClickListener { v ->
+            //CONFIG BOTTOM NAVIGATION UI===========================================================
             val activity = holder.itemView.context as Activity
-            val subDetailBottomSheet = SubBottomSheet(activity)
+            subDetailBottomSheet = SubBottomSheet(activity)
             val subDetId = subDetailBottomSheet.sub_det_id
+            val subDetBtnClose = subDetailBottomSheet.btnCloseBottom
             val subStartEnd = subDetailBottomSheet.sub_start_end
             val subStartStatus = subDetailBottomSheet.sub_det_status
             val subDetScoreSmall = subDetailBottomSheet.sub_det_score_small
             val subDetScoreBig = subDetailBottomSheet.sub_det_score_big
             val subDetMp3 = subDetailBottomSheet.sub_det_mp3View
+            val btnConfDeleteSubmission = subDetailBottomSheet.btnConfDeleteSubmission
 
-            when(checkStatus){
-                0 ->{
-                    subDetScoreBig.textSize=12f
-                    subDetScoreSmall.text=holder.itemView.context.getString(R.string.not_graded)
-                    subDetScoreBig.text=holder.itemView.context.getString(R.string.not_graded)
-                }
-                1->{
-                    subDetScoreBig.textSize=60f
-                }
+            subDetBtnClose.setOnClickListener {
+                subDetailBottomSheet.visibility=View.GONE
             }
 
+
+            //LOGIC FOR SETTING BIG AND SMALL SCORE LABEL AT BOTTOM LAYOUT
+            when (checkStatus) {
+                0 -> {
+                    subDetScoreBig.text="-"
+                    subDetScoreSmall.text = holder.itemView.context.getString(R.string.not_graded)
+                }
+                1 -> {
+                    
+                }
+            }
             var mp3Path = listData[position].audio
             mp3Path = mp3Path.replaceFirst(".", "")
             mp3Path = mp3Path.replaceFirst("/", "")
             mp3Path = mp3Path.replace(" ", "%20")
 
-            subDetId.text=listData[position].id
-            subStartStatus.text=listData[position].status
-            subStartEnd.text="${listData[position].start} - ${listData[position].end}"
-            subDetScoreBig.text=listData[position].score
-            subDetScoreSmall.text=listData[position].score
+            // SET UP UI FOR BOTTOM LAYOUT =========================================================
+            subDetId.text = listData[position].id
+            subStartStatus.text = listData[position].status
+            subStartEnd.text = "${listData[position].start} - ${listData[position].end}"
+            subDetScoreBig.text = listData[position].score
+            subDetScoreSmall.text = listData[position].score
+            subDetScoreSmall.text = listData[position].score
             subDetailBottomSheet.show()
 
+
+            //SETTING UP MP3========================================================================
             subDetMp3.settings.javaScriptEnabled = true
-            subDetMp3.setDownloadListener(object : DownloadListener {
-                override fun onDownloadStart(
-                    url: String?, userAgent: String?,
-                    contentDisposition: String?, mimetype: String?,
-                    contentLength: Long
-                ) {
-                    val i = Intent(Intent.ACTION_VIEW)
-                    i.data = Uri.parse(url)
-                    holder.itemView.context.startActivity(i)
-                }
-            })
+            subDetMp3.setDownloadListener { url, userAgent, contentDisposition, mimetype, contentLength ->
+                val i = Intent(Intent.ACTION_VIEW)
+                i.data = Uri.parse(url)
+                holder.itemView.context.startActivity(i)
+            }
             subDetMp3.webViewClient = object : WebViewClient() {
                 override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
-                    view?.loadUrl(URL.MP3_MOBILE+mp3Path)
+                    view?.loadUrl(URL.MP3_MOBILE + mp3Path)
                     return true
                 }
             }
-            subDetMp3.loadUrl(URL.MP3_MOBILE+mp3Path)
-            Log.i("MP3View URL", URL.MP3_MOBILE+mp3Path)
-        }
+            subDetMp3.loadUrl(URL.MP3_MOBILE + mp3Path)
+            Log.i("MP3View URL", URL.MP3_MOBILE + mp3Path)
 
+            activity.btnSeeCorrection.setOnClickListener {
+                val intent = Intent(holder.itemView.context, CorrectionDetailActivity::class.java)
+                intent.apply {
+                    putExtra("data",listData[position])
+                    putExtra("url",subDetMp3.url)
+                }
+                activity.startActivity(intent)
+            }
+
+
+            //DELETE SUBMISSION=====================================================================
+            btnConfDeleteSubmission.setOnClickListener {
+                // Create Alert using Builder
+                val cfAlert = CFAlertDialog.Builder(activity)
+                    .setDialogStyle(CFAlertDialog.CFAlertStyle.ALERT)
+                    .setTitle("Anda Yakin Ingin Menghapus Setoran Ini ??")
+                    .setMessage("File yang sudah dihapus tidak dapat dikembalikan")
+                    .addButton(
+                        "HAPUS",
+                        -1,
+                        -1,
+                        CFAlertDialog.CFAlertActionStyle.POSITIVE,
+                        CFAlertDialog.CFAlertActionAlignment.END
+                    ) { dialog, which ->
+                        //Call Delete Submission Function
+                        deleteSubmission(
+                            listData[position].id.removeRange(0, 3),
+                            position, activity
+                        )
+                        dialog.dismiss()
+                    }
+                    .addButton(
+                        "BATAL", -1, -1, CFAlertDialog.CFAlertActionStyle.NEGATIVE,
+                        CFAlertDialog.CFAlertActionAlignment.END
+                    ) { dialog, which ->
+                        dialog.dismiss()
+                    }
+                cfAlert.show()
+            }
+        }
+    }
+
+
+    private fun deleteSubmission(
+        submissionID: String,
+        position: Int,
+        activity: Activity
+    ) {
+        //Showing Progress Animation
+        val loading = activity.findViewById(R.id.anim_loading) as LinearLayout
+        loading.visibility = View.VISIBLE
+        Log.i("id_submission", submissionID)
+        AndroidNetworking.post(URL.DELETE_SUBMISSION)
+            .addBodyParameter("submission_id", submissionID)
+            .build()
+            .getAsJSONObject(object : JSONObjectRequestListener {
+                override fun onResponse(response: JSONObject) {
+                    loading.visibility = View.GONE
+                    Log.i("FAN-delSub", response.toString())
+                    if (response.getInt("response_code") == 1) {
+                        Toast.makeText(
+                            activity,
+                            "Berhasil Menghapus Setoran",
+                            Toast.LENGTH_LONG
+                        ).show()
+
+                        //Dismiss Bottom Nav
+                        subDetailBottomSheet.visibility = View.GONE
+
+                        //Remove Submission From Adapter and listData
+                        listData.removeAt(position)
+                        notifyItemRemoved(position)
+                        notifyItemChanged(position)
+                    } else {
+                        Toast.makeText(
+                            activity,
+                            "Gagal Menghapus Setoran, Hubungi Admin untuk menghapus setoran",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                }
+
+                override fun onError(anError: ANError) {
+                    loading.visibility = View.GONE
+                    Toast.makeText(
+                        activity,
+                        "Terjadi Gangguan Koneksi , Gagal Menghapus Setoran",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            })
     }
 }
