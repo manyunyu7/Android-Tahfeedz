@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils.loadAnimation
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,6 +15,7 @@ import com.feylabs.tahfidz.Util.SharedPreference.Preference
 import com.feylabs.tahfidz.View.Base.BaseFragment
 import com.feylabs.tahfidz.ViewModel.SubmissionViewModel
 import kotlinx.android.synthetic.main.fragment_student_history.*
+import kotlinx.android.synthetic.main.layout_no_data.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -31,9 +33,12 @@ class StudentHistoryFragment : BaseFragment() {
     private var param2: String? = null
 
     lateinit var submissionAdapter: SubmissionAdapter
+    lateinit var submissionViewModel: SubmissionViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        submissionViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())
+            .get(SubmissionViewModel::class.java)
         arguments?.let {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
@@ -42,27 +47,22 @@ class StudentHistoryFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
-        val submissionViewModel =
-            ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(SubmissionViewModel::class.java)
-        submissionViewModel.retrieveSubmissionStudent(
-            Preference(requireContext()).getPrefString("student_id").toString()
-        )
+        retrieveData()
+    }
 
-        submissionViewModel.dataSubmission.observe(viewLifecycleOwner, Observer { list->
-            anim_loading.visibility=View.GONE
-            if (list!=null){
-                submissionAdapter = SubmissionAdapter()
-                submissionAdapter.listData.clear()
-                submissionAdapter.setData(list)
-                recycler_submission.setHasFixedSize(true)
-                recycler_submission.layoutManager=(LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false))
-                recycler_submission.adapter=submissionAdapter
-            }else{
+    //IF RECYCLERVIEW CONTAIN 0 DATA
+    private fun emptyState() {
+        lyt_no_data.visibility = View.VISIBLE
+        lyt_no_data.animation = loadAnimation(requireContext(), R.anim.item_animation_falldown)
 
+        btn_no_data_refresh.setOnClickListener {
+            retrieveData()
+            lyt_no_data.apply {
+                visibility = View.GONE
+                loadAnimation(requireContext(), R.anim.item_animation_fallup)
             }
-
-        })
-
+            lyt_no_data.visibility = View.GONE
+        }
     }
 
 
@@ -71,7 +71,10 @@ class StudentHistoryFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View? {
         val submissionViewModel =
-            ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(SubmissionViewModel::class.java)
+            ViewModelProvider(
+                this,
+                ViewModelProvider.NewInstanceFactory()
+            ).get(SubmissionViewModel::class.java)
 
         submissionViewModel.retrieveSubmissionStudent(
             Preference(requireContext()).getPrefString("student_id").toString()
@@ -85,28 +88,34 @@ class StudentHistoryFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         submissionAdapter = SubmissionAdapter()
-        anim_loading.visibility=View.VISIBLE
+        anim_loading.visibility = View.VISIBLE
 
         val submissionViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())
             .get(SubmissionViewModel::class.java)
 
-        submissionViewModel.dataSubmission.observe(viewLifecycleOwner, Observer { list->
-            anim_loading.visibility=View.GONE
+        submissionViewModel.dataSubmission.observe(viewLifecycleOwner, Observer { list ->
+            anim_loading.visibility = View.GONE
             submissionAdapter.setData(list)
             recycler_submission.setHasFixedSize(true)
-            recycler_submission.layoutManager=(LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false))
-            recycler_submission.adapter=submissionAdapter
-
+            recycler_submission.layoutManager =
+                (LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false))
+            recycler_submission.adapter = submissionAdapter
         })
 
         submissionViewModel.status.observe(viewLifecycleOwner, Observer {
-            if (it){
-                anim_loading.visibility=View.GONE
-            }else{
-                anim_loading.visibility=View.GONE
+            if (it) {
+                anim_loading.visibility = View.GONE
+            } else {
+                anim_loading.visibility = View.GONE
             }
         })
+    }
 
+    private fun retrieveData() {
+        anim_loading.visibility=View.VISIBLE
+        submissionViewModel.retrieveSubmissionStudent(
+            Preference(requireContext()).getPrefString("student_id").toString()
+        )
     }
 
     companion object {

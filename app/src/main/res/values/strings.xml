@@ -4,6 +4,8 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="group">Kelompok</string>
     <string name="group_name">Nama Kelompok : </string>
-    <string name="label_init_record">Klik Record Untuk Mulai Merekam</string>
+    <string name="label_init_record">Klik Record Untuk Memulai Rekaman Baru</string>
     <string name="dummy_mot">Rasulullah Shallallahu ‘alayhi wasallam bersabda \nPelajarilah Alquran dan bacalah, karena perumpamaan orang mempelajari Alquran dan membacanya, adalah seperti tempat bekal perjalanan yang diisi dengan minyak misik, wanginya menyebar ke mana-mana. Sementara orang yang mempelajarinya kemudian dia tidur -dan dalam dirinya terdapat hafalan Alquran, adalah seperti tempat bekal perjalanan yang disambungkan dengan minyak misik.\' (HR. Tirmidzi)</string>
+    <string name="desc_score">Nilai Diambil berdasarkan penilaian bacaan yang dinilai oleh pembimbing , baik dari segi tajwid , makhorijul huruf, dan kualitas hafalan</string>
+    <string name="not_graded">Belum Dinilai</string>
 </resources>

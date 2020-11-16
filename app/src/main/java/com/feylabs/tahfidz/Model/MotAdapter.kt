@@ -1,18 +1,22 @@
 package com.feylabs.tahfidz.Model
 
+import android.app.Activity
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import android.view.animation.AnimationUtils.loadAnimation
+import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
+import com.arthurivanets.bottomsheets.BottomSheet
 import com.bumptech.glide.Glide
 import com.feylabs.tahfidz.R
+import com.feylabs.tahfidz.Util.MotBottomSheet
 import com.feylabs.tahfidz.View.SubmissionDetailStudent
 import com.feylabs.tahfidz.ViewModel.MotDetail
 import kotlinx.android.synthetic.main.list_motivation.view.*
 
-class MotAdapter() : RecyclerView.Adapter<MotAdapter.MotHolder>() {
+class MotAdapter : RecyclerView.Adapter<MotAdapter.MotHolder>() {
 
     var listData = mutableListOf<MotModel>()
 
@@ -46,19 +50,34 @@ class MotAdapter() : RecyclerView.Adapter<MotAdapter.MotHolder>() {
 
         Glide.with(holder.itemView.context)
             .load(listData[position].img)
-            .placeholder(R.drawable.mot_placeholder_1)
-            .error(R.drawable.mot_placeholder_2)
-            .into(holder.mot_cover);
+            .placeholder(R.drawable.placeholder)
+            .error(R.drawable.no_img)
+            .into(holder.mot_cover)
 
         holder.itemView.setOnClickListener {
-            Toast.makeText(it.context,listData[position].title,Toast.LENGTH_LONG).show()
+            val activity = holder.itemView.context as Activity
+
+            val motDetailBottomSheet = MotBottomSheet(activity)
+            val motDetTitle  = motDetailBottomSheet.findViewById(R.id.tv_det_mot_title) as TextView
+            val motDetContent  = motDetailBottomSheet.findViewById(R.id.tv_det_mot_content) as TextView
+            val motDetCover  = motDetailBottomSheet.findViewById(R.id.iv_det_mot_img) as ImageView
+            val motDetCloseBtn  = motDetailBottomSheet.findViewById(R.id.btnCloseDetMot) as ImageButton
+
+            motDetTitle.text=listData[position].title
+            motDetContent.text=listData[position].content
+            Glide.with(activity)
+                .load(listData[position].img)
+                .placeholder(R.drawable.placeholder)
+                .error(R.drawable.no_img)
+                .into(motDetCover)
+            motDetCloseBtn.setOnClickListener {
+                motDetailBottomSheet.animation=loadAnimation(activity,R.anim.fragment_close_exit)
+                motDetailBottomSheet.visibility=View.GONE
+            }
+            motDetailBottomSheet.show()
+
         }
 
-        val intent =  Intent(holder.itemView.context, MotDetail::class.java)
-        holder.mot_more.setOnClickListener { v->
-            intent.putExtra("data",listData[position])
-            v.context.startActivity(intent)
-        }
 
     }
 

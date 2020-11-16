@@ -59,16 +59,18 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     annotationProcessor 'androidx.lifecycle:lifecycle-compiler:2.2.0'
 
-    implementation 'com.loopj.android:android-async-http:1.4.9'
-
-    implementation 'com.github.jeancsanchez:JcPlayer:2.6.11'
-    implementation 'com.cleveroad:audiovisualization:1.0.1'
 
 
+//    ..RECORDER
     implementation 'com.github.squti:Android-Wave-Recorder:1.4.0'
 
-    //EXOPLAYER
-    implementation "com.google.android.exoplayer:exoplayer:2.12.1"
+    //Streamer
+    implementation 'com.github.dibakarece:DMAudioStreamer:v1.0.5'
+
+    //Bottom Sheet Library
+//    https://github.com/arthur3486/bottomsheets
+    implementation "com.arthurivanets.bottomsheet:bottomsheets-core:1.0.0"
+
 
     //CUSTOM SPINNER
     implementation 'com.jaredrummler:material-spinner:1.3.1'
@@ -87,5 +89,7 @@ dependencies {
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
 
+
+//    Facebook Shimmer for loading animation
     implementation 'com.facebook.shimmer:shimmer:0.5.0'
 }

@@ -35,11 +35,13 @@ class SubmissionViewModel : ViewModel() {
                             val sub_start = submission.getJSONObject(i).getString("start")
                             val sub_end = submission.getJSONObject(i).getString("end")
                             val sub_audio = submission.getJSONObject(i).getString("audio")
+                            val sub_score = submission.getJSONObject(i).getString("score")
+                            val sub_correction = submission.getJSONObject(i).getString("correction")
 
                             dataSubmissionAPI.add(
                                 SubmissionModel(
                                     sub_id, sub_student_id, sub_date, sub_student_name, sub_status,
-                                    sub_start, sub_end, sub_audio
+                                    sub_start, sub_end, sub_audio,sub_score,sub_correction
                                 )
                             )
 

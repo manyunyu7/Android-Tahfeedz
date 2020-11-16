@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/lyt_detail_mot"
+    android:layout_width="match_parent"
+    android:layout_height="500dp"
+    android:background="@color/colorWhite">
+
+    <RelativeLayout
+        android:visibility="gone"
+        android:layout_alignParentTop="true"
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageButton
+            android:id="@+id/btnCloseDetMot"
+            android:layout_alignParentEnd="true"
+            android:background="@android:color/transparent"
+            android:scaleType="fitXY"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/ic_close_window"/>
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_below="@id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fillViewport="true">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="25dp">
+
+                <ImageView
+                    android:id="@+id/iv_det_mot_img"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/mot_placeholder_2" />
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:id="@+id/tv_det_mot_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/ambit_regular"
+                android:text="Setoran Hafalan"
+                android:textColor="@color/colorBlack"
+                android:textSize="34sp" />
+
+            <TextView
+                android:id="@+id/tv_det_mot_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/quicksand_regular"
+                android:text="Pilih Surat dan Ayat yang akan disetorkan kemudian rekam dan upload "
+                android:textColor="@color/colorBlack" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>

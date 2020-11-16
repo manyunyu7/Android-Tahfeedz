@@ -62,9 +62,9 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <androidx.cardview.widget.CardView
-                    android:layout_margin="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
                     android:elevation="5dp"
                     app:cardCornerRadius="20dp">
 
@@ -80,7 +80,7 @@
                             android:fontFamily="@font/montserrat_regular"
                             android:text="Surat dan Ayat yang disetor"
                             android:textColor="@color/colorNeoBlue"
-                            android:textSize="15sp" />
+                            android:textSize="12sp" />
 
                         <TextView
                             android:layout_width="match_parent"
@@ -97,6 +97,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_margin="1dp"
+                                android:layout_marginEnd="10dp"
                                 android:layout_weight="1"
                                 app:cardCornerRadius="20dp">
 
@@ -139,6 +140,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_margin="1dp"
+                                android:layout_marginEnd="10dp"
                                 android:layout_weight="1"
                                 app:cardCornerRadius="20dp">
 
@@ -167,11 +169,10 @@
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 
-
                 <androidx.cardview.widget.CardView
-                    android:layout_margin="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
                     android:elevation="5dp"
                     app:cardCornerRadius="20dp">
 
@@ -179,25 +180,127 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:padding="10dp"
-                        >
+                        android:padding="10dp">
+
+                        <RelativeLayout
+                            android:id="@+id/relativeLayout2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:backgroundTint="@color/colorNeoBlue"
+                            app:layout_constraintBottom_toBottomOf="parent">
+
+                            <Chronometer
+                                android:id="@+id/timer"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@id/statusRecord"
+                                android:layout_alignParentStart="true"
+                                android:layout_marginStart="10dp"
+                                android:fontFamily="@font/quicksand_regular"
+                                android:textAlignment="center"
+                                android:textColor="@color/colorBlack"
+                                android:textSize="35sp" />
+
+                            <TextView
+                                android:id="@+id/statusRecord"
+                                android:layout_width="150dp"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentStart="true"
+                                android:layout_marginStart="10dp"
+                                android:fontFamily="@font/poppins_medium"
+                                android:text="@string/label_init_record"
+                                android:textColor="@color/colorNeoBlue"
+                                android:textSize="12sp" />
+
+
+                            <ImageButton
+                                android:id="@+id/btnPause"
+                                android:layout_width="49dp"
+                                android:layout_height="49dp"
+                                android:layout_centerInParent="true"
+                                android:layout_marginEnd="15dp"
+                                android:layout_toLeftOf="@id/btnStop"
+                                android:background="@null"
+                                android:scaleType="centerInside"
+                                android:src="@drawable/ic_pause"
+                                android:visibility="gone"
+                                app:layout_constraintEnd_toStartOf="@+id/btnStop" />
+
+                            <ImageButton
+                                android:id="@+id/btnStart"
+                                android:layout_width="49dp"
+                                android:layout_height="49dp"
+                                android:layout_centerInParent="true"
+                                android:layout_marginEnd="15dp"
+                                android:layout_toLeftOf="@id/btnStop"
+                                android:background="@null"
+                                android:scaleType="centerInside"
+                                android:src="@drawable/ic_record"
+                                android:visibility="visible"
+                                app:layout_constraintEnd_toStartOf="@+id/btnStop" />
+
+                            <ImageButton
+                                android:id="@+id/btnResume"
+                                android:layout_width="49dp"
+                                android:layout_height="49dp"
+                                android:layout_centerInParent="true"
+                                android:layout_marginEnd="15dp"
+                                android:layout_toLeftOf="@id/btnStop"
+                                android:background="@null"
+                                android:scaleType="centerInside"
+                                android:src="@drawable/ic_resume"
+                                android:visibility="gone"
+                                app:layout_constraintEnd_toStartOf="@+id/btnStop" />
+
+
+                            <ImageButton
+                                android:id="@+id/btnStop"
+                                android:layout_width="60dp"
+                                android:layout_height="60dp"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerInParent="true"
+                                android:layout_marginEnd="15dp"
+                                android:background="@null"
+                                android:scaleType="centerInside"
+                                android:src="@drawable/ic_stop" />
+
+                        </RelativeLayout>
+
+
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:elevation="5dp"
+                    app:cardCornerRadius="20dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="10dp">
 
 
                         <TextView
-                            android:textColor="@color/colorNeoBlue"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/poppins_medium"
-                            android:text="Dengarkan Rekaman Terakhir : " />
+                            android:text="Dengarkan Rekaman Terakhir : "
+                            android:textColor="@color/colorNeoBlue"
+                            android:textSize="12sp" />
 
                         <TextView
-                            android:visibility="gone"
                             android:id="@+id/lastRecorderFileLabel"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/ambit_regular"
                             android:text="Belum Ada Rekaman"
-                            android:textColor="@color/colorBlack" />
+                            android:textColor="@color/colorBlack"
+                            android:visibility="gone" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -205,135 +308,77 @@
                             android:orientation="horizontal">
 
                             <ImageButton
-                                android:layout_gravity="center"
-                                android:src="@drawable/ic_play"
-                                android:tint="@color/colorNeoBlue"
-                                android:background="@android:color/transparent"
                                 android:id="@+id/btnPlayLastRecorder"
                                 android:layout_width="40dp"
                                 android:layout_height="40dp"
+                                android:layout_gravity="center"
+                                android:background="@android:color/transparent"
                                 android:scaleType="fitXY"
-                                android:text="Play Last Recorded" />
+                                android:src="@drawable/ic_play"
+                                android:text="Play Last Recorded"
+                                android:tint="@color/colorNeoBlue" />
 
                             <ImageButton
-                                android:layout_gravity="center"
-                                android:src="@drawable/ic_stop"
-                                android:scaleType="fitXY"
                                 android:id="@+id/btnStopLastRecorder"
-                                android:background="@android:color/transparent"
                                 android:layout_width="50dp"
                                 android:layout_height="50dp"
-                                android:text="Stop Last Recorded" />
-                            <TextView
-                                android:layout_marginStart="10dp"
                                 android:layout_gravity="center"
+                                android:background="@android:color/transparent"
+                                android:scaleType="fitXY"
+                                android:src="@drawable/ic_stop"
+                                android:text="Stop Last Recorded" />
+
+                            <LinearLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/ambit_regular"
-                                android:text="Surat dan Ayat yang disetor"
-                                android:textColor="@color/colorBlack"
-                                android:textSize="15sp" />
+                                android:layout_height="match_parent"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/label_record"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:fontFamily="@font/ambit_regular"
+                                    android:text="Belum Ada Rekaman"
+                                    android:textColor="@color/colorBlack"
+                                    android:textSize="12sp"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    tools:layout_editor_absoluteX="10dp" />
+
+                                <SeekBar
+                                    android:layout_marginTop="10dp"
+                                    android:id="@+id/seekBarLocal"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:backgroundTint="@color/colorNeoBlue"
+                                    android:thumbTint="@color/colorNeoBlue"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent" />
+
+                            </LinearLayout>
                         </LinearLayout>
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnUpload"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Upload" />
+                    android:layout_margin="10dp"
+                    android:backgroundTint="@color/colorWhite"
+                    android:fontFamily="@font/poppins_medium"
+                    android:text="Upload Rekaman"
+                    android:textColor="@color/colorNeoBlue"
+                    app:cornerRadius="20dp"
+                    app:drawableStartCompat="@drawable/ic_baseline_check_24"
+                    app:drawableTint="@color/colorBlueWaves" />
 
 
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
 
-
-    <RelativeLayout
-        android:id="@+id/relativeLayout2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/shape_rounded_top"
-        android:backgroundTint="@color/colorNeoBlue"
-        android:paddingTop="20dp"
-        android:paddingBottom="20dp"
-        app:layout_constraintBottom_toBottomOf="parent">
-
-        <Chronometer
-            android:id="@+id/timer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/statusRecord"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="10dp"
-            android:fontFamily="@font/quicksand_regular"
-            android:textAlignment="center"
-            android:textColor="@color/colorWhite"
-            android:textSize="35sp" />
-
-        <TextView
-            android:id="@+id/statusRecord"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="10dp"
-            android:fontFamily="@font/poppins_medium"
-            android:text="@string/label_init_record"
-            android:textColor="@color/colorWhite" />
-
-
-        <ImageButton
-            android:id="@+id/btnPause"
-            android:layout_width="49dp"
-            android:layout_height="49dp"
-            android:layout_centerInParent="true"
-            android:layout_marginEnd="15dp"
-            android:layout_toLeftOf="@id/btnStop"
-            android:background="@null"
-            android:scaleType="centerInside"
-            android:src="@drawable/ic_pause"
-            android:visibility="gone"
-            app:layout_constraintEnd_toStartOf="@+id/btnStop" />
-
-        <ImageButton
-            android:id="@+id/btnStart"
-            android:layout_width="49dp"
-            android:layout_height="49dp"
-            android:layout_centerInParent="true"
-            android:layout_marginEnd="15dp"
-            android:layout_toLeftOf="@id/btnStop"
-            android:background="@null"
-            android:scaleType="centerInside"
-            android:src="@drawable/ic_record"
-            android:visibility="visible"
-            app:layout_constraintEnd_toStartOf="@+id/btnStop" />
-
-        <ImageButton
-            android:id="@+id/btnResume"
-            android:layout_width="49dp"
-            android:layout_height="49dp"
-            android:layout_centerInParent="true"
-            android:layout_marginEnd="15dp"
-            android:layout_toLeftOf="@id/btnStop"
-            android:background="@null"
-            android:scaleType="centerInside"
-            android:src="@drawable/ic_resume"
-            android:visibility="gone"
-            app:layout_constraintEnd_toStartOf="@+id/btnStop" />
-
-
-        <ImageButton
-            android:id="@+id/btnStop"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_alignParentEnd="true"
-            android:layout_centerInParent="true"
-            android:layout_marginEnd="15dp"
-            android:background="@null"
-            android:scaleType="centerInside"
-            android:src="@drawable/ic_stop" />
-
-    </RelativeLayout>
 
     <include
         android:id="@+id/anim_upload"

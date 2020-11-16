@@ -21,6 +21,7 @@
         <activity android:name=".ViewModel.MotDetail"></activity>
         <activity android:name=".View.SubmissionDetailStudent" />
         <activity android:name=".View.StudentContainer" />
+        <activity android:name=".View.Base.MusicActivity" />
         <activity android:name=".View.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

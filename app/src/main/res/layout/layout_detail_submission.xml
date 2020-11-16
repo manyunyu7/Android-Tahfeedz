@@ -6,16 +6,13 @@
     android:layout_height="match_parent"
     tools:context=".View.SubmissionDetailStudent">
 
-    <RelativeLayout
-        android:id="@+id/header"
+    <LinearLayout
+        android:id="@+id/linearLayout3"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/shape_rounded_bottom"
-        android:backgroundTint="@color/colorNeoBlue"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/cardView"
+        app:layout_constraintTop_toBottomOf="@+id/header">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -25,32 +22,27 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawablePadding="5dp"
                 android:fontFamily="@font/quicksand_bold"
                 android:text="Detail Setoran"
-                android:textColor="@color/colorWhite"
-                android:textSize="25sp"
-                app:drawableStartCompat="@drawable/ic_baseline_arrow_back_24"
-                app:drawableTint="@color/colorWhite" />
+                android:textColor="@color/colorNeoBlue"
+                android:textSize="29sp" />
 
+            <TextView
+                android:id="@+id/lastRecorderFileLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_medium"
+                android:text="Riwayat Setoran Hafalan, Klik pada setoran untuk melihat detail setoran "
+                android:textColor="@color/colorNeoBlue" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/poppins_medium"
                 android:text="Pilih Surat dan Ayat yang akan disetorkan kemudian rekam dan upload "
-                android:textColor="@color/colorWhite"
+                android:textColor="@color/colorNeoBlue"
                 android:visibility="gone" />
         </LinearLayout>
-    </RelativeLayout>
-
-    <LinearLayout
-        android:id="@+id/linearLayout3"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/cardView"
-        app:layout_constraintTop_toBottomOf="@+id/header">
 
         <androidx.cardview.widget.CardView
             app:cardBackgroundColor="@color/colorNeoBlue"
@@ -71,7 +63,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/sub_score_big"
+                    android:id="@+id/sub_det_score_big"
                     android:textAlignment="center"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -104,7 +96,7 @@
                     android:layout_margin="10dp"
                     android:backgroundTint="@color/colorWhite"
                     android:fontFamily="@font/poppins_medium"
-                    android:text="Lihat Detail dan Koreksi"
+                    android:text="Lihat Catatan/Koreksi Pembimbing"
                     android:textColor="@color/colorNeoBlue"
                     app:cornerRadius="20dp"
                     app:drawableStartCompat="@drawable/ic_baseline_check_24"
@@ -114,7 +106,7 @@
 
         <androidx.cardview.widget.CardView
             android:layout_marginTop="20dp"
-            app:cardBackgroundColor="@color/colorTurqoise"
+            app:cardBackgroundColor="@color/colorNeoBlue"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
@@ -212,6 +204,7 @@
 
 
                     <TextView
+                        android:id="@+id/sub_det_score_small"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -221,7 +214,7 @@
                         android:textSize="15sp" />
 
                     <WebView
-                        android:id="@+id/mp3View"
+                        android:id="@+id/sub_det_mp3View"
                         android:layout_width="match_parent"
                         android:layout_height="90dp" />
 

@@ -32,7 +32,7 @@ class MainActivity : BaseActivity() {
         buttonLayoutBinding()
 
         var loginViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())
-            .get(StudentViewModel::class.java);
+            .get(StudentViewModel::class.java)
 
         val motViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())
             .get(MotivationViewModel::class.java)
@@ -62,7 +62,6 @@ class MainActivity : BaseActivity() {
                 var groupData = loginViewModel.getGroupData()
                 var studentMap = mutableMapOf<String, String>()
                 var groupMap = mutableMapOf<String, String>()
-
 
                 //Saving value of studentData from LiveData to studentMap
                 studentData.value?.toMap(studentMap)

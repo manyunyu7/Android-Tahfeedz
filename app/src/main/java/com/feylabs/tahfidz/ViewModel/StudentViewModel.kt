@@ -12,7 +12,7 @@ import com.feylabs.tahfidz.Util.URL
 import org.json.JSONObject
 
 
-class StudentViewModel(): ViewModel() {
+class StudentViewModel : ViewModel() {
     var status = MutableLiveData<Boolean>()
     var studentData = MutableLiveData<MutableMap<String,String>>()
     var groupData = MutableLiveData<MutableMap<String,String>>()
@@ -55,7 +55,7 @@ class StudentViewModel(): ViewModel() {
                         tempStudentData["created_at"] = created_at
                         tempStudentData["updated_at"] = update_at
 
-                        if (kelompok!=null || kelompok != "null"){
+                        if (kelompok.toString()!="null"){
                             val group = response.getJSONObject("group_data")
                             val groupID = group.getString("id")
                             val groupName = group.getString("group_name")

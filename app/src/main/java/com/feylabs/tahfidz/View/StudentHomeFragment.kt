@@ -43,31 +43,21 @@ class StudentHomeFragment : BaseFragment() {
         }
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-    }
-
     override fun onResume() {
         super.onResume()
-        shimmerMotLayout.visibility = View.VISIBLE
-        shimmerMotLayout.startShimmer()
-    }
-
-    override fun onPause() {
-        super.onPause()
-        shimmerMotLayout.visibility = View.VISIBLE
-        shimmerMotLayout.startShimmer()
+        updatingStudentGroupDataUI()
     }
 
 
     @SuppressLint("SetTextI18n")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        updatingStudentData()
-        settingUpStudentUI()
+        updatingStudentGroupData()
+        settingUpStudentMotUI()
     }
 
-    private fun updatingStudentGroupData() {
+    private fun updatingStudentGroupDataUI() {
+        shimmerMotCardStudentInfo.stopShimmer()
         if (Preference(requireContext()).getPrefString("id_group")!="null") {
             studentGroup.text = "${Preference(requireContext()).getPrefString("group_name")}"
             studentMentor.text = Preference(requireContext()).getPrefString("group_mentor_name")
@@ -80,14 +70,13 @@ class StudentHomeFragment : BaseFragment() {
         }
     }
 
-    private fun settingUpStudentUI() {
+    private fun settingUpStudentMotUI() {
         student_name_home.text = Preference(requireContext()).getPrefString("student_name")
         val motViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())
             .get(MotivationViewModel::class.java)
-
         motViewModel.getMot()
         motViewModel.listMot.observe(viewLifecycleOwner, Observer {
-            shimmerMotLayout.stopShimmer()
+            shimmerMotLayout.hideShimmer()
             shimmerMotLayout.visibility = View.GONE
             if (it != null) {
                 recycler_mot.setHasFixedSize(true)
@@ -103,10 +92,10 @@ class StudentHomeFragment : BaseFragment() {
     }
 
 
-    private fun updatingStudentData() {
+    private fun updatingStudentGroupData() {
+        shimmerMotCardStudentInfo.startShimmer()
         val studentViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(
-            StudentViewModel::class.java
-        )
+            StudentViewModel::class.java)
         studentViewModel.getStudentData(
             Preference(requireContext()).getPrefString("student_id").toString()
         )
@@ -129,7 +118,8 @@ class StudentHomeFragment : BaseFragment() {
                     }
                 }
                 //UPDATE THE UI
-                updatingStudentGroupData()
+                shimmerMotCardStudentInfo.hideShimmer()
+                updatingStudentGroupDataUI()
             } else {
                //IF FAILED TO FETCH NEW DATA
             }

@@ -5,12 +5,14 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class SubmissionModel(
-    val id : String,
+    var id : String,
     val id_student : String,
     val date : String,
     val studentName : String,
     var status : String,
     val start : String,
     val end :String,
-    val audio : String
+    val audio : String,
+    val score : String,
+    val correction : String
 ) : Parcelable

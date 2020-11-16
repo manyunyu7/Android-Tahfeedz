@@ -154,17 +154,5 @@
         app:layout_constraintBottom_toTopOf="@+id/jcplayer"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
 
-    <com.example.jean.jcplayer.view.JcPlayerView
-        android:id="@+id/jcplayer"
-        android:background="@color/colorBlueWaves"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:pause_icon="@drawable/ic_pause_detail"
-        app:play_icon="@drawable/ic_play_detail"
-        app:progress_color="#CFF09E"
-
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
