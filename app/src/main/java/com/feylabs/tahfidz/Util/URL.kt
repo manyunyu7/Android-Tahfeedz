@@ -5,8 +5,13 @@ object URL {
     const val BASE_URL = "http://202.157.177.52/API-Tahfidz/"
 
     const val LOGIN_STUDENT = BASE_URL + "student/login.php"
+    const val LOGIN_MENTOR = BASE_URL + "mentor/login.php"
     const val STUDENT_DATA = BASE_URL + "student/student_info.php"
-    const val LOGIN_MENTOR = BASE_URL + ""
+
+    const val GROUP_DATA = BASE_URL + "group/group_info.php"
+//    http://202.157.177.52/API-Tahfidz/group/grouping_mentor_info.php
+    const val GROUPING_MENTOR = BASE_URL + "group/grouping_mentor_info.php"
+//    param : mentor_id or group_id via post or get
 
 //    const val SUBMISSION_HISTORY = BASE_URL+"submission/get_submission_student.php"
     const val SUBMISSION = BASE_URL+"submission/api_get_submission.php"

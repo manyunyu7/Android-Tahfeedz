@@ -40,8 +40,6 @@ class SubmissionAdapter : RecyclerView.Adapter<SubmissionAdapter.SubmissionHolde
 
     inner class SubmissionHolder(view: View) : RecyclerView.ViewHolder(view) {
         var sub_id = itemView.sub_id
-
-        //        var sub_student_ID
         var sub_date = itemView.sub_date
         var sub_student_name = itemView.sub_student_name
         var sub_status = itemView.sub_status

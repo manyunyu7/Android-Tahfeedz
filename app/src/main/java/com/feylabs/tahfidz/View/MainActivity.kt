@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.feylabs.tahfidz.R
 import com.feylabs.tahfidz.Util.SharedPreference.Preference
 import com.feylabs.tahfidz.View.Base.BaseActivity
+import com.feylabs.tahfidz.ViewModel.MentorViewModel
 import com.feylabs.tahfidz.ViewModel.MotivationViewModel
 import com.feylabs.tahfidz.ViewModel.StudentViewModel
 import kotlinx.android.synthetic.main.activity_main.*
@@ -26,42 +27,63 @@ class MainActivity : BaseActivity() {
 
         if (Preference(this).getPrefString("student_id") != null) {
             startActivity(Intent(this, StudentContainer::class.java))
-        } else {
-            //DO NOTHING
+        }
+        if (Preference(this).getPrefString("login_type") != "mentor") {
+
         }
         buttonLayoutBinding()
 
-        var loginViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())
+
+        var studentViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())
             .get(StudentViewModel::class.java)
+
+        var mentorViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())
+            .get(MentorViewModel::class.java)
 
         val motViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())
             .get(MotivationViewModel::class.java)
 
-        btnLoginStudent.setOnClickListener {
-            val usr = etUsernameStudent.text.toString()
-            val pass = etPasswordStudent.text.toString()
+        btnLoginMentor.setOnClickListener {
+            val usr = etUsernameMentor.text.toString()
+            val pass = etPasswordMentor.text.toString()
             if (usr.isEmpty() || pass.isEmpty()) {
                 "Mohon Isi Username dan Password Terlebih Dahulu".showToast()
+            } else {
+                mentorViewModel.loginMentor(usr, pass)
             }
         }
+
         btnLoginStudent.setOnClickListener {
             val usr = etUsernameStudent.text.toString()
             val pass = etPasswordStudent.text.toString()
             if (usr.isEmpty() || pass.isEmpty()) {
                 "Mohon Isi Username dan Password Terlebih Dahulu".showToast()
             } else {
-                loginViewModel.loginStudent(usr, pass)
+                studentViewModel.loginStudent(usr, pass)
                 anim_loading.visibility = View.VISIBLE
             }
         }
+        mentorViewModel.status.observe(this, Observer {
+            if (it["code"] == "200") {
+                val mentorMap = mentorViewModel.getMentorData()
+                for ((key, value) in mentorMap) {
+                    Log.i("-prefM$key", value)
+                    Preference(this).save(key, value)
+                }
+                finish()
+                startActivity(Intent(this, MentorLanding::class.java))
+            } else {
+                it["status"].toString().showToast()
+            }
+        })
 
-        loginViewModel.status.observe(this, Observer {
+        studentViewModel.status.observe(this, Observer {
             if (it) {
                 anim_loading.visibility = View.GONE
-                var studentData = loginViewModel.getStudentData()
-                var groupData = loginViewModel.getGroupData()
-                var studentMap = mutableMapOf<String, String>()
-                var groupMap = mutableMapOf<String, String>()
+                val studentData = studentViewModel.getStudentData()
+                val groupData = studentViewModel.getGroupData()
+                val studentMap = mutableMapOf<String, String>()
+                val groupMap = mutableMapOf<String, String>()
 
                 //Saving value of studentData from LiveData to studentMap
                 studentData.value?.toMap(studentMap)

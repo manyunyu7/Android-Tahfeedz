@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/content_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout3"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <RelativeLayout
+            android:id="@+id/header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_rounded_bottom"
+            android:backgroundTint="@color/colorNeoBlue">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/quicksand_bold"
+                    android:text="Daftar Setoran Masuk"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="29sp" />
+
+                <TextView
+                    android:id="@+id/lastRecorderFileLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_medium"
+                    android:text="Riwayat Setoran Hafalan, Klik pada setoran untuk melihat detail setoran "
+                    android:textColor="@color/colorWhite" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_medium"
+                    android:text="Pilih Surat dan Ayat yang akan disetorkan kemudian rekam dan upload "
+                    android:textColor="@color/colorWhite"
+                    android:visibility="gone" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_submission"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/header"
+            android:layout_marginTop="-10dp"
+            tools:listitem="@layout/list_submission" />
+
+        <include
+            android:id="@+id/anim_loading"
+            layout="@layout/layout_loading_transparent" />
+    </RelativeLayout>
+
+    <include
+        android:id="@+id/lyt_no_data"
+        layout="@layout/layout_no_data"
+        app:layout_constraintTop_toBottomOf="@+id/relativeLayout3">
+
+    </include>
+</androidx.constraintlayout.widget.ConstraintLayout>

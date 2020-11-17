@@ -13,12 +13,12 @@
         android:label="StudentHomeFragment" />
     <fragment
         android:id="@+id/studentInfoFragment"
-        android:name="com.feylabs.tahfidz.View.StudentInfoFragment"
+        android:name="com.feylabs.tahfidz.View.Student.StudentInfoFragment"
         android:label="fragment_student_info"
         tools:layout="@layout/fragment_student_info" />
     <fragment
         android:id="@+id/studentHistoryFragment"
-        android:name="com.feylabs.tahfidz.View.StudentHistoryFragment"
+        android:name="com.feylabs.tahfidz.View.Student.StudentHistoryFragment"
         android:label="fragment_student_history"
         tools:layout="@layout/fragment_student_history" />
     <fragment

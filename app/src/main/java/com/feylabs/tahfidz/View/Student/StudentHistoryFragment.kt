@@ -1,4 +1,4 @@
-package com.feylabs.tahfidz.View
+package com.feylabs.tahfidz.View.Student
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

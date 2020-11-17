@@ -1,19 +1,17 @@
-package com.feylabs.tahfidz.View
+package com.feylabs.tahfidz.View.Student
 
 import android.content.Intent
-import android.graphics.Typeface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.feylabs.tahfidz.R
 import com.feylabs.tahfidz.Util.SharedPreference.Preference
+import com.feylabs.tahfidz.View.MainActivity
 import com.feylabs.tahfidz.ViewModel.StudentViewModel
-import com.tapadoo.alerter.Alert
 import com.tapadoo.alerter.Alerter
 import com.tapadoo.alerter.OnHideAlertListener
 import kotlinx.android.synthetic.main.fragment_student_info.*

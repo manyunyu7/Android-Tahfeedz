@@ -18,7 +18,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".View.CorrectionDetailActivity"></activity>
+        <activity android:name=".View.MentorContainer"></activity>
+        <activity android:name=".View.MentorLanding" />
+        <activity android:name=".View.CorrectionDetailActivity" />
         <activity android:name=".ViewModel.MotDetail" />
         <activity android:name=".View.SubmissionDetailStudent" />
         <activity android:name=".View.StudentContainer" />
