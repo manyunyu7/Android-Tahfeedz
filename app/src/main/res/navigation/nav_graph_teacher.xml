@@ -3,16 +3,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph.xml"
-    app:startDestination="@id/teacherHomeFragment">
+    app:startDestination="@id/mentorHome">
 
     <fragment
-        android:id="@+id/teacherHomeFragment"
+        android:id="@+id/mentorHome"
         android:name="com.feylabs.tahfidz.TeacherHomeFragment"
         android:label="fragment_teacher_home"
         tools:layout="@layout/fragment_teacher_home" />
     <fragment
-        android:id="@+id/teacherInboundSubmission"
-        android:name="com.feylabs.tahfidz.Model.TeacherInboundSubmission"
-        android:label="fragment_teacher_inbound_submission"
-        tools:layout="@layout/fragment_teacher_inbound_submission" />
+        android:id="@+id/mentorInfo"
+        android:name="com.feylabs.tahfidz.View.Activity.TeacherInfoFragment"
+        android:label="TeacherInfoFragment"
+        tools:layout="@layout/fragment_teacher_info" />
+    <fragment
+        android:id="@+id/mentorSubmission"
+        android:name="com.feylabs.tahfidz.View.SubmissionHistoryFragment"
+        android:label="SubmissionHistoryFragment"
+        tools:layout="@layout/fragment_submission_history"/>
 </navigation>

@@ -9,7 +9,7 @@
 
 
     <fragment
-        android:id="@+id/nav_host_student"
+        android:id="@+id/nav_host_teacher"
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -19,16 +19,16 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:navGraph="@navigation/nav_graph" />
+        app:navGraph="@navigation/nav_graph_teacher" />
 
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/studentBottomNavigation"
+        android:id="@+id/mentorBottomNavigation"
         app:labelVisibilityMode="labeled"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:background="?android:attr/windowBackground"
-        app:menu="@menu/menu_student" />
+        app:menu="@menu/menu_mentor" />
 
 </LinearLayout>

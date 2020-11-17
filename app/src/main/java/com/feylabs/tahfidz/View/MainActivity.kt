@@ -28,8 +28,8 @@ class MainActivity : BaseActivity() {
         if (Preference(this).getPrefString("student_id") != null) {
             startActivity(Intent(this, StudentContainer::class.java))
         }
-        if (Preference(this).getPrefString("login_type") != "mentor") {
-
+        if (Preference(this).getPrefString("login_type") == "mentor") {
+            startActivity(Intent(this, MentorLanding::class.java))
         }
         buttonLayoutBinding()
 
