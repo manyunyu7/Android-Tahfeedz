@@ -65,7 +65,6 @@ class SubmissionHistoryFragment : BaseFragment() {
                 visibility = View.GONE
                 loadAnimation(requireContext(), R.anim.item_animation_fallup)
             }
-            lyt_no_data.visibility = View.GONE
         }
     }
 
@@ -111,19 +110,24 @@ class SubmissionHistoryFragment : BaseFragment() {
             .get(SubmissionViewModel::class.java)
 
         submissionViewModel.dataSubmission.observe(viewLifecycleOwner, Observer { list ->
+
             anim_loading.visibility = View.GONE
             submissionAdapter.setData(list)
             recycler_submission.setHasFixedSize(true)
             recycler_submission.layoutManager =
                 (LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false))
             recycler_submission.adapter = submissionAdapter
+            if(submissionAdapter.itemCount<1){
+                emptyState()
+            }else{
+                lyt_no_data.visibility = View.GONE
+            }
         })
 
         submissionViewModel.status.observe(viewLifecycleOwner, Observer {
             if (it) {
                 anim_loading.visibility = View.GONE
             } else {
-                emptyState()
                 anim_loading.visibility = View.GONE
             }
         })

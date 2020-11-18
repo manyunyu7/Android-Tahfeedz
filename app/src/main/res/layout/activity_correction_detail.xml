@@ -1,31 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:id="@+id/bottomNav"
-        android:padding="15dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorWhite"
         android:orientation="vertical"
+        android:padding="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+
         <TextView
             android:id="@+id/tv_titleDetailCorrection"
-            android:drawableStart="@drawable/ic_baseline_arrow_back_24"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="10dp"
+            android:drawableStart="@drawable/ic_baseline_arrow_back_24"
             android:fontFamily="@font/quicksand_bold"
             android:text="Nilai Setoran Hafalan"
             android:textColor="@color/colorBlack"
             android:textSize="29sp" />
+
         <TextView
             android:id="@+id/tv_descDetailCorrection"
             android:layout_width="match_parent"
@@ -36,18 +38,20 @@
             android:text="Masukkan Koreksi Dari Bacaan Quran yang dibacakan Siswa"
             android:textColor="@color/colorBlack" />
 
+
         <com.google.android.material.card.MaterialCardView
-            app:cardBackgroundColor="@color/colorNeoBlue"
-            android:layout_marginTop="12dp"
             android:layout_width="match_parent"
-            app:cardCornerRadius="26dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
             android:elevation="4dp"
-            android:layout_height="wrap_content">
+            app:cardBackgroundColor="@color/colorNeoBlue"
+            app:cardCornerRadius="26dp">
+
             <LinearLayout
-                android:padding="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                >
+                android:padding="10dp">
+
                 <WebView
                     android:id="@+id/correctionMp3"
                     android:layout_width="match_parent"
@@ -56,33 +60,57 @@
 
         </com.google.android.material.card.MaterialCardView>
 
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/containerScore"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:tag="mentor_scope"
+            android:hint="Nilai Siswa">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/inputScore"
+                android:inputType="number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
     </LinearLayout>
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:background="@color/colorWhite"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bottomNav"
-        >
-        <WebView
-            android:id="@+id/correction_note_webs"
+        app:layout_constraintTop_toBottomOf="@+id/bottomNav">
+
+        <in.nashapp.androidsummernote.Summernote
+            android:id="@+id/correction_note_mentor"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            />
-    </LinearLayout>
+            android:layout_height="match_parent" />
+
+        <WebView
+            android:id="@+id/correction_note_student"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btnSaveCorrection"
-        android:layout_margin="20dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_margin="20dp"
         android:backgroundTint="@color/colorNeoBlue"
         android:src="@drawable/ic_baseline_check_24"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:tint="@color/colorWhite" />
+
+    <include
+        android:id="@+id/anim_loading"
+        layout="@layout/layout_loading_transparent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

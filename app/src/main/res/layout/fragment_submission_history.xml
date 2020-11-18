@@ -69,6 +69,7 @@
 
     <include
         android:id="@+id/lyt_no_data"
+        android:visibility="gone"
         layout="@layout/layout_no_data"
         app:layout_constraintTop_toBottomOf="@+id/relativeLayout3">
 

@@ -7,11 +7,14 @@ import android.util.Log
 import android.view.View
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.feylabs.tahfidz.Model.SubmissionModel
 import com.feylabs.tahfidz.R
 import com.feylabs.tahfidz.Util.SharedPreference.Preference
 import com.feylabs.tahfidz.Util.URL
 import com.feylabs.tahfidz.View.Base.BaseActivity
+import com.feylabs.tahfidz.ViewModel.CorrectionViewModel
 import kotlinx.android.synthetic.main.activity_correction_detail.*
 import kotlinx.android.synthetic.main.activity_detail_correction.correction_note
 
@@ -23,6 +26,7 @@ class CorrectionDetailActivity : BaseActivity() {
         val getParcelize = intent.getParcelableExtra<SubmissionModel>("data")
         val textCorrection = getParcelize?.correction.toString()
         var mp3URL = intent.getStringExtra("url").toString()
+        var idSubmission = getParcelize?.id
 
         tv_titleDetailCorrection.setOnClickListener {
             finish()
@@ -52,13 +56,62 @@ class CorrectionDetailActivity : BaseActivity() {
             tv_descDetailCorrection.text =
                 "Berikut adalah hasil koreksi hafalan yang sudah anda setorkan kepada pembimbing"
             btnSaveCorrection.visibility = View.GONE
+            containerScore.visibility = View.GONE
+
+            correction_note_mentor.visibility = View.GONE
+            correction_note_student.settings.javaScriptEnabled = true
+            correction_note_student.loadData(textCorrection, "text/html; charset=utf-8", "UTF-8")
+
+
         } else {
             tv_descDetailCorrection.text = "Masukkan Koreksi Dari Bacaan Quran yang dibacakan Siswa"
             tv_titleDetailCorrection.text = "Nilai Bacaan Siswa"
             btnSaveCorrection.visibility = View.VISIBLE
+            correction_note_student.visibility = View.GONE
+
+            correction_note_mentor.enable_summernote()
+            correction_note_mentor.text = textCorrection
         }
-        correction_note_webs.settings.javaScriptEnabled=true
-        correction_note_webs.loadData(textCorrection, "text/html; charset=utf-8", "UTF-8")
-        "Test".showToast()
+
+        val correctionViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())
+            .get(CorrectionViewModel::class.java)
+
+        btnSaveCorrection.setOnClickListener {
+            if (inputScore.text.toString().isEmpty()) {
+                inputScore.apply {
+                    requestFocus()
+                    error = "Isi Score Terlebih Dahulu"
+                }
+            } else {
+                if (inputScore.text.toString().toInt() < 0 || inputScore.text.toString()
+                        .toInt() > 100
+                ) {
+                    inputScore.apply {
+                        requestFocus()
+                        error = "Isi Score Terlebih Dahulu"
+                    }
+                } else {
+                    anim_loading.visibility = View.VISIBLE
+                    var correction = correction_note_mentor.text
+                    correctionViewModel.updateSubmission(
+                        id = idSubmission.toString(),
+                        score = inputScore.text.toString(),
+                        text = correction
+                    )
+
+                    correctionViewModel.status.observe(this, Observer {
+                        anim_loading.visibility = View.GONE
+                        if (it) {
+                            "Berhasil Mengubah Koreksi"
+                        } else {
+                            "Gagal Mengubah Koreksi"
+                        }
+                    })
+
+                }
+            }
+        }
+
+
     }
 }

@@ -18,6 +18,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".Model.TeacherRateSubmission"></activity>
         <activity android:name=".View.MentorContainer" />
         <activity android:name=".View.MentorLanding" />
         <activity android:name=".View.CorrectionDetailActivity" />

@@ -21,6 +21,8 @@ object URL {
     const val MP3_MOBILE = BASE_URL+"submission/detail_mobile.php?url="
     const val MOT = BASE_URL+"motivation/get_motivation.php"
 
+    const val UPDATE_CORRECTION = BASE_URL+"submission/api_correct_submission.php"
+
 
 
 

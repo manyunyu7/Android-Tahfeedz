@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.crowdfire.cfalertdialog.CFAlertDialog
 import com.feylabs.tahfidz.R
 import com.feylabs.tahfidz.Util.SharedPreference.Preference
 import com.feylabs.tahfidz.View.MainActivity
@@ -98,11 +99,18 @@ class StudentInfoFragment : Fragment() {
         })
 
         btnLogout.setOnClickListener {
-            Alerter.create(requireActivity())
-                .setBackgroundColorRes(R.color.colorRedPastel)
-                .setIcon(R.drawable.ic_baseline_power_settings_new_24)
-                .setTitle("Anda Yakin Ingin Logout Dari Aplikasi ?")
-                .addButton("Logout", R.style.AlertButton, View.OnClickListener {
+
+            val cfAlert = CFAlertDialog.Builder(activity)
+                .setDialogStyle(CFAlertDialog.CFAlertStyle.ALERT)
+                .setTitle("Anda Yakin Ingin Logout ??")
+                .addButton(
+                    "Logout",
+                    -1,
+                    -1,
+                    CFAlertDialog.CFAlertActionStyle.POSITIVE,
+                    CFAlertDialog.CFAlertActionAlignment.END
+                ) { dialog, which ->
+                    //Call Delete Submission Function
                     //Clear Preferences
                     Preference(requireContext()).clearPreferences()
                     //LOGOUT
@@ -113,13 +121,15 @@ class StudentInfoFragment : Fragment() {
                             MainActivity::class.java
                         )
                     )
-                    Alerter.hide()
-                })
-                .addButton("Kembali", R.style.AlertButton, View.OnClickListener {
-                    Alerter.hide()
-                })
-                .show()
-
+                    dialog.dismiss()
+                }
+                .addButton(
+                    "BATAL", -1, -1, CFAlertDialog.CFAlertActionStyle.NEGATIVE,
+                    CFAlertDialog.CFAlertActionAlignment.END
+                ) { dialog, which ->
+                    dialog.dismiss()
+                }
+            cfAlert.show()
         }
     }
 

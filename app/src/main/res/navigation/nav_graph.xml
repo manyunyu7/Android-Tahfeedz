@@ -18,7 +18,7 @@
         tools:layout="@layout/fragment_student_info" />
     <fragment
         android:id="@+id/studentHistoryFragment"
-        android:name="com.feylabs.tahfidz.View.StudentHistoryFragment"
+        android:name="com.feylabs.tahfidz.View.SubmissionHistoryFragment"
         android:label="fragment_student_history"
         tools:layout="@layout/fragment_submission_history" />
     <fragment

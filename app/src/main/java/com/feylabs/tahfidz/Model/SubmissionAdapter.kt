@@ -17,6 +17,7 @@ import com.androidnetworking.error.ANError
 import com.androidnetworking.interfaces.JSONObjectRequestListener
 import com.crowdfire.cfalertdialog.CFAlertDialog
 import com.feylabs.tahfidz.R
+import com.feylabs.tahfidz.Util.SharedPreference.Preference
 import com.feylabs.tahfidz.Util.SubBottomSheet
 import com.feylabs.tahfidz.Util.URL
 import com.feylabs.tahfidz.View.CorrectionDetailActivity
@@ -65,20 +66,36 @@ class SubmissionAdapter : RecyclerView.Adapter<SubmissionAdapter.SubmissionHolde
         holder.sub_id.text = listData[position].id
         holder.sub_date.text = listData[position].date
         var status = listData[position].status
+        var score = if(listData[position].score==""){
+            0
+        }else{
+            listData[position].score.toInt()
+        }
         var checkStatus = 0
+        var scoreCategory = ""
+
+        when (score) {
+            in 0..20 -> scoreCategory = "Maqbul"
+            in 30..70 -> scoreCategory = "Jayyid"
+            in 70..90 -> scoreCategory = "Jayyid Jiddan Murtafi'"
+            in 90..100 -> scoreCategory = "Mumtaz"
+        }
+
+        //LOGIC FOR SETTING BIG AND SMALL SCORE LABEL AT BOTTOM LAYOUT
         when (status) {
             "0" -> {
                 checkStatus = 0
                 status = "Menunggu Dinilai"
-                listData[position].status = status
+                holder.sub_status.setBackgroundResource(R.drawable.bg_status_waiting)
             }
             "1" -> {
                 checkStatus = 1
                 status = "Sudah Dinilai"
-                listData[position].status = status
             }
         }
         holder.sub_status.text = status
+
+
         holder.sub_start_end.text = listData[position].start + "-\n" + listData[position].end
 
         holder.itemView.setOnClickListener { v ->
@@ -93,26 +110,46 @@ class SubmissionAdapter : RecyclerView.Adapter<SubmissionAdapter.SubmissionHolde
             val subDetScoreBig = subDetailBottomSheet.sub_det_score_big
             val subDetMp3 = subDetailBottomSheet.sub_det_mp3View
             val btnConfDeleteSubmission = subDetailBottomSheet.btnConfDeleteSubmission
+            val btnSeeCorrectionSubmission = subDetailBottomSheet.btnSeeCorrection
+            val cardDelete = subDetailBottomSheet.deleteCard
+            val subDetScoreCategory = subDetailBottomSheet.sub_det_category_score
 
-            subDetBtnClose.setOnClickListener {
-                subDetailBottomSheet.visibility=View.GONE
+            subDetailBottomSheet.show()
+
+            val loginType = Preference(activity).getPrefString("login_type")
+            if (loginType == "student") {
+                btnSeeCorrectionSubmission.text = "Lihat Catatan/Koreksi Pembimbing"
+            } else {
+                cardDelete.visibility = View.GONE
+                btnSeeCorrectionSubmission.text = "Input/Edit Koreksi dan Nilai"
             }
 
+            subDetBtnClose.setOnClickListener {
+                subDetailBottomSheet.dismiss()
+            }
 
-            //LOGIC FOR SETTING BIG AND SMALL SCORE LABEL AT BOTTOM LAYOUT
             when (checkStatus) {
                 0 -> {
-                    subDetScoreBig.text="-"
+                    status = "Menunggu Dinilai"
+                    subDetScoreBig.text = "-"
                     subDetScoreSmall.text = holder.itemView.context.getString(R.string.not_graded)
                 }
                 1 -> {
-                    
+                    status = "Sudah Dinilai"
+                    subDetScoreBig.text = listData[position].score
+                    subDetScoreSmall.text = listData[position].score
+                    subDetScoreCategory.text = scoreCategory
                 }
             }
+
+
+
+
+
             var mp3Path = listData[position].audio
-            mp3Path = mp3Path.replaceFirst(".", "")
-            mp3Path = mp3Path.replaceFirst("/", "")
-            mp3Path = mp3Path.replace(" ", "%20")
+                .replaceFirst(".", "")
+                .replaceFirst("/", "")
+                .replace(" ", "%20")
 
             // SET UP UI FOR BOTTOM LAYOUT =========================================================
             subDetId.text = listData[position].id
@@ -121,7 +158,17 @@ class SubmissionAdapter : RecyclerView.Adapter<SubmissionAdapter.SubmissionHolde
             subDetScoreBig.text = listData[position].score
             subDetScoreSmall.text = listData[position].score
             subDetScoreSmall.text = listData[position].score
-            subDetailBottomSheet.show()
+
+
+
+            btnSeeCorrectionSubmission.setOnClickListener {
+                val intent = Intent(holder.itemView.context, CorrectionDetailActivity::class.java)
+                intent.apply {
+                    putExtra("data", listData[position])
+                    putExtra("url", subDetMp3.url)
+                }
+                activity.startActivity(intent)
+            }
 
 
             //SETTING UP MP3========================================================================
@@ -139,15 +186,6 @@ class SubmissionAdapter : RecyclerView.Adapter<SubmissionAdapter.SubmissionHolde
             }
             subDetMp3.loadUrl(URL.MP3_MOBILE + mp3Path)
             Log.i("MP3View URL", URL.MP3_MOBILE + mp3Path)
-
-            activity.btnSeeCorrection.setOnClickListener {
-                val intent = Intent(holder.itemView.context, CorrectionDetailActivity::class.java)
-                intent.apply {
-                    putExtra("data",listData[position])
-                    putExtra("url",subDetMp3.url)
-                }
-                activity.startActivity(intent)
-            }
 
 
             //DELETE SUBMISSION=====================================================================

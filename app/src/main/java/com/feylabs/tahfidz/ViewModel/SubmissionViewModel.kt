@@ -10,6 +10,19 @@ import com.feylabs.tahfidz.Model.SubmissionModel
 import com.feylabs.tahfidz.Util.URL
 import org.json.JSONObject
 
+
+
+
+
+
+
+
+
+
+
+
+
+
 class SubmissionViewModel : ViewModel() {
     var status = MutableLiveData<Boolean>()
     var statusDelete = MutableLiveData<Boolean>()
@@ -89,5 +102,9 @@ class SubmissionViewModel : ViewModel() {
                     statusDelete.postValue(false)
                 }
             })
+    }
+
+    fun getStat() : MutableLiveData<Boolean>{
+        return status
     }
 }
