@@ -104,6 +104,7 @@ class SubmissionAdapter : RecyclerView.Adapter<SubmissionAdapter.SubmissionHolde
             subDetailBottomSheet = SubBottomSheet(activity)
             val subDetId = subDetailBottomSheet.sub_det_id
             val subDetBtnClose = subDetailBottomSheet.btnCloseBottom
+            val subDetDate= subDetailBottomSheet.sub_det_date
             val subStartEnd = subDetailBottomSheet.sub_start_end
             val subStartStatus = subDetailBottomSheet.sub_det_status
             val subDetScoreSmall = subDetailBottomSheet.sub_det_score_small
@@ -131,17 +132,26 @@ class SubmissionAdapter : RecyclerView.Adapter<SubmissionAdapter.SubmissionHolde
             when (checkStatus) {
                 0 -> {
                     status = "Menunggu Dinilai"
-                    subDetScoreBig.text = "-"
+                    subDetScoreBig.text = holder.itemView.context.getString(R.string.not_graded)
                     subDetScoreSmall.text = holder.itemView.context.getString(R.string.not_graded)
+                    subStartStatus.text = holder.itemView.context.getString(R.string.not_graded)
+                    subDetScoreCategory.visibility=View.GONE
+
                 }
                 1 -> {
                     status = "Sudah Dinilai"
+                    subStartStatus.text = "Sudah Dinilai"
                     subDetScoreBig.text = listData[position].score
                     subDetScoreSmall.text = listData[position].score
-                    subDetScoreCategory.text = scoreCategory
+                    subDetScoreCategory.visibility=View.VISIBLE
+                    subDetScoreCategory.text=scoreCategory
                 }
             }
 
+            // SET UP UI FOR BOTTOM LAYOUT =========================================================
+            subDetId.text = listData[position].id
+            subStartEnd.text = "${listData[position].start} - ${listData[position].end}"
+            subDetDate.text=listData[position].date
 
 
 
@@ -150,14 +160,6 @@ class SubmissionAdapter : RecyclerView.Adapter<SubmissionAdapter.SubmissionHolde
                 .replaceFirst(".", "")
                 .replaceFirst("/", "")
                 .replace(" ", "%20")
-
-            // SET UP UI FOR BOTTOM LAYOUT =========================================================
-            subDetId.text = listData[position].id
-            subStartStatus.text = listData[position].status
-            subStartEnd.text = "${listData[position].start} - ${listData[position].end}"
-            subDetScoreBig.text = listData[position].score
-            subDetScoreSmall.text = listData[position].score
-            subDetScoreSmall.text = listData[position].score
 
 
 

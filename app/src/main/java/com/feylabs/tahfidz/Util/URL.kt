@@ -23,6 +23,9 @@ object URL {
 
     const val UPDATE_CORRECTION = BASE_URL+"submission/api_correct_submission.php"
 
+    const val SHOW_CORRECTION = BASE_URL+"submission/show_correction_mobile.php?id="
+    const val INPUT_CORRECTION = BASE_URL+"submission/correction_mobile.php?submission_id="
+
 
 
 

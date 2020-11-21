@@ -11,7 +11,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -38,7 +37,9 @@
                             android:scaleType="fitXY"
                             android:src="@drawable/bg_header_daylight" />
 
+
                         <RelativeLayout
+                            android:layout_marginTop="20dp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_alignParentTop="true"
@@ -142,7 +143,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_toRightOf="@id/card"
                                     android:fontFamily="@font/ambit_regular"
-                                    android:text="Aplikasi Tahfidz SDS Islamiyah Bantaeng"
+                                    android:text="@string/school_name"
                                     android:textAlignment="center"
                                     android:textColor="@color/colorBlack"
                                     android:textSize="18sp"

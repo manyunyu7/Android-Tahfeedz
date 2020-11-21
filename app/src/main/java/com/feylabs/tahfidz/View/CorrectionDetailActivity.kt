@@ -1,13 +1,13 @@
 package com.feylabs.tahfidz.View
 
 import android.content.Intent
+import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.feylabs.tahfidz.Model.SubmissionModel
 import com.feylabs.tahfidz.R
@@ -16,7 +16,6 @@ import com.feylabs.tahfidz.Util.URL
 import com.feylabs.tahfidz.View.Base.BaseActivity
 import com.feylabs.tahfidz.ViewModel.CorrectionViewModel
 import kotlinx.android.synthetic.main.activity_correction_detail.*
-import kotlinx.android.synthetic.main.activity_detail_correction.correction_note
 
 class CorrectionDetailActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,68 +48,55 @@ class CorrectionDetailActivity : BaseActivity() {
         correctionMp3.loadUrl(mp3URL)
         Log.i("MP3View URL", mp3URL)
 
-
+        correction_note_student.settings.javaScriptEnabled = true
         //Checking if user student or teacher
         if (Preference(this).getPrefString("login_type") == "student") {
             tv_titleDetailCorrection.text = "Koreksi Hafalan"
             tv_descDetailCorrection.text =
                 "Berikut adalah hasil koreksi hafalan yang sudah anda setorkan kepada pembimbing"
-            btnSaveCorrection.visibility = View.GONE
-            containerScore.visibility = View.GONE
+            btnRefresh.visibility = View.GONE
 
-            correction_note_mentor.visibility = View.GONE
-            correction_note_student.settings.javaScriptEnabled = true
-            correction_note_student.loadData(textCorrection, "text/html; charset=utf-8", "UTF-8")
-
+            var url_sub_id = URL.SHOW_CORRECTION+getParcelize?.id?.removeRange(0,3)
+            correction_note_student.loadUrl(url_sub_id)
+            correction_note_student.webViewClient = object : WebViewClient() {
+                override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
+                    view?.loadUrl(url_sub_id)
+                    return true
+                }
+            }
+            Log.i("url",  url_sub_id)
 
         } else {
+            anim_loading.visibility=View.VISIBLE
+            cardMP3.visibility=View.GONE
             tv_descDetailCorrection.text = "Masukkan Koreksi Dari Bacaan Quran yang dibacakan Siswa"
             tv_titleDetailCorrection.text = "Nilai Bacaan Siswa"
-            btnSaveCorrection.visibility = View.VISIBLE
-            correction_note_student.visibility = View.GONE
+            btnRefresh.visibility = View.VISIBLE
+            var url_sub_id = URL.INPUT_CORRECTION+getParcelize?.id?.removeRange(0,3)
 
-            correction_note_mentor.enable_summernote()
-            correction_note_mentor.text = textCorrection
+            correction_note_student.webViewClient = object : WebViewClient() {
+                override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
+                    anim_loading.visibility=View.VISIBLE
+                    view?.loadUrl(url_sub_id)
+                    return true
+                }
+                override fun onPageFinished(view: WebView?, url: String?) {
+                    anim_loading.visibility=View.GONE
+                    }
+
+                override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
+                    super.onPageStarted(view, url, favicon)
+                    anim_loading.visibility=View.VISIBLE
+                }
+            }
+            btnRefresh.setOnClickListener {
+                correction_note_student.loadUrl(url_sub_id)
+            }
         }
 
         val correctionViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())
             .get(CorrectionViewModel::class.java)
 
-        btnSaveCorrection.setOnClickListener {
-            if (inputScore.text.toString().isEmpty()) {
-                inputScore.apply {
-                    requestFocus()
-                    error = "Isi Score Terlebih Dahulu"
-                }
-            } else {
-                if (inputScore.text.toString().toInt() < 0 || inputScore.text.toString()
-                        .toInt() > 100
-                ) {
-                    inputScore.apply {
-                        requestFocus()
-                        error = "Isi Score Terlebih Dahulu"
-                    }
-                } else {
-                    anim_loading.visibility = View.VISIBLE
-                    var correction = correction_note_mentor.text
-                    correctionViewModel.updateSubmission(
-                        id = idSubmission.toString(),
-                        score = inputScore.text.toString(),
-                        text = correction
-                    )
-
-                    correctionViewModel.status.observe(this, Observer {
-                        anim_loading.visibility = View.GONE
-                        if (it) {
-                            "Berhasil Mengubah Koreksi"
-                        } else {
-                            "Gagal Mengubah Koreksi"
-                        }
-                    })
-
-                }
-            }
-        }
 
 
     }

@@ -40,6 +40,7 @@
 
 
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardMP3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
@@ -60,22 +61,6 @@
 
         </com.google.android.material.card.MaterialCardView>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/containerScore"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:tag="mentor_scope"
-            android:hint="Nilai Siswa">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/inputScore"
-                android:inputType="number"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
     </LinearLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -87,11 +72,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/bottomNav">
 
-        <in.nashapp.androidsummernote.Summernote
-            android:id="@+id/correction_note_mentor"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
         <WebView
             android:id="@+id/correction_note_student"
             android:layout_width="match_parent"
@@ -99,12 +79,12 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/btnSaveCorrection"
+        android:id="@+id/btnRefresh"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
         android:backgroundTint="@color/colorNeoBlue"
-        android:src="@drawable/ic_baseline_check_24"
+        android:src="@drawable/ic_baseline_refresh_24"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:tint="@color/colorWhite" />
