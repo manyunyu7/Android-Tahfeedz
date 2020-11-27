@@ -18,7 +18,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Model.TeacherRateSubmission"></activity>
+        <activity android:name=".View.QuranModules.DetailSurahActivity"></activity>
+        <activity android:name=".Model.TeacherRateSubmission" />
         <activity android:name=".View.MentorContainer" />
         <activity android:name=".View.MentorLanding" />
         <activity android:name=".View.CorrectionDetailActivity" />
@@ -26,6 +27,10 @@
         <activity android:name=".View.SubmissionDetailStudent" />
         <activity android:name=".View.StudentContainer" />
         <activity android:name=".View.Base.MusicActivity" />
+        <activity android:name=".View.QuranModules.ListSurahActivity"/>
+        <activity android:name=".View.Activity.UserChangeProfile">
+
+        </activity>
         <activity android:name=".View.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -33,6 +38,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+            android:theme="@style/Base.Theme.AppCompat" />
     </application>
 
 </manifest>

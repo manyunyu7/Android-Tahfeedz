@@ -13,7 +13,15 @@ import org.json.JSONObject
 
 
 class StudentViewModel : ViewModel() {
+
+    //1 = Success
+    //0 = FAN ERROR
+    //3 = Loading
+    //2 = HTPP ERROR
+
     var status = MutableLiveData<Boolean>()
+    var statusGetUpdated = MutableLiveData<Int>()
+    var statusUpdateBasic =  MutableLiveData<Int>()
     var studentData = MutableLiveData<MutableMap<String,String>>()
     var groupData = MutableLiveData<MutableMap<String,String>>()
 
@@ -40,6 +48,7 @@ class StudentViewModel : ViewModel() {
                         val gender = student.getString("gender")
                         val created_at = student.getString("created_at")
                         val update_at = student.getString("updated_at")
+                        val url_profile = student.getString("url_profile")
 
                         val kelompok = student.getString("kelompok")
 
@@ -54,6 +63,7 @@ class StudentViewModel : ViewModel() {
                         tempStudentData["student_gender"] = gender
                         tempStudentData["created_at"] = created_at
                         tempStudentData["updated_at"] = update_at
+                        tempStudentData["student_photo"] = url_profile
 
                         if (kelompok.toString()!="null"){
                             val group = response.getJSONObject("group_data")
@@ -92,6 +102,7 @@ class StudentViewModel : ViewModel() {
     }
 
     fun getStudentData(id:String){
+        statusGetUpdated.postValue(3)
         AndroidNetworking.post(URL.STUDENT_DATA)
             .addBodyParameter("id",id)
             .addHeaders("id",id)
@@ -113,6 +124,7 @@ class StudentViewModel : ViewModel() {
                         val created_at = student.getString("created_at")
                         val update_at = student.getString("updated_at")
                         val kelompok = student.getString("kelompok")
+                        val url_profile = student.getString("url_profile")
 
                         tempStudentData["login_type"] = "student"
                         tempStudentData["student_id"] = id
@@ -124,6 +136,7 @@ class StudentViewModel : ViewModel() {
                         tempStudentData["student_gender"] = gender
                         tempStudentData["created_at"] = created_at
                         tempStudentData["updated_at"] = update_at
+                        tempStudentData["student_photo"] = url_profile
 
                         if (kelompok.toString()!="null"){
                             val group = response.getJSONObject("group_data")
@@ -147,17 +160,41 @@ class StudentViewModel : ViewModel() {
                         }
                         studentData.postValue(tempStudentData)
                         groupData.postValue(tempGroupData)
-                        status.postValue(true)
+                        statusGetUpdated.postValue(1)
                     }else{
-                        status.postValue(false)
+                        statusGetUpdated.postValue(2)
                     }
                 }
 
                 override fun onError(anError: ANError) {
-//                    TODO("Not yet implemented")
-                    status.postValue(false)
-                    Log.e("Error Login FAN",anError.toString())
+                    statusGetUpdated.postValue(0)
+                    Log.e("Error-StudentGet",anError.toString())
                 }
+            })
+    }
+
+    fun updateData(id:String,name:String,email:String,contact:String){
+        statusUpdateBasic.postValue(3)
+        AndroidNetworking.post(URL.STUDENT_UPDATE_BASIC)
+            .addBodyParameter("student_id",id)
+            .addBodyParameter("name",name)
+            .addBodyParameter("email",email)
+            .addBodyParameter("contact",contact)
+            .build()
+            .getAsJSONObject(object :JSONObjectRequestListener{
+                override fun onResponse(response: JSONObject) {
+                   if(response.getInt("response_code")==1){
+                       statusUpdateBasic.postValue(1)
+                   }else{
+                       statusUpdateBasic.postValue(2)
+                   }
+                }
+
+                override fun onError(anError: ANError?) {
+                    Log.i("Error-Fan-update",anError.toString())
+                    statusUpdateBasic.postValue(0)
+                }
+
             })
     }
 

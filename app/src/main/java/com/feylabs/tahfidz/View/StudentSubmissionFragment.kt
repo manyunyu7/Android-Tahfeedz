@@ -113,14 +113,17 @@ class StudentSubmissionFragment : BaseFragment() {
         btnStop.isEnabled = false
 
 
-
         //CREATE MEDIA DIRECTORY
         val mediaStorageDir = File(context?.externalCacheDir?.absolutePath, "Rekaman Tahfidz")
         Log.i("path ", context?.externalCacheDir?.absolutePath.toString())
         if (!mediaStorageDir.exists()) {
             if (!mediaStorageDir.mkdirs()) {
-                Log.d("App", "failed to create directory")
+                Log.i("Tahfidz", "failed to create directory")
+            }else{
+                Log.i("Tahfidz","Success Create Directory")
             }
+        }else{
+            Log.i("Tahfidz","Already Exists")
         }
 
         //START RECORDING
@@ -324,7 +327,7 @@ class StudentSubmissionFragment : BaseFragment() {
             mp.prepare()
             mp.start()
         } catch (e: Exception) {
-            e.toString().showToast()
+            "Belum Ada Rekaman".showToast()
         }
     }
 

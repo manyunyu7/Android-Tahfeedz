@@ -18,22 +18,24 @@
             android:layout_height="wrap_content"
             android:background="#fff5f5f5">
 
-<!--            <LinearLayout-->
-<!--                android:layout_width="25dp"-->
-<!--                android:layout_height="25dp"-->
-<!--                android:layout_margin="5dp"-->
-<!--                android:background="@drawable/bg_circle"-->
-<!--                android:gravity="center">-->
+            <LinearLayout
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_margin="5dp"
+                android:background="@drawable/circle"
+                android:backgroundTint="@color/colorNeoBlue"
+                android:gravity="center">
 
-<!--                <TextView-->
-<!--                    android:id="@+id/tvNomorAyat"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:textColor="@android:color/white"-->
-<!--                    android:textSize="16sp"-->
-<!--                    android:textStyle="bold" />-->
+                <TextView
+                    android:id="@+id/tvNomorAyat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/white"
+                    android:fontFamily="@font/quicksand_regular"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
 
-<!--            </LinearLayout>-->
+            </LinearLayout>
 
         </RelativeLayout>
 
@@ -49,10 +51,11 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_margin="5dp"
+                android:fontFamily="@font/maddina"
                 android:textColor="@android:color/black"
                 android:textIsSelectable="true"
                 android:textSize="20sp"
-                android:textStyle="bold" />
+                android:text="صِرَاطَ الَّذِيۡنَ اَنۡعَمۡتَ عَلَيۡهِمۡ ۙ غَيۡرِ الۡمَغۡضُوۡبِ عَلَيۡهِمۡ وَلَا الضَّآلِّيۡنَ" />
 
             <TextView
                 android:id="@+id/tvTerjemahan"
@@ -60,9 +63,11 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tvArabic"
                 android:layout_margin="5dp"
+                android:fontFamily="@font/quicksand_regular"
+                android:textColor="@color/colorBlack"
                 android:textIsSelectable="true"
                 android:textSize="12sp"
-                android:textStyle="bold" />
+                android:text="(yaitu) jalan orang-orang yang telah Engkau beri nikmat kepadanya; bukan (jalan) mereka yang dimurkai, dan bukan (pula jalan) mereka yang sesat." />
 
         </RelativeLayout>
 

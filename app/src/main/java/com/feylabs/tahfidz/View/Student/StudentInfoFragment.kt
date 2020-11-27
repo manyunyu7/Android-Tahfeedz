@@ -2,6 +2,7 @@ package com.feylabs.tahfidz.View.Student
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,11 +12,19 @@ import androidx.lifecycle.ViewModelProvider
 import com.crowdfire.cfalertdialog.CFAlertDialog
 import com.feylabs.tahfidz.R
 import com.feylabs.tahfidz.Util.SharedPreference.Preference
+import com.feylabs.tahfidz.Util.URL
+import com.feylabs.tahfidz.View.Activity.UserChangeProfile
+import com.feylabs.tahfidz.View.Base.BaseFragment
 import com.feylabs.tahfidz.View.MainActivity
+import com.feylabs.tahfidz.View.StudentContainer
 import com.feylabs.tahfidz.ViewModel.StudentViewModel
+import com.squareup.picasso.MemoryPolicy
+import com.squareup.picasso.NetworkPolicy
+import com.squareup.picasso.Picasso
 import com.tapadoo.alerter.Alerter
 import com.tapadoo.alerter.OnHideAlertListener
 import kotlinx.android.synthetic.main.fragment_student_info.*
+import kotlinx.android.synthetic.main.layout_loading_transparent.*
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -28,7 +37,7 @@ private const val ARG_PARAM2 = "param2"
  * Use the [StudentInfoFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class StudentInfoFragment : Fragment() {
+class StudentInfoFragment : BaseFragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -44,62 +53,83 @@ class StudentInfoFragment : Fragment() {
         }
     }
 
+    override fun onPause() {
+        super.onPause()
+        Picasso.get().cancelTag("all-profile")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        downloadPicasso(ivProfilePict)
+        studentViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())
+            .get(StudentViewModel::class.java)
+        studentViewModel.getStudentData(
+            Preference(requireContext()).getPrefString("student_id").toString()
+        )
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-
         studentViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())
             .get(StudentViewModel::class.java)
-
         return inflater.inflate(R.layout.fragment_student_info, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        updateListener()
+        updateLayout()
 
+        //ADD PHOTO TO UI
+        downloadPicasso(ivProfilePict)
         //Getting Student Data from ViewModel
         studentViewModel.getStudentData(
             Preference(requireContext()).getPrefString("student_id").toString()
         )
-        studentViewModel.getStudentData(
-            Preference(requireContext()).getPrefString("student_id").toString()
-        )
-        studentViewModel.studentData.observe(viewLifecycleOwner, Observer {
-            if (it != null) {
-                tv_name.text = it["student_name"]
-                et_name.setText(it["student_name"])
 
-                if (it["student_class"].toString()=="null"){
-                    tv_class.visibility=View.GONE
-                }else{
-                    tv_class.visibility=View.VISIBLE
-                    tv_class.text = it["student_class"]
-                }
-                et_nisn.text = it["student_nisn"].toString()
-                et_contact.setText(it["student_contact"].toString())
-                if (it["student_email"].toString() == "null") {
-                    et_email.setText("-")
-                } else {
-                    et_email.setText(it["student_email"])
-                }
 
+        btnChangeProfile.setOnClickListener {
+            requireContext().startActivity(Intent(requireContext(), UserChangeProfile::class.java))
+        }
+
+        btnRefreshProfile.setOnClickListener {
+            updateListener()
+        }
+
+        btnSaveChange.setOnClickListener {
+            if (et_name.text.toString().length < 3) {
+                et_name.requestFocus()
+                et_name.error = "Mohon Isi Bidang Ini"
             } else {
-                Alerter.clearCurrent(requireActivity())
-                Alerter.create(requireActivity())
-                    .setBackgroundColorRes(R.color.colorRedPastel)
-                    .setIcon(R.drawable.ic_baseline_not_interested_24)
-                    .setTitle("Koneksi Tidak Stabil , Coba Lagi Nanti")
-                    .setOnHideListener(OnHideAlertListener {
+                anim_loading.visibility = View.VISIBLE
+                val name = et_name.text.toString()
+                val contact = et_contact.text.toString()
+                val email = et_email.text.toString()
+                val id = Preference(requireContext()).getPrefString("student_id").toString()
+                studentViewModel.updateData(
+                    id, name, email, contact
+                )
 
-                    })
-                    .show()
+                studentViewModel.statusUpdateBasic.observe(viewLifecycleOwner, Observer {
+                    if (it == 1) {
+                        "Berhasil Update Data".showToast()
+                        updateListener()
+                    }
+                    if (it == 0) {
+                        updateListener()
+                        "Gagal Mengupdate Data, Periksa Koneksi Internet Anda".showToast()
+                    }
+                })
             }
-        })
+        }
+
+
+
 
         btnLogout.setOnClickListener {
-
             val cfAlert = CFAlertDialog.Builder(activity)
                 .setDialogStyle(CFAlertDialog.CFAlertStyle.ALERT)
                 .setTitle("Anda Yakin Ingin Logout ??")
@@ -132,6 +162,64 @@ class StudentInfoFragment : Fragment() {
             cfAlert.show()
         }
     }
+
+    private fun updateLayout() {
+        downloadPicasso(ivProfilePict)
+        val pref = Preference(requireContext())
+        tv_name.text = pref.getPrefString("student_name")
+        et_name.setText(pref.getPrefString("student_name"))
+        et_nisn.text = pref.getPrefString("student_nisn")
+        et_email.setText(pref.getPrefString("student_email"))
+        et_contact.setText(pref.getPrefString("student_contact"))
+        tv_class.text = pref.getPrefString("student_class")
+    }
+
+    private fun updateListener() {
+        studentViewModel.getStudentData(
+            Preference(requireContext()).getPrefString("student_id").toString()
+        )
+        studentViewModel.statusGetUpdated.observe(viewLifecycleOwner, Observer {
+            if (it==3){
+                anim_loading.visibility=View.VISIBLE
+            }
+            if (it==1) {
+                anim_loading.visibility = View.GONE
+                val studentData = studentViewModel.getStudentData()
+                val groupData = studentViewModel.getGroupData()
+                val studentMap = mutableMapOf<String, String>()
+                val groupMap = mutableMapOf<String, String>()
+
+                //Saving value of studentData from LiveData to studentMap
+                studentData.value?.toMap(studentMap)
+                groupData.value?.toMap(groupMap)
+
+                if (studentMap["kelompok"] != null || studentMap["kelompok"] != "null") {
+                    groupData.value?.toMap(groupMap)
+                    //Save Group Mapping to SharedPreference
+                    for ((key, value) in groupMap) {
+                        Log.i(key, value)
+                        Preference(requireContext()).save(key, value)
+                    }
+                }
+                //Saving Student Mapping to SharedPref
+                for ((key, value) in studentMap) {
+                    Log.i(key, value)
+                    Preference(requireContext()).save(key, value)
+                }
+                tv_name.text = studentMap["student_name"]
+                et_name.setText(studentMap["student_name"])
+                et_nisn.text = studentMap["student_nisn"]
+                et_email.setText(studentMap["student_email"])
+                et_contact.setText(studentMap["student_contact"])
+                tv_class.text = studentMap["student_class"]
+            } else {
+                anim_loading.visibility = View.GONE
+
+            }
+            updateLayout()
+        })
+    }
+
 
     companion object {
         /**

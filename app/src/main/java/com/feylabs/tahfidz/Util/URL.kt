@@ -2,11 +2,14 @@ package com.feylabs.tahfidz.Util
 
 object URL {
 
-    const val BASE_URL = "http://202.157.177.52/API-Tahfidz/"
+    const val BASE_URL = "http://192.168.1.89/API-Tahfidz/"
 
     const val LOGIN_STUDENT = BASE_URL + "student/login.php"
     const val LOGIN_MENTOR = BASE_URL + "mentor/login.php"
     const val STUDENT_DATA = BASE_URL + "student/student_info.php"
+    const val STUDENT_PHOTO = BASE_URL + "student/"
+    const val STUDENT_UPDATE_IMG = BASE_URL + "student/update_img.php"
+    const val STUDENT_UPDATE_BASIC = BASE_URL + "student/update_data_user.php"
 
     const val GROUP_DATA = BASE_URL + "group/group_info.php"
 //    http://202.157.177.52/API-Tahfidz/group/grouping_mentor_info.php

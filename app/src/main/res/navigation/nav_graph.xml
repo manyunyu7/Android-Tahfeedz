@@ -9,7 +9,7 @@
     <fragment
         android:id="@+id/studentHomeFragment"
         tools:layout="@layout/fragment_student_home"
-        android:name="com.feylabs.tahfidz.View.StudentHomeFragment"
+        android:name="com.feylabs.tahfidz.View.Student.StudentHomeFragment"
         android:label="StudentHomeFragment" />
     <fragment
         android:id="@+id/studentInfoFragment"

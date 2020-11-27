@@ -1,19 +1,15 @@
 package com.feylabs.tahfidz.Model
 
 import android.app.Activity
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils.loadAnimation
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
-import com.arthurivanets.bottomsheets.BottomSheet
 import com.bumptech.glide.Glide
 import com.feylabs.tahfidz.R
 import com.feylabs.tahfidz.Util.MotBottomSheet
-import com.feylabs.tahfidz.View.SubmissionDetailStudent
-import com.feylabs.tahfidz.ViewModel.MotDetail
 import kotlinx.android.synthetic.main.list_motivation.view.*
 
 class MotAdapter : RecyclerView.Adapter<MotAdapter.MotHolder>() {
@@ -56,7 +52,6 @@ class MotAdapter : RecyclerView.Adapter<MotAdapter.MotHolder>() {
 
         holder.itemView.setOnClickListener {
             val activity = holder.itemView.context as Activity
-
             val motDetailBottomSheet = MotBottomSheet(activity)
             val motDetTitle  = motDetailBottomSheet.findViewById(R.id.tv_det_mot_title) as TextView
             val motDetContent  = motDetailBottomSheet.findViewById(R.id.tv_det_mot_content) as TextView

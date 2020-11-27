@@ -1,4 +1,4 @@
-package com.feylabs.tahfidz.View
+package com.feylabs.tahfidz.View.Student
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -15,8 +15,10 @@ import com.feylabs.tahfidz.Model.MotAdapter
 import com.feylabs.tahfidz.R
 import com.feylabs.tahfidz.Util.SharedPreference.Preference
 import com.feylabs.tahfidz.View.Base.BaseFragment
+import com.feylabs.tahfidz.View.QuranModules.ListSurahActivity
 import com.feylabs.tahfidz.ViewModel.MotivationViewModel
 import com.feylabs.tahfidz.ViewModel.StudentViewModel
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_student_home.*
 import kotlinx.android.synthetic.main.layout_loading_transparent.*
 
@@ -34,6 +36,7 @@ class StudentHomeFragment : BaseFragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+    lateinit var studentViewModel: StudentViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,22 +46,80 @@ class StudentHomeFragment : BaseFragment() {
         }
     }
 
+
+    override fun onPause() {
+        super.onPause()
+        Picasso.get().cancelTag("all")
+    }
+
     override fun onResume() {
         super.onResume()
         updatingStudentGroupDataUI()
+        studentViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())
+            .get(StudentViewModel::class.java)
+        studentViewModel.getStudentData(
+            Preference(requireContext()).getPrefString("student_id").toString()
+        )
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        shimmerMotCardStudentInfo.startShimmer()
+        menuQuranCard.setOnClickListener {
+            startActivity(Intent(requireContext(),ListSurahActivity::class.java))
+        }
+        downloadPicasso(profile_pic)
+        studentViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())
+            .get(StudentViewModel::class.java)
+        studentViewModel.statusGetUpdated.observe(viewLifecycleOwner, Observer {
+            if (it==1) {
+                anim_loading.visibility = View.GONE
+                val studentData = studentViewModel.getStudentData()
+                val groupData = studentViewModel.getGroupData()
+                val studentMap = mutableMapOf<String, String>()
+                val groupMap = mutableMapOf<String, String>()
+
+                //Saving value of studentData from LiveData to studentMap
+                studentData.value?.toMap(studentMap)
+                groupData.value?.toMap(groupMap)
+
+                if (studentMap["kelompok"] != null || studentMap["kelompok"] != "null") {
+                    groupData.value?.toMap(groupMap)
+                    //Save Group Mapping to SharedPreference
+                    for ((key, value) in groupMap) {
+                        Log.i(key, value)
+                        Preference(requireContext()).save(key, value)
+                    }
+                }
+                //Saving Student Mapping to SharedPref
+                for ((key, value) in studentMap) {
+                    Log.i(key, value)
+                    Preference(requireContext()).save(key, value)
+                }
+            } else {
+                updatingStudentGroupDataUI()
+                anim_loading.visibility = View.GONE
+            }
+
+            //Update
+            updatingStudentGroupDataUI()
+        })
+
+    }
+
 
 
     @SuppressLint("SetTextI18n")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        updatingStudentGroupData()
+        updatingStudentGroupDataUI()
         settingUpStudentMotUI()
     }
 
     private fun updatingStudentGroupDataUI() {
-        shimmerMotCardStudentInfo.stopShimmer()
+        shimmerMotCardStudentInfo.hideShimmer()
         if (Preference(requireContext()).getPrefString("id_group")!="null") {
+            Log.i("id_group",Preference(requireContext()).getPrefString("id_group").toString())
             studentGroup.text = "${Preference(requireContext()).getPrefString("group_name")}"
             studentMentor.text = Preference(requireContext()).getPrefString("group_mentor_name")
             student_mentor_contact.text =
@@ -71,6 +132,7 @@ class StudentHomeFragment : BaseFragment() {
     }
 
     private fun settingUpStudentMotUI() {
+        shimmerMotCardStudentInfo.hideShimmer()
         student_name_home.text = Preference(requireContext()).getPrefString("student_name")
         val motViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())
             .get(MotivationViewModel::class.java)
@@ -92,39 +154,7 @@ class StudentHomeFragment : BaseFragment() {
     }
 
 
-    private fun updatingStudentGroupData() {
-        shimmerMotCardStudentInfo.startShimmer()
-        val studentViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(
-            StudentViewModel::class.java)
-        studentViewModel.getStudentData(
-            Preference(requireContext()).getPrefString("student_id").toString()
-        )
-        studentViewModel.status.observe(viewLifecycleOwner, Observer {
-            if (it) {
-                var studentData = studentViewModel.getStudentData()
-                var groupData = studentViewModel.getGroupData()
-                var studentMap = mutableMapOf<String, String>()
-                var groupMap = mutableMapOf<String, String>()
-                //Saving value of studentData from LiveData to studentMap
-                studentData.value?.toMap(studentMap)
-                groupData.value?.toMap(groupMap)
 
-                if (studentMap["kelompok"] != null || studentMap["kelompok"] != "null") {
-                    groupData.value?.toMap(groupMap)
-                    //Save Group Mapping to SharedPreference
-                    for ((key, value) in groupMap) {
-                        Log.i(key, value)
-                        Preference(requireContext()).save(key, value)
-                    }
-                }
-                //UPDATE THE UI
-                shimmerMotCardStudentInfo.hideShimmer()
-                updatingStudentGroupDataUI()
-            } else {
-               //IF FAILED TO FETCH NEW DATA
-            }
-        })
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

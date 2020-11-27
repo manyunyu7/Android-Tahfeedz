@@ -1,271 +1,389 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/lyt_user_profile"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/rs_background">
 
-    <LinearLayout
-        android:id="@+id/rellay1"
-        android:gravity="center"
-        android:orientation="vertical"
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/ic_header"
-        android:paddingBottom="20dp">
-
-        <RelativeLayout
-            android:id="@+id/imgUser"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp">
+        android:layout_height="match_parent">
 
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/containerIvPhoto"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                app:cardCornerRadius="40dp">
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-                <ImageView
-                    android:id="@+id/ivPhoto"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:adjustViewBounds="true"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/empty_profile" />
-            </androidx.cardview.widget.CardView>
-        </RelativeLayout>
 
-        <androidx.cardview.widget.CardView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:cardCornerRadius="20dp">
-
-            <TextView
-                android:textAlignment="center"
-                android:id="@+id/btnChangeProfilePic"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto_regular"
-                android:padding="10dp"
-                android:text="Ganti Foto Profile"
-                android:textColor="@color/colorBlueWaves" />
-        </androidx.cardview.widget.CardView>
-
-        <TextView
-            android:id="@+id/tv_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/imgUser"
-            android:layout_centerHorizontal="true"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:fontFamily="@font/ambit_regular"
-            android:text="Loading"
-            android:textAlignment="center"
-            android:textColor="@color/colorWhite"
-            android:textSize="25sp" />
+                android:layout_height="105dp"
+                android:background="@drawable/shape_rounded_bottom"
+                android:backgroundTint="@color/colorNeoBlue"
+                android:orientation="horizontal"
+                android:padding="20dp">
 
 
-        <TextView
-            android:id="@+id/tv_class"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_name"
-            android:layout_centerHorizontal="true"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:fontFamily="@font/poppins_medium"
-            android:text="Kelas Siswa"
-            android:textAlignment="center"
-            android:textAllCaps="true"
-            android:textColor="@color/colorWhite"
-            android:textSize="17sp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerInParent="true"
+                    android:layout_marginLeft="10dp"
+                    android:fontFamily="@font/sf_pro_rounded"
+                    android:text="Profile"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="34sp"
+                    android:textStyle="bold" />
+
+            </RelativeLayout>
 
 
-    </LinearLayout>
-
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/rellay1">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <LinearLayout
-                android:padding="10dp"
+            <ScrollView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:orientation="vertical">
+                android:layout_height="match_parent"
+                android:fillViewport="true">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="NISN"
-                        android:textColor="@color/headings"
-                        android:textSize="13sp" />
-
-                    <TextView
-                        android:id="@+id/et_nisn"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif-light"
-                        android:text="Loading"
-                        android:textColor="#000000"
-                        android:textSize="18sp" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Nama"
-                        android:textColor="@color/headings"
-                        android:textSize="13sp" />
-
-                    <EditText
-                        android:id="@+id/et_name"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:drawablePadding="10dp"
-                        android:fontFamily="sans-serif-light"
-                        android:text="Loading"
-                        android:textColor="#000000"
-                        android:textSize="18sp"
-                      />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Phone"
-                        android:textColor="@color/headings"
-                        android:textSize="13sp" />
-
-                    <EditText
-                        android:id="@+id/et_contact"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:drawablePadding="10dp"
-                        android:fontFamily="sans-serif-light"
-                        android:text="Loading"
-                        android:textColor="#000000"
-                        android:textSize="18sp"
-                       />
-
-
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Email"
-                        android:textColor="@color/headings"
-                        android:textSize="13sp" />
-
-                    <EditText
-                        android:id="@+id/et_email"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif-light"
-                        android:text="Email Siswa"
-                        android:textColor="#000000"
-                        android:textSize="18sp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:gravity="center"
                     android:orientation="vertical">
 
-                    <androidx.cardview.widget.CardView
+
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
-                        app:cardCornerRadius="20dp">
+                        android:layout_marginTop="10dp"
+                        android:gravity="center">
 
-                        <TextView
-                            android:textAlignment="center"
-                            android:id="@+id/btnSaveChange"
-                            android:layout_width="match_parent"
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:backgroundTint="@color/bootstrapRed"
-                            android:fontFamily="@font/poppins_medium"
-                            android:padding="10dp"
-                            android:text="Simpan Perubahan"
-                            android:textColor="@color/colorBlueWaves"
-                            app:drawableStartCompat="@drawable/ic_baseline_check_24"
-                            app:drawableTint="@color/colorBlueWaves" />
-                    </androidx.cardview.widget.CardView>
+                            android:layout_margin="2dp"
+                            app:cardCornerRadius="75dp">
 
+                            <ImageView
+                                android:id="@+id/ivProfilePict"
+                                android:layout_width="150dp"
+                                android:layout_height="150dp"
+                                android:scaleType="fitXY"
+                                android:src="@drawable/empty_profile" />
+                        </androidx.cardview.widget.CardView>
+                    </LinearLayout>
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginTop="15dp"
-                        android:background="@color/colorBlack" />
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnChangeProfile"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/colorBlueWaves"
+                        android:text="Ganti Foto Profile"
+                        android:textSize="12sp" />
 
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/btnLogout"
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnChangePassword"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/colorBlueWaves"
+                        android:text="Ganti Password"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/tv_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/quicksand_bold"
+                        android:text="Henry Augusta Harsono"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="21sp" />
+
+                    <TextView
+                        android:id="@+id/tv_class"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/sf_pro_rounded"
+                        android:text="Kelas Siswa"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="21sp" />
+
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
-                        app:cardBackgroundColor="@color/colorRedPastel"
-                        app:cardCornerRadius="20dp">
+                        android:layout_margin="15dp"
+                        android:visibility="gone">
 
-                        <TextView
-                            android:textAlignment="center"
+                        <!--                <androidx.cardview.widget.CardView-->
+                        <!--                    android:layout_width="wrap_content"-->
+                        <!--                    android:layout_height="wrap_content"-->
+                        <!--                    android:layout_weight="1"-->
+                        <!--                    app:cardCornerRadius="21dp">-->
+
+                        <!--                    <LinearLayout-->
+                        <!--                        android:layout_width="wrap_content"-->
+                        <!--                        android:layout_height="wrap_content"-->
+                        <!--                        android:orientation="vertical"-->
+                        <!--                        android:padding="10dp">-->
+
+                        <!--                        <TextView-->
+                        <!--                            android:layout_width="match_parent"-->
+                        <!--                            android:layout_height="wrap_content"-->
+                        <!--                            android:fontFamily="@font/sf_pro_display"-->
+                        <!--                            android:text="50"-->
+                        <!--                            android:textAlignment="center"-->
+                        <!--                            android:textColor="@color/bootstrapOrange"-->
+                        <!--                            android:textSize="20sp" />-->
+
+                        <!--                        <TextView-->
+                        <!--                            android:layout_width="wrap_content"-->
+                        <!--                            android:layout_height="wrap_content"-->
+                        <!--                            android:fontFamily="@font/montserrat_regular"-->
+                        <!--                            android:text="Total Transaksi"-->
+                        <!--                            android:textAlignment="center"-->
+                        <!--                            android:textColor="@color/colorBase"-->
+                        <!--                            android:textSize="16sp" />-->
+                        <!--                    </LinearLayout>-->
+                        <!--                </androidx.cardview.widget.CardView>-->
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_weight="1"
+                            app:cardCornerRadius="21dp">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:padding="10dp">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/sf_pro_display"
+                                    android:text="43"
+                                    android:textAlignment="center"
+                                    android:textColor="@color/bootstrapBlue"
+                                    android:textSize="20sp" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/montserrat_regular"
+                                    android:text="Transaksi Berhasil"
+                                    android:textAlignment="center"
+                                    android:textColor="@color/bootstrapBlue"
+                                    android:textSize="16sp" />
+                            </LinearLayout>
+                        </androidx.cardview.widget.CardView>
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/containerLastTransaction"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="20dp"
+                            android:layout_weight="1"
+                            app:cardCornerRadius="21dp">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:padding="10dp">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/sf_pro_display"
+                                    android:text="7"
+                                    android:textAlignment="center"
+                                    android:textColor="@color/bootstrapRed"
+                                    android:textSize="20sp" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/montserrat_regular"
+                                    android:text="Transaksi Batal"
+                                    android:textAlignment="center"
+                                    android:textColor="@color/bootstrapRed"
+                                    android:textSize="16sp" />
+                            </LinearLayout>
+                        </androidx.cardview.widget.CardView>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/rellay1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/poppins_medium"
-                            android:padding="10dp"
-                            android:text="Logout"
-                            android:textColor="@color/colorWhite"
-                            app:drawableStartCompat="@drawable/ic_baseline_power_settings_new_24"
-                            app:drawableTint="@color/colorWhite" />
-                    </androidx.cardview.widget.CardView>
+                            android:layout_centerInParent="true"
+                            android:orientation="vertical"
+                            android:padding="15dp">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="15dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="NISN"
+                                    android:textColor="@color/headings"
+                                    android:textSize="13sp" />
+
+                                <TextView
+                                    android:id="@+id/et_nisn"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="sans-serif-light"
+                                    android:text="Loading"
+                                    android:textColor="#000000"
+                                    android:textSize="18sp" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Nama"
+                                    android:textColor="@color/headings"
+                                    android:textSize="13sp" />
+
+                                <EditText
+                                    android:id="@+id/et_name"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:drawablePadding="10dp"
+                                    android:fontFamily="sans-serif-light"
+                                    android:hint="Nama Siswa"
+                                    android:text="Loading"
+                                    android:textColor="@color/colorBlack"
+                                    android:textSize="18sp" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Phone"
+                                    android:textColor="@color/headings"
+                                    android:textSize="13sp" />
+
+                                <EditText
+                                    android:id="@+id/et_contact"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:drawablePadding="10dp"
+                                    android:fontFamily="sans-serif-light"
+                                    android:hint="Kontak Siswa"
+                                    android:textColor="#000000"
+                                    android:textSize="18sp" />
 
 
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Email"
+                                    android:textColor="@color/headings"
+                                    android:textSize="13sp" />
+
+                                <EditText
+                                    android:id="@+id/et_email"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="sans-serif-light"
+                                    android:hint="Email Siswa"
+                                    android:textColor="#000000"
+                                    android:textSize="18sp" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:orientation="vertical">
+
+
+                                <com.google.android.material.button.MaterialButton
+                                    android:id="@+id/btnSaveChange"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:backgroundTint="@color/colorWhite"
+                                    android:fontFamily="@font/poppins_medium"
+                                    android:padding="10dp"
+                                    android:text="Simpan Perubahan"
+                                    android:textAlignment="center"
+                                    android:textColor="@color/colorBlueWaves"
+                                    app:drawableStartCompat="@drawable/ic_baseline_check_24"
+                                    app:drawableTint="@color/colorBlueWaves" />
+
+                                <com.google.android.material.button.MaterialButton
+                                    android:id="@+id/btnLogout"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:backgroundTint="@color/colorRedPastel"
+                                    android:fontFamily="@font/poppins_medium"
+                                    android:padding="10dp"
+                                    android:text="Logout"
+                                    android:textAlignment="center"
+                                    android:textColor="@color/colorWhite"
+                                    app:drawableStartCompat="@drawable/ic_baseline_power_settings_new_24"
+                                    app:drawableTint="@color/colorWhite" />
+                            </LinearLayout>
+                        </LinearLayout>
+                    </LinearLayout>
                 </LinearLayout>
+            </ScrollView>
+        </LinearLayout>
 
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btnRefreshProfile"
+            android:layout_margin="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_baseline_refresh_24"
+            app:backgroundTint="@color/colorNeoBlue"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:tint="@color/colorWhite" />
 
-            </LinearLayout>
+        <include layout="@layout/layout_change_password" />
+        <include layout="@layout/layout_loading_transparent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </RelativeLayout>
-    </ScrollView>
-
-
-</RelativeLayout>
+</FrameLayout>
