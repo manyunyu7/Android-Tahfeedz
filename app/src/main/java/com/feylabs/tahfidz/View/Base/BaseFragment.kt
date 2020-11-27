@@ -8,6 +8,7 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
+import com.crowdfire.cfalertdialog.CFAlertDialog
 import com.feylabs.tahfidz.R
 import com.feylabs.tahfidz.Util.SharedPreference.Preference
 import com.feylabs.tahfidz.Util.URL
@@ -113,6 +114,22 @@ open class BaseFragment : Fragment() {
         }else{
             Log.i("Tahfidz","Success Create Directory")
         }
+    }
+
+    fun cfAlert(message:String,bgColor:Int,textColor:Int) {
+        val cfAlert = CFAlertDialog.Builder(requireContext())
+            .setDialogStyle(CFAlertDialog.CFAlertStyle.NOTIFICATION)
+            .setTitle(message)
+            .setBackgroundColor(bgColor)
+            .setTextColor(textColor)
+            .setCancelable(true)
+            .addButton(
+                "OK", -1, -1, CFAlertDialog.CFAlertActionStyle.POSITIVE,
+                CFAlertDialog.CFAlertActionAlignment.END
+            ) { dialog, which ->
+                dialog.dismiss()
+            }
+        cfAlert.show()
     }
 
     fun addSurat() {

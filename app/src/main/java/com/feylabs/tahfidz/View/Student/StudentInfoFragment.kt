@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils.loadAnimation
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -24,6 +25,7 @@ import com.squareup.picasso.Picasso
 import com.tapadoo.alerter.Alerter
 import com.tapadoo.alerter.OnHideAlertListener
 import kotlinx.android.synthetic.main.fragment_student_info.*
+import kotlinx.android.synthetic.main.layout_change_password.*
 import kotlinx.android.synthetic.main.layout_loading_transparent.*
 
 
@@ -90,6 +92,63 @@ class StudentInfoFragment : BaseFragment() {
             Preference(requireContext()).getPrefString("student_id").toString()
         )
 
+        btnCloseChangePassword.setOnClickListener {
+            lyt_change_password.apply {
+                animation = loadAnimation(requireContext(), R.anim.item_animation_gone_bottom)
+                visibility = View.GONE
+            }
+        }
+
+        btnChangePassword.setOnClickListener {
+            lyt_change_password.apply {
+                animation = loadAnimation(requireContext(), R.anim.bottom_appear)
+                visibility = View.VISIBLE
+            }
+            btnSaveChangePassword.setOnClickListener {
+                val oldPass = etOldPassword.text.toString()
+                val newPass = etNewPassword.text.toString()
+                val newPassConf = etNewPasswordConfirmation.text.toString()
+                if (oldPass.isBlank() || newPass.isBlank() || newPassConf.isBlank()) {
+                    "Lengkapi Bidang Yang Ada Terlebih Dahulu".showToast()
+                } else {
+                    if (newPass != newPassConf) {
+                        etNewPassword.error = "Password Tidak Sesuai"
+                        etNewPasswordConfirmation.error = "Password Tidak Sesuai"
+                    } else {
+                        anim_loading.visibility=View.VISIBLE
+                        studentViewModel.changePassword(
+                            Preference(requireContext()).getPrefString("student_id").toString(),
+                            oldPass, newPass
+                        )
+                    }
+                }
+            }
+        }
+
+        studentViewModel.statusChangePassword.observe(viewLifecycleOwner, Observer {
+            when (it) {
+                3 -> {
+                    //Do Nothing;
+                }
+                1 -> {
+                    anim_loading.visibility=View.GONE
+                    "Update Password Berhasil".showToast()
+                    cfAlert(
+                        "Berhasil Mengupdate Password",
+                        R.color.alert_default_icon_color, R.color.colorWhite
+                    )
+                }
+                2 -> {
+                    anim_loading.visibility=View.GONE
+                    "Update Password Gagal".showToast()
+                    cfAlert(
+                        "Gagal Mengupdate Password",
+                        R.color.colorRedPastel, R.color.colorWhite
+                    )
+                }
+            }
+        })
+
 
         btnChangeProfile.setOnClickListener {
             requireContext().startActivity(Intent(requireContext(), UserChangeProfile::class.java))
@@ -112,6 +171,7 @@ class StudentInfoFragment : BaseFragment() {
                 studentViewModel.updateData(
                     id, name, email, contact
                 )
+
 
                 studentViewModel.statusUpdateBasic.observe(viewLifecycleOwner, Observer {
                     if (it == 1) {
@@ -179,10 +239,10 @@ class StudentInfoFragment : BaseFragment() {
             Preference(requireContext()).getPrefString("student_id").toString()
         )
         studentViewModel.statusGetUpdated.observe(viewLifecycleOwner, Observer {
-            if (it==3){
-                anim_loading.visibility=View.VISIBLE
+            if (it == 3) {
+                anim_loading.visibility = View.VISIBLE
             }
-            if (it==1) {
+            if (it == 1) {
                 anim_loading.visibility = View.GONE
                 val studentData = studentViewModel.getStudentData()
                 val groupData = studentViewModel.getGroupData()

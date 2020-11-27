@@ -22,8 +22,11 @@ class StudentViewModel : ViewModel() {
     var status = MutableLiveData<Boolean>()
     var statusGetUpdated = MutableLiveData<Int>()
     var statusUpdateBasic =  MutableLiveData<Int>()
+    var statusChangePassword =  MutableLiveData<Int>()
     var studentData = MutableLiveData<MutableMap<String,String>>()
     var groupData = MutableLiveData<MutableMap<String,String>>()
+
+//    var tempStatusChangePassword = 99
 
     var tempStudentData = mutableMapOf<String,String>()
     var tempGroupData = mutableMapOf<String,String>()
@@ -197,6 +200,37 @@ class StudentViewModel : ViewModel() {
 
             })
     }
+
+    fun changePassword(id:String,old:String,new:String){
+        var temp = 99
+        AndroidNetworking.post(URL.STUDENT_UPDATE_AUTH)
+            .addBodyParameter("student_id",id)
+            .addBodyParameter("old_password",old)
+            .addBodyParameter("new_password",new)
+            .build()
+            .getAsJSONObject(object :JSONObjectRequestListener{
+                override fun onResponse(response: JSONObject) {
+                    Log.i("FAN-stud-pass",response.toString())
+                    if(response.getInt("response_code")==1){
+                        temp=1
+                        statusChangePassword.value=1
+                    }else{
+                        statusChangePassword.postValue(2)
+                        statusChangePassword.value=2
+                        temp=2
+                    }
+                }
+
+                override fun onError(anError: ANError?) {
+                    Log.i("Error-Fan-update",anError.toString())
+                    temp=0
+                    statusChangePassword.value=0
+                }
+            })
+    }
+
+
+
 
 
 

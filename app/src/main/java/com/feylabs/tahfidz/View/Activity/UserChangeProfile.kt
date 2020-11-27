@@ -85,7 +85,8 @@ class UserChangeProfile : BaseActivity() {
                     anim_loading.visibility = View.GONE
                     if (response.getInt("response_code")==1) {
                         Log.i("FAN-prof",response.toString())
-                        success()
+                        cfAlert("Berhasil Mengganti Foto Profile",
+                        R.color.alert_default_icon_color,R.color.colorWhite)
                         makeToast("Berhasil Mengganti Foto Profile")
                     } else {
                         makeToast("Gagal Mengganti Foto Profile")
@@ -141,19 +142,6 @@ class UserChangeProfile : BaseActivity() {
         } else openGallery()
     }
 
-    private fun success() {
-        val cfAlert = CFAlertDialog.Builder(this)
-            .setDialogStyle(CFAlertDialog.CFAlertStyle.NOTIFICATION)
-            .setTitle("Update Profile Berhasil")
-            .setCancelable(true)
-            .addButton(
-                "OK", -1, -1, CFAlertDialog.CFAlertActionStyle.POSITIVE,
-                CFAlertDialog.CFAlertActionAlignment.END
-            ) { dialog, which ->
-                dialog.dismiss()
-            }
-        cfAlert.show()
-    }
 
     private fun failed() {
         val cfAlert = CFAlertDialog.Builder(this)

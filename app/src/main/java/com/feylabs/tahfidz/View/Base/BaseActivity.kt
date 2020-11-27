@@ -5,6 +5,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.crowdfire.cfalertdialog.CFAlertDialog
 import com.feylabs.tahfidz.R
 import com.feylabs.tahfidz.Util.SharedPreference.Preference
 import com.feylabs.tahfidz.Util.URL
@@ -37,5 +38,21 @@ open class BaseActivity : AppCompatActivity() {
                     Log.i("fan-url-profile-info",url)
                 }
             })
+    }
+
+    fun cfAlert(message:String,bgColor:Int,textColor:Int) {
+        val cfAlert = CFAlertDialog.Builder(this)
+            .setDialogStyle(CFAlertDialog.CFAlertStyle.NOTIFICATION)
+            .setTitle(message)
+            .setBackgroundColor(bgColor)
+            .setTextColor(textColor)
+            .setCancelable(true)
+            .addButton(
+                "OK", -1, -1, CFAlertDialog.CFAlertActionStyle.POSITIVE,
+                CFAlertDialog.CFAlertActionAlignment.END
+            ) { dialog, which ->
+                dialog.dismiss()
+            }
+        cfAlert.show()
     }
 }
