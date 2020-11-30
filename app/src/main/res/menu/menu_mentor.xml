@@ -4,14 +4,8 @@
         android:id="@+id/mentorHome"
         android:icon="@drawable/ic_baseline_home_24"
         android:title="Home" />
-
     <item
         android:id="@+id/mentorSubmission"
         android:icon="@drawable/ic_baseline_input_24"
         android:title="Setoran" />
-    <item
-        android:id="@+id/mentorInfo"
-        android:icon="@drawable/ic_baseline_info_24"
-        android:title="Info" />
-
 </menu>

@@ -39,7 +39,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/sf_pro_display_light"
                     android:textColor="#000"
-                    android:text="Login Musyrif"
+                    android:text="Login Muhafizh"
                     android:textSize="30sp"/>
                 <ImageButton
                     android:id="@+id/btnCloseLoginMentor"
@@ -56,7 +56,7 @@
                 android:id="@+id/containerUserName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Email"
+                android:hint="Nomor HP"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etUsernameMentor"
@@ -112,6 +112,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
+                android:visibility="gone"
                 android:gravity="center"
                 android:layout_marginTop="20dp"
                 android:layout_width="match_parent"

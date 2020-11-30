@@ -57,8 +57,8 @@
             app:cornerRadius="15dp"
             app:backgroundTint="@color/colorWhite"
             android:textColor="@color/colorBlack"
-            android:fontFamily="@font/montserrat_regular"
-            android:text="Pembimbing/Musyrif" />
+            android:fontFamily="@font/ambit_regular"
+            android:text="Muhafizh" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnShowLoginSiswa"
@@ -67,8 +67,8 @@
             app:cornerRadius="15dp"
             app:backgroundTint="@color/colorWhite"
             android:textColor="@color/colorBlack"
-            android:fontFamily="@font/montserrat_regular"
-            android:text="Siswa" />
+            android:fontFamily="@font/ambit_regular"
+            android:text="Hafizh" />
 
 
 

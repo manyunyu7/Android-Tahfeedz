@@ -36,11 +36,19 @@ import java.io.File
 
 class UserChangeProfile : BaseActivity() {
     var imageFile: File? = null
+    var isMentor = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_user_change_profile)
 
-        downloadPicasso(ivProfilePicChange)
+        isMentor = intent.getBooleanExtra("mentor", false)
+
+        if (isMentor) {
+            downloadPicassoTeacher(ivProfilePicChange)
+        } else {
+            downloadPicasso(ivProfilePicChange)
+        }
+
 
         btnChangeProfile.setOnClickListener {
             if (Build.VERSION.SDK_INT >= 22)
@@ -52,16 +60,21 @@ class UserChangeProfile : BaseActivity() {
             if (imageFile == null) {
                 makeToast("Anda Belum Melakukan Perubahan")
             } else {
-                updateProfilePic()
+                if (isMentor) {
+                    updateProfilePicMentor()
+                } else {
+                    updateProfilePic()
+                }
+
             }
         }
 
 
         btnBack.setOnClickListener {
             super.onBackPressed()
+            finish()
         }
     }
-
 
 
     private fun openGallery() {
@@ -74,6 +87,36 @@ class UserChangeProfile : BaseActivity() {
         Toast.makeText(this, message, Toast.LENGTH_LONG).show()
     }
 
+    fun updateProfilePicMentor() {
+        anim_loading.visibility = View.VISIBLE
+        AndroidNetworking.upload(URL.MENTOR_UPDATE_IMG)
+            .addMultipartFile("uploaded_files", imageFile)
+            .addMultipartParameter("mentor_id", Preference(this).getPrefString("mentor_id"))
+            .build()
+            .getAsJSONObject(object : JSONObjectRequestListener {
+                override fun onResponse(response: JSONObject) {
+                    anim_loading.visibility = View.GONE
+                    if (response.getInt("response_code") == 1) {
+                        Log.i("FAN-prof", response.toString())
+                        cfAlert(
+                            "Berhasil Mengganti Foto Profile",
+                            R.color.alert_default_icon_color, R.color.colorWhite
+                        )
+                        makeToast("Berhasil Mengganti Foto Profile")
+                    } else {
+                        makeToast("Gagal Mengganti Foto Profile")
+                    }
+                }
+
+                override fun onError(anError: ANError) {
+                    Log.i("FAN-prof", anError.toString())
+                    anim_loading.visibility = View.GONE
+                    failed()
+                    makeToast("Gagal Mengganti Foto Profil")
+                }
+            })
+    }
+
     fun updateProfilePic() {
         anim_loading.visibility = View.VISIBLE
         AndroidNetworking.upload(URL.STUDENT_UPDATE_IMG)
@@ -83,24 +126,26 @@ class UserChangeProfile : BaseActivity() {
             .getAsJSONObject(object : JSONObjectRequestListener {
                 override fun onResponse(response: JSONObject) {
                     anim_loading.visibility = View.GONE
-                    if (response.getInt("response_code")==1) {
-                        Log.i("FAN-prof",response.toString())
-                        cfAlert("Berhasil Mengganti Foto Profile",
-                        R.color.alert_default_icon_color,R.color.colorWhite)
+                    if (response.getInt("response_code") == 1) {
+                        Log.i("FAN-prof", response.toString())
+                        cfAlert(
+                            "Berhasil Mengganti Foto Profile",
+                            R.color.alert_default_icon_color, R.color.colorWhite
+                        )
                         makeToast("Berhasil Mengganti Foto Profile")
                     } else {
-                        makeToast("Gagal Mengganti Foto Profile")
+                        makeToast("Gagal Mengganti Foto Profile Karena")
                     }
                 }
 
                 override fun onError(anError: ANError) {
+                    Log.i("FAN-prof", anError.toString())
                     onBackPressed()
                     anim_loading.visibility = View.GONE
                     failed()
                     makeToast("Gagal Mengganti Foto Profil")
                 }
             })
-
     }
 
 

@@ -89,9 +89,11 @@ class CorrectionDetailActivity : BaseActivity() {
                     anim_loading.visibility=View.VISIBLE
                 }
             }
+            correction_note_student.loadUrl(url_sub_id)
             btnRefresh.setOnClickListener {
                 correction_note_student.loadUrl(url_sub_id)
             }
+            Log.i("url-correction",url_sub_id)
         }
 
         val correctionViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())

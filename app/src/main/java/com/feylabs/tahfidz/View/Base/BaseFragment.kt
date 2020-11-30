@@ -132,6 +132,27 @@ open class BaseFragment : Fragment() {
         cfAlert.show()
     }
 
+    fun downloadPicassoTeacher(target:ImageView) {
+        //Setting Up URL
+        val  url = URL.MENTOR_PHOTO + Preference(requireContext()).getPrefString("mentor_photo")
+        Picasso.get()
+            .load(url)
+            .memoryPolicy(MemoryPolicy.NO_CACHE)
+            .networkPolicy(NetworkPolicy.NO_CACHE)
+            .fit()
+            .placeholder(R.drawable.empty_profile)
+            .error(R.drawable.empty_profile)
+            .into(target, object : com.squareup.picasso.Callback {
+                override fun onSuccess() {
+                    Log.i("fan-url-teacher-photo",url)
+                }
+
+                override fun onError(e: java.lang.Exception?) {
+                    Log.i("fan-url-teacher-photo",url)
+                }
+            })
+    }
+
     fun addSurat() {
         s.clear()
         a.clear()

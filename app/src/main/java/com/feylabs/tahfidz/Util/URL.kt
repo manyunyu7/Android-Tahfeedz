@@ -12,6 +12,12 @@ object URL {
     const val STUDENT_UPDATE_BASIC = BASE_URL + "student/update_data_user.php"
     const val STUDENT_UPDATE_AUTH = BASE_URL + "student/update_pass_user.php"
 
+
+    const val MENTOR_DATA = BASE_URL + "mentor/mentor_info.php"
+    const val MENTOR_UPDATE = BASE_URL + "mentor/update_data_user.php"
+    const val MENTOR_PHOTO = BASE_URL + "mentor/"
+    const val MENTOR_UPDATE_IMG = BASE_URL + "mentor/update_img.php"
+
     const val GROUP_DATA = BASE_URL + "group/group_info.php"
 //    http://202.157.177.52/API-Tahfidz/group/grouping_mentor_info.php
     const val GROUPING_MENTOR = BASE_URL + "group/grouping_mentor_info.php"

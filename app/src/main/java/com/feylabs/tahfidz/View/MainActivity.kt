@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.feylabs.tahfidz.R
 import com.feylabs.tahfidz.Util.SharedPreference.Preference
 import com.feylabs.tahfidz.View.Base.BaseActivity
+import com.feylabs.tahfidz.View.Teacher.MentorLanding
 import com.feylabs.tahfidz.ViewModel.MentorViewModel
 import com.feylabs.tahfidz.ViewModel.MotivationViewModel
 import com.feylabs.tahfidz.ViewModel.StudentViewModel
@@ -50,6 +51,7 @@ class MainActivity : BaseActivity() {
                 "Mohon Isi Username dan Password Terlebih Dahulu".showToast()
             } else {
                 mentorViewModel.loginMentor(usr, pass)
+                anim_loading.visibility=View.VISIBLE
             }
         }
 

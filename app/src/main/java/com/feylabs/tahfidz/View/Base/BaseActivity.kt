@@ -40,6 +40,35 @@ open class BaseActivity : AppCompatActivity() {
             })
     }
 
+    fun downloadPicassoTeacher(target:ImageView) {
+        //Setting Up URL
+        val  url = URL.MENTOR_PHOTO + Preference(this).getPrefString("mentor_photo")
+        Picasso.get()
+            .load(url)
+            .memoryPolicy(MemoryPolicy.NO_CACHE)
+            .networkPolicy(NetworkPolicy.NO_CACHE)
+            .fit()
+            .placeholder(R.drawable.empty_profile)
+            .error(R.drawable.empty_profile)
+            .into(target, object : com.squareup.picasso.Callback {
+                override fun onSuccess() {
+                    Log.i("fan-url-teacher-photo",url)
+                }
+
+                override fun onError(e: java.lang.Exception?) {
+                    Log.i("fan-url-teacher-photo",url)
+                }
+            })
+    }
+
+    fun View.showz(){
+        this.visibility=View.VISIBLE
+    }
+
+    fun View.gonez(){
+        this.visibility=View.GONE
+    }
+
     fun cfAlert(message:String,bgColor:Int,textColor:Int) {
         val cfAlert = CFAlertDialog.Builder(this)
             .setDialogStyle(CFAlertDialog.CFAlertStyle.NOTIFICATION)
