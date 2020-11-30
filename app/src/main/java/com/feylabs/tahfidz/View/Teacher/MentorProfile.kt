@@ -1,20 +1,16 @@
 package com.feylabs.tahfidz.View.Teacher
 
 import android.content.Intent
-import android.content.SharedPreferences
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.animation.AnimationUtils
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.crowdfire.cfalertdialog.CFAlertDialog
 import com.feylabs.tahfidz.R
 import com.feylabs.tahfidz.Util.SharedPreference.Preference
-import com.feylabs.tahfidz.View.Activity.UserChangeProfile
-import com.feylabs.tahfidz.View.Base.BaseActivity
+import com.feylabs.tahfidz.View.SharedView.UserChangeProfile
+import com.feylabs.tahfidz.View.BaseView.BaseActivity
 import com.feylabs.tahfidz.View.MainActivity
 import com.feylabs.tahfidz.ViewModel.MentorViewModel
 import kotlinx.android.synthetic.main.activity_mentor_profile.*

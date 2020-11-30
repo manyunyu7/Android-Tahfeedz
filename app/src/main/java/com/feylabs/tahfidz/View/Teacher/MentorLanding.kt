@@ -8,16 +8,23 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.feylabs.tahfidz.Model.GroupAdapter
 import com.feylabs.tahfidz.R
 import com.feylabs.tahfidz.Util.SharedPreference.Preference
-import com.feylabs.tahfidz.View.Base.BaseActivity
-import com.feylabs.tahfidz.View.QuranModules.ListSurahActivity
+import com.feylabs.tahfidz.View.BaseView.BaseActivity
+import com.feylabs.tahfidz.View.QuranModulesViews.ListSurahActivity
 import com.feylabs.tahfidz.ViewModel.GroupViewModel
 import kotlinx.android.synthetic.main.activity_mentor_landing.*
-import kotlinx.android.synthetic.main.activity_mentor_profile.*
 import kotlinx.android.synthetic.main.layout_menu_mentor.*
 
 class MentorLanding : BaseActivity() {
     lateinit var adapterListGroup: GroupAdapter
     lateinit var groupViewModel: GroupViewModel
+
+    override fun onResume() {
+        super.onResume()
+        groupViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())
+            .get(GroupViewModel::class.java)
+        setLayout()
+
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,7 +32,9 @@ class MentorLanding : BaseActivity() {
         groupViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())
             .get(GroupViewModel::class.java)
 
-        downloadPicassoTeacher(mentorPhotos)
+        setLayout()
+
+
 
         adapterListGroup = GroupAdapter()
         groupViewModel.retrieveGroupList(Preference(this).getPrefString("mentor_id").toString())
@@ -33,7 +42,7 @@ class MentorLanding : BaseActivity() {
         rv_group.setHasFixedSize(true)
         rv_group.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
 
-        teacher_name_home.text = Preference(this).getPrefString("mentor_name")
+
 
         menuQuranCard.setOnClickListener {
             startActivity(Intent(this,ListSurahActivity::class.java))
@@ -60,5 +69,14 @@ class MentorLanding : BaseActivity() {
 
             }
         })
+    }
+
+    override fun onBackPressed() {
+        finish()
+    }
+
+    private fun setLayout(){
+        downloadPicassoTeacher(mentorPhotos)
+        teacher_name_home.text = Preference(this).getPrefString("mentor_name")
     }
 }

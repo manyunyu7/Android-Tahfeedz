@@ -15,11 +15,10 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.feylabs.tahfidz.R
 import com.feylabs.tahfidz.Util.SharedPreference.Preference
-import com.feylabs.tahfidz.View.Base.BaseFragment
+import com.feylabs.tahfidz.View.BaseView.BaseFragment
 import com.feylabs.tahfidz.ViewModel.UploadViewModel
 import com.github.squti.androidwaverecorder.WaveRecorder
 import kotlinx.android.synthetic.main.fragment_student_submission.*
-import kotlinx.coroutines.Runnable
 import java.io.File
 import java.util.*
 

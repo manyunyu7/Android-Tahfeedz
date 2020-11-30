@@ -9,7 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.feylabs.tahfidz.R
 import com.feylabs.tahfidz.Util.SharedPreference.Preference
-import com.feylabs.tahfidz.View.Base.BaseActivity
+import com.feylabs.tahfidz.View.BaseView.BaseActivity
 import com.feylabs.tahfidz.View.Teacher.MentorLanding
 import com.feylabs.tahfidz.ViewModel.MentorViewModel
 import com.feylabs.tahfidz.ViewModel.MotivationViewModel

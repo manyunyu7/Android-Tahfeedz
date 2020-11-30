@@ -1,15 +1,13 @@
-package com.feylabs.tahfidz.View.Activity
+package com.feylabs.tahfidz.View.SharedView
 
 import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -20,11 +18,7 @@ import com.crowdfire.cfalertdialog.CFAlertDialog
 import com.feylabs.tahfidz.R
 import com.feylabs.tahfidz.Util.SharedPreference.Preference
 import com.feylabs.tahfidz.Util.URL
-import com.feylabs.tahfidz.View.Base.BaseActivity
-import com.feylabs.tahfidz.View.MainActivity
-import com.squareup.picasso.MemoryPolicy
-import com.squareup.picasso.NetworkPolicy
-import com.squareup.picasso.Picasso
+import com.feylabs.tahfidz.View.BaseView.BaseActivity
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImageView
 import kotlinx.android.synthetic.main.activity_user_change_profile.*

@@ -14,8 +14,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.feylabs.tahfidz.Model.MotAdapter
 import com.feylabs.tahfidz.R
 import com.feylabs.tahfidz.Util.SharedPreference.Preference
-import com.feylabs.tahfidz.View.Base.BaseFragment
-import com.feylabs.tahfidz.View.QuranModules.ListSurahActivity
+import com.feylabs.tahfidz.View.BaseView.BaseFragment
+import com.feylabs.tahfidz.View.QuranModulesViews.ListSurahActivity
 import com.feylabs.tahfidz.ViewModel.MotivationViewModel
 import com.feylabs.tahfidz.ViewModel.StudentViewModel
 import com.squareup.picasso.Picasso

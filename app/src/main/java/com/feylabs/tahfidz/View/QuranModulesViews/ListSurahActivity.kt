@@ -1,4 +1,4 @@
-package com.feylabs.tahfidz.View.QuranModules
+package com.feylabs.tahfidz.View.QuranModulesViews
 
 
 import android.annotation.SuppressLint
@@ -15,7 +15,6 @@ import com.androidnetworking.error.ANError
 import com.androidnetworking.interfaces.JSONArrayRequestListener
 import com.feylabs.tahfidz.Model.QuranModul.ModelSurah
 import com.feylabs.tahfidz.Model.QuranModul.SurahAdapter
-import com.feylabs.tahfidz.Model.TeacherInboundSubmission.Companion.newInstance
 import com.feylabs.tahfidz.R
 import com.feylabs.tahfidz.Util.QuranAPI.Api
 import kotlinx.android.synthetic.main.activity_list_surah.*

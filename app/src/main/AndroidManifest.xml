@@ -18,8 +18,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".View.Teacher.MentorProfile"></activity>
-        <activity android:name=".View.QuranModules.DetailSurahActivity" />
+        <activity android:name=".View.MentorQuiz"></activity>
+        <activity android:name=".View.Teacher.MentorProfile" />
+        <activity android:name=".View.QuranModulesViews.DetailSurahActivity" />
         <activity android:name=".Model.TeacherRateSubmission" />
         <activity android:name=".View.MentorContainer" />
         <activity android:name=".View.Teacher.MentorLanding" />
@@ -27,9 +28,9 @@
         <activity android:name=".ViewModel.MotDetail" />
         <activity android:name=".View.SubmissionDetailStudent" />
         <activity android:name=".View.StudentContainer" />
-        <activity android:name=".View.Base.MusicActivity" />
-        <activity android:name=".View.QuranModules.ListSurahActivity" />
-        <activity android:name=".View.Activity.UserChangeProfile"></activity>
+        <activity android:name=".View.BaseView.MusicActivity" />
+        <activity android:name=".View.QuranModulesViews.ListSurahActivity" />
+        <activity android:name=".View.SharedView.UserChangeProfile" />
         <activity android:name=".View.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

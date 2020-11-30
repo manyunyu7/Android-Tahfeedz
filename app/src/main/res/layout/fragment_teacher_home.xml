@@ -40,20 +40,6 @@
                         android:orientation="vertical"
                         android:padding="20dp">
 
-                        <androidx.cardview.widget.CardView
-                            android:id="@+id/card"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
-                            android:layout_centerInParent="true"
-                            android:visibility="visible"
-                            app:cardCornerRadius="30dp">
-
-                            <ImageView
-                                android:layout_width="60dp"
-                                android:layout_height="60dp"
-                                android:src="@drawable/empty_profile" />
-                        </androidx.cardview.widget.CardView>
 
                         <TextView
                             android:id="@+id/greeting"
@@ -61,27 +47,11 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentStart="true"
                             android:layout_alignParentTop="true"
-                            android:layout_toLeftOf="@id/card"
                             android:fontFamily="@font/sf_pro_rounded"
-                            android:text="Ahlan wa Sahlan"
+                            android:text="Menu Kelompok"
                             android:textColor="@color/colorWhite"
-                            android:textSize="17sp"
+                            android:textSize="25sp"
                             android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/teacher_name_home"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/greeting"
-                            android:layout_alignParentStart="true"
-                            android:layout_toLeftOf="@id/card"
-                            android:fontFamily="@font/sf_pro_rounded"
-                            android:maxLines="1"
-                            android:text="Razky Febriansyah"
-                            android:textColor="@color/colorWhite"
-                            android:textSize="20sp"
-                            android:textStyle="bold" />
-
 
                     </RelativeLayout>
                 </FrameLayout>
@@ -137,7 +107,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_toRightOf="@id/card"
                                 android:fontFamily="@font/ambit_regular"
-                                android:text="Aplikasi Tahfidz SDS Islamiyah Bantaeng"
+                                android:text="Aplikasi Tahfidz SD-IT Islamiyah Bantaeng"
                                 android:textColor="@color/colorBlack"
                                 android:textSize="18sp"
                                 android:visibility="visible" />
@@ -148,31 +118,63 @@
             </RelativeLayout>
 
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp">
 
-                <TextView
-                    android:id="@+id/textView"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:fontFamily="@font/ambit_regular"
-                    android:maxLines="1"
-                    android:text="Kelompok"
-                    android:textColor="@color/colorBlack"
-                    android:textSize="25sp"
-                    android:textStyle="bold"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/studentMentor" />
+                    app:layout_constraintTop_toBottomOf="@+id/studentMentor">
+
+                    <TextView
+                        android:id="@+id/textView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:fontFamily="@font/quicksand_regular"
+                        android:maxLines="1"
+                        android:text="Menu Kelompok"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="25sp"
+                        android:textStyle="bold" />
+
+                    <include layout="@layout/layout_menu_group"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:fontFamily="@font/quicksand_regular"
+                        android:maxLines="1"
+                        android:text="Anggota Kelas"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="25sp"
+                        android:textStyle="bold" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_list_member"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        tools:listitem="@layout/list_member"
+                        />
+                </LinearLayout>
 
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            </LinearLayout>
 
         </LinearLayout>
     </ScrollView>
+    <include
+        android:id="@+id/anim_loading"
+        layout="@layout/layout_loading_transparent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

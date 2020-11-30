@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.feylabs.tahfidz.Model.SubmissionAdapter
 import com.feylabs.tahfidz.R
 import com.feylabs.tahfidz.Util.SharedPreference.Preference
-import com.feylabs.tahfidz.View.Base.BaseFragment
+import com.feylabs.tahfidz.View.BaseView.BaseFragment
 import com.feylabs.tahfidz.ViewModel.SubmissionViewModel
 import kotlinx.android.synthetic.main.fragment_submission_history.*
 import kotlinx.android.synthetic.main.layout_no_data.*

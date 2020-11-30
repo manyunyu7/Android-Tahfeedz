@@ -1,11 +1,10 @@
-package com.feylabs.tahfidz.View.Base
+package com.feylabs.tahfidz.View.BaseView
 
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.support.v4.media.session.PlaybackStateCompat
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContentProviderCompat.requireContext
 import com.feylabs.tahfidz.R
 import dm.audiostreamer.AudioStreamingManager
 import dm.audiostreamer.CurrentSessionCallback

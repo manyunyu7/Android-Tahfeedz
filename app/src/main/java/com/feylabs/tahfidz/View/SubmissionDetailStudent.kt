@@ -16,7 +16,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.feylabs.tahfidz.Model.SubmissionModel
 import com.feylabs.tahfidz.R
 import com.feylabs.tahfidz.Util.URL
-import com.feylabs.tahfidz.View.Base.BaseActivity
+import com.feylabs.tahfidz.View.BaseView.BaseActivity
 import com.feylabs.tahfidz.ViewModel.SubmissionViewModel
 import com.tapadoo.alerter.Alerter
 import kotlinx.android.synthetic.main.activity_submission_detail_student.*

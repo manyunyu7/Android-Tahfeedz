@@ -1,9 +1,8 @@
-package com.feylabs.tahfidz.View.Base
+package com.feylabs.tahfidz.View.BaseView
 
 import android.content.pm.PackageManager
 import android.os.Environment
 import android.util.Log
-import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
@@ -15,7 +14,6 @@ import com.feylabs.tahfidz.Util.URL
 import com.squareup.picasso.MemoryPolicy
 import com.squareup.picasso.NetworkPolicy
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.layout_loading_transparent.*
 import java.io.File
 
 

@@ -1,4 +1,4 @@
-package com.feylabs.tahfidz.View.QuranModules
+package com.feylabs.tahfidz.View.QuranModulesViews
 
 import android.annotation.SuppressLint
 import android.app.ProgressDialog
@@ -28,7 +28,6 @@ import com.feylabs.tahfidz.Model.QuranModul.ModelSurah
 import com.feylabs.tahfidz.R
 import com.feylabs.tahfidz.Util.QuranAPI.Api
 import com.feylabs.tahfidz.Util.URL
-import kotlinx.android.synthetic.main.activity_correction_detail.*
 
 import kotlinx.android.synthetic.main.activity_detail_surah.*
 import org.json.JSONArray

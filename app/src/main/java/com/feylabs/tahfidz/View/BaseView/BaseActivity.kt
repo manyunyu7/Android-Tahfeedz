@@ -1,4 +1,4 @@
-package com.feylabs.tahfidz.View.Base
+package com.feylabs.tahfidz.View.BaseView
 
 import android.util.Log
 import android.view.View
@@ -12,8 +12,6 @@ import com.feylabs.tahfidz.Util.URL
 import com.squareup.picasso.MemoryPolicy
 import com.squareup.picasso.NetworkPolicy
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.fragment_student_info.*
-import kotlinx.android.synthetic.main.layout_loading_transparent.*
 
 open class BaseActivity : AppCompatActivity() {
 
