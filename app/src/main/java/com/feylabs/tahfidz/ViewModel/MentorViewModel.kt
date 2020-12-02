@@ -14,6 +14,7 @@ import org.json.JSONObject
 
 
 class MentorViewModel : ViewModel() {
+    var loginStatus = MutableLiveData<Int>()
     var status = MutableLiveData<MutableMap<String, String>>()
     var tempStatus = mutableMapOf<String, String>()
 
@@ -24,14 +25,17 @@ class MentorViewModel : ViewModel() {
     var statusGetUpdated = MutableLiveData<Int>()
     var statusUpdateBasic = MutableLiveData<Int>()
 
+    var statusChangePassword = MutableLiveData<Int>()
+
     var mentorData = MutableLiveData<MutableMap<String, String>>()
-    var mentorGroupData = MutableLiveData<MutableMap<String, String>>()
+    var mentorDataAfterUpdate = MutableLiveData<MutableMap<String, String>>()
 
     var tempMentorData = mutableMapOf<String, String>()
     var tempGetUpdated = mutableMapOf<String, String>()
     var tempGroupData = mutableMapOf<String, String>()
 
     fun loginMentor(username: String, password: String) {
+        loginStatus.postValue(3)
         AndroidNetworking.post(URL.LOGIN_MENTOR)
             .addBodyParameter("username", username)
             .addBodyParameter("password", password)
@@ -40,6 +44,7 @@ class MentorViewModel : ViewModel() {
                 override fun onResponse(response: JSONObject) {
                     Log.e("FAN INFO", response.toString())
                     if (response.getInt("http_code") == 200) {
+                        loginStatus.postValue(1)
                         val mentor = response.getJSONObject("mentor")
                         mentor.apply {
                             val id = getString("id")
@@ -67,6 +72,7 @@ class MentorViewModel : ViewModel() {
                         mentorData.postValue(tempMentorData)
 
                     } else {
+                        loginStatus.postValue(2)
                         tempStatus.put("code", "404")
                         tempStatus.put("status", response.getString("message"))
 
@@ -76,6 +82,7 @@ class MentorViewModel : ViewModel() {
                 }
 
                 override fun onError(anError: ANError) {
+                    loginStatus.postValue(0)
                     tempStatus.put("code", "404")
                     tempStatus.put("status", anError.errorDetail.toString())
 
@@ -88,7 +95,8 @@ class MentorViewModel : ViewModel() {
 
     fun getUpdatedData(id: String, context: Context) {
         var tempStatusGetUpdated = 3
-        statusGetUpdated.value = 3
+        statusGetUpdated.postValue(3)
+        var tempUpdatedData = mutableMapOf<String,String>()
         AndroidNetworking.post(URL.MENTOR_DATA)
             .addBodyParameter("id", id)
             .build()
@@ -98,7 +106,7 @@ class MentorViewModel : ViewModel() {
                     Log.e("FAN INFO", response.toString())
                     if (response.getInt("http_code") == 200) {
                         tempStatusGetUpdated = 1
-                        statusGetUpdated.value = 1
+                        statusGetUpdated.postValue(1)
                         val mentor = response.getJSONObject("mentor")
                         mentor.apply {
                             val id = getString("id")
@@ -117,24 +125,44 @@ class MentorViewModel : ViewModel() {
                             tempGetUpdated["created_at"] = created_at
                             tempGetUpdated["updated_at"] = updated_at
 
-                            for ((key, value) in tempGetUpdated) {
-                                Log.i("pref mentor $key", value)
-                                Preference(context).save(key, value)
-                            }
+                            mentorDataAfterUpdate.postValue(tempGetUpdated)
                         }
                     } else {
                         tempStatusGetUpdated = 2
-                        statusGetUpdated.value = 2
+                        statusGetUpdated.postValue(2)
                     }
                 }
 
                 override fun onError(anError: ANError) {
-                    statusGetUpdated.value = 0
                     tempStatusGetUpdated = 0
+                    statusGetUpdated.postValue(0)
                     Log.i("fan-info-update", anError.toString())
                 }
             })
         statusGetUpdated.value = tempStatusGetUpdated
+    }
+
+    fun changePassword(id: String, old: String, new: String) {
+        AndroidNetworking.post(URL.MENTOR_UPDATE_AUTH)
+            .addBodyParameter("mentor_id", id)
+            .addBodyParameter("old_password", old)
+            .addBodyParameter("new_password", new)
+            .build()
+            .getAsJSONObject(object : JSONObjectRequestListener {
+                override fun onResponse(response: JSONObject) {
+                    Log.i("FAN-mentor-pass", response.toString())
+                    if (response.getInt("response_code") == 1) {
+                        statusChangePassword.postValue(1)
+                    } else {
+                        statusChangePassword.postValue(2)
+                    }
+                }
+
+                override fun onError(anError: ANError?) {
+                    Log.i("Error-Fan-update", anError.toString())
+                    statusChangePassword.postValue(0)
+                }
+            })
     }
 
     fun updateData(id: String, name: String, email: String, contact: String) {

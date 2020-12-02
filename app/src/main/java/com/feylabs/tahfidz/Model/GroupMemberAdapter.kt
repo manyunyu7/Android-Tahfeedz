@@ -1,22 +1,21 @@
 package com.feylabs.tahfidz.Model
 
-import android.content.Intent
+import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.Navigation
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.crowdfire.cfalertdialog.CFAlertDialog
 import com.feylabs.tahfidz.R
-import com.feylabs.tahfidz.Util.SharedPreference.Preference
 import com.feylabs.tahfidz.Util.URL
-import com.feylabs.tahfidz.View.MainActivity
-import com.feylabs.tahfidz.View.MentorContainer
 import com.squareup.picasso.MemoryPolicy
 import com.squareup.picasso.NetworkPolicy
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.activity_mentor_profile.*
 import kotlinx.android.synthetic.main.list_member.view.*
+
 
 class GroupMemberAdapter : RecyclerView.Adapter<GroupMemberAdapter.HolderGroupMemberAdapter>() {
     var listGroup = mutableListOf<GroupMemberModel>()
@@ -51,12 +50,12 @@ class GroupMemberAdapter : RecyclerView.Adapter<GroupMemberAdapter.HolderGroupMe
     override fun onBindViewHolder(holder: HolderGroupMemberAdapter, position: Int) {
         val context = holder.itemView.context
         holder.name.text = listGroup[position].name
-        holder.nisn.text=listGroup[position].student_nisn
-        holder.u_class.text=listGroup[position].student_class
+        holder.nisn.text = listGroup[position].student_nisn
+        holder.u_class.text = listGroup[position].student_class
 
-        var studentProfileUrl = URL.STUDENT_PHOTO+listGroup[position].student_photo
+        var studentProfileUrl = URL.STUDENT_PHOTO + listGroup[position].student_photo
 
-        if (listGroup[position].student_gender=="L"){
+        if (listGroup[position].student_gender == "L") {
             Picasso.get()
                 .load(studentProfileUrl)
                 .memoryPolicy(MemoryPolicy.NO_CACHE)
@@ -66,14 +65,14 @@ class GroupMemberAdapter : RecyclerView.Adapter<GroupMemberAdapter.HolderGroupMe
                 .error(R.drawable.ic_student_moslem)
                 .into(holder.studentPhoto, object : com.squareup.picasso.Callback {
                     override fun onSuccess() {
-                        Log.i("fan-url-teacher-photo",studentProfileUrl)
+                        Log.i("fan-url-teacher-photo", studentProfileUrl)
                     }
 
                     override fun onError(e: java.lang.Exception?) {
-                        Log.i("fan-url-teacher-photo",studentProfileUrl)
+                        Log.i("fan-url-teacher-photo", studentProfileUrl)
                     }
                 })
-        }else{
+        } else {
             Picasso.get()
                 .load(studentProfileUrl)
                 .memoryPolicy(MemoryPolicy.NO_CACHE)
@@ -83,36 +82,41 @@ class GroupMemberAdapter : RecyclerView.Adapter<GroupMemberAdapter.HolderGroupMe
                 .error(R.drawable.ic_student_moslemah)
                 .into(holder.studentPhoto, object : com.squareup.picasso.Callback {
                     override fun onSuccess() {
-                        Log.i("fan-url-teacher-photo",studentProfileUrl)
+                        Log.i("fan-url-teacher-photo", studentProfileUrl)
                     }
 
                     override fun onError(e: java.lang.Exception?) {
-                        Log.i("fan-url-teacher-photo",studentProfileUrl)
+                        Log.i("fan-url-teacher-photo", studentProfileUrl)
                     }
                 })
         }
 
         val mContext = holder.itemView.context
         holder.itemView.setOnClickListener {
-                val cfAlert = CFAlertDialog.Builder(mContext)
-                    .setDialogStyle(CFAlertDialog.CFAlertStyle.ALERT)
-                    .setTitle("Pilih Fitur")
-                    .addButton(
-                        "Lihat Setoran Siswa",
-                        -1,
-                        -1,
-                        CFAlertDialog.CFAlertActionStyle.DEFAULT,
-                        CFAlertDialog.CFAlertActionAlignment.END
-                    ) { dialog, which ->
-                        dialog.dismiss()
-                    }
-                    .addButton(
-                        "Lihat Profil Siswa", -1, -1, CFAlertDialog.CFAlertActionStyle.DEFAULT,
-                        CFAlertDialog.CFAlertActionAlignment.END
-                    ) { dialog, which ->
-                        dialog.dismiss()
-                    }
-                cfAlert.show()
+            val cfAlert = CFAlertDialog.Builder(mContext)
+                .setDialogStyle(CFAlertDialog.CFAlertStyle.ALERT)
+                .setTitle("Pilih Fitur")
+                .addButton(
+                    "Lihat Setoran Siswa",
+                    -1,
+                    -1,
+                    CFAlertDialog.CFAlertActionStyle.DEFAULT,
+                    CFAlertDialog.CFAlertActionAlignment.START
+                ) { dialog, which ->
+                    dialog.dismiss()
+                    val bundle = Bundle()
+                    bundle.putString("student_id", listGroup[position].student_id)
+                    bundle.putBoolean("isIndividually", true)
+                    holder.itemView.findNavController().navigate(R.id.mentorSubmission, bundle)
+//                        Navigation.findNavController(holder.itemView).navigate(R.id.submissionHistoryFragment, bundle)
+                }
+                .addButton(
+                    "Kembali", -1, -1, CFAlertDialog.CFAlertActionStyle.DEFAULT,
+                    CFAlertDialog.CFAlertActionAlignment.START
+                ) { dialog, which ->
+                    dialog.dismiss()
+                }
+            cfAlert.show()
         }
     }
 }

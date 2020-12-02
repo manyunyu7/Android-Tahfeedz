@@ -22,13 +22,67 @@ class GroupViewModel : ViewModel() {
     // 3 : Loading
     // 0 : Failed
 
+    var group_announcement_text = MutableLiveData<String>()
 
     var groupMember = MutableLiveData<MutableList<GroupMemberModel>>()
     var tempGroupMember = mutableListOf<GroupMemberModel>()
-
+    var statusRetrieveGroupAnnouncement = MutableLiveData<Int>()
+    var statusUpdateAnnouncement = MutableLiveData<Int>()
     var status = false
+    fun retrieveGroupAnnouncement(group_id:String){
+        statusRetrieveGroupAnnouncement.postValue(3)
+        Log.i("Fan-Group-announcement", "Group_id : $group_id")
+        AndroidNetworking.post(URL.GROUP_ANNOUNCEMENT)
+            .addBodyParameter("group_id", group_id)
+            .build()
+            .getAsJSONObject(object : JSONObjectRequestListener {
+                override fun onResponse(response: JSONObject?) {
+                    Log.i("Fan-Group-announcement", response.toString())
+                    if (response?.getInt("response_code") == 1 ) {
+                        statusRetrieveGroupAnnouncement.postValue(1)
+                        group_announcement_text.postValue(response.getString("announcement"))
+                    } else {
+                        statusRetrieveGroupAnnouncement.postValue(2)
+                    }
+                }
+
+                override fun onError(anError: ANError?) {
+                    Log.i("Fan-Group-announcement", anError.toString())
+                    statusRetrieveGroupAnnouncement.postValue(0)
+                }
+
+            })
+    }
+
+    fun updateGroupAnnouncement(group_id: String,announcement:String){
+        statusUpdateAnnouncement.postValue(3)
+        Log.i("Fan-update-announcement", "Group_id : $group_id")
+        AndroidNetworking.post(URL.UPDATE_ANNOUNCEMENT)
+            .addBodyParameter("group_id", group_id)
+            .addBodyParameter("text_announcement", announcement)
+            .build()
+            .getAsJSONObject(object : JSONObjectRequestListener {
+                override fun onResponse(response: JSONObject?) {
+                    Log.i("Fan-update-announcement", response.toString())
+                    if (response?.getInt("response_code") == 1 ) {
+                        statusUpdateAnnouncement.postValue(1)
+                    } else {
+                        statusUpdateAnnouncement.postValue(2)
+                    }
+                }
+
+                override fun onError(anError: ANError?) {
+                    Log.i("Fan-update-announcement", anError.toString())
+                    statusUpdateAnnouncement.postValue(0)
+                }
+
+            })
+    }
+
+
 
     fun retrieveGroupList(mentor_id: String) {
+        tempGroupList.clear()
         AndroidNetworking.post(URL.GROUPING_MENTOR)
             .addBodyParameter("mentor_id", mentor_id)
             .build()

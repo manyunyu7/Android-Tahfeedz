@@ -10,7 +10,8 @@
             android:layout_height="wrap_content">
 
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/btn_panduan_mentee"
+                android:visibility="gone"
+                android:id="@+id/btnMenuAnnounce"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
@@ -49,7 +50,7 @@
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/btnEditProfile"
+                android:id="@+id/btnMenuQuiz"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
@@ -78,7 +79,7 @@
                         android:layout_weight="1"
                         android:fontFamily="@font/montserrat_regular"
                         android:gravity="center"
-                        android:text="\nQuiz"
+                        android:text="Atur Quiz"
                         android:textAlignment="center"
                         android:textColor="#5E5E5E" />
                 </LinearLayout>

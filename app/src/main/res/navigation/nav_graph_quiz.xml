@@ -1,5 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/nav_graph_quiz">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph_quiz"
+    app:startDestination="@id/mentorQuizFragment">
 
+    <fragment
+        android:id="@+id/mentorQuizFragment"
+        android:name="com.feylabs.tahfidz.View.SharedView.HomeQuizFragment"
+        android:label="fragment_mentor_quiz"
+        tools:layout="@layout/fragment_mentor_quiz" />
+    <fragment
+        android:id="@+id/mentorAddQuizFragment"
+        android:name="com.feylabs.tahfidz.View.Teacher.MentorAddQuizFragment"
+        android:label="fragment_mentor_add_quiz"
+        tools:layout="@layout/fragment_mentor_add_quiz" />
+    <fragment
+        android:id="@+id/submissionHistoryFragment"
+        android:name="com.feylabs.tahfidz.View.SubmissionHistoryFragment"
+        android:label="SubmissionHistoryFragment"
+        />
 </navigation>

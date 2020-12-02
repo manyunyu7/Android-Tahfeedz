@@ -16,11 +16,13 @@ import com.feylabs.tahfidz.R
 import com.feylabs.tahfidz.Util.SharedPreference.Preference
 import com.feylabs.tahfidz.View.BaseView.BaseFragment
 import com.feylabs.tahfidz.View.QuranModulesViews.ListSurahActivity
+import com.feylabs.tahfidz.View.SharedView.MentorQuiz
 import com.feylabs.tahfidz.ViewModel.MotivationViewModel
 import com.feylabs.tahfidz.ViewModel.StudentViewModel
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_student_home.*
 import kotlinx.android.synthetic.main.layout_loading_transparent.*
+import kotlinx.android.synthetic.main.layout_menu_group.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -65,8 +67,28 @@ class StudentHomeFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         shimmerMotCardStudentInfo.startShimmer()
+
+        swipeRefreshStudentHome.setOnRefreshListener {
+            swipeRefreshStudentHome.isRefreshing=false
+            studentViewModel.getStudentData(Preference(requireContext()).getPrefString("student_ID").toString())
+            anim_loading.visibility=View.VISIBLE
+        }
+
+        if (!isOnline()) {
+            NoInternet(
+                R.color.alert_default_icon_color, R.color.colorWhite
+            )
+        }
+
+
         menuQuranCard.setOnClickListener {
             startActivity(Intent(requireContext(),ListSurahActivity::class.java))
+        }
+        btnMenuQuiz.setOnClickListener {
+            requireContext().startActivity(
+                Intent(requireContext(),
+                    MentorQuiz::class.java)
+            )
         }
         downloadPicasso(profile_pic)
         studentViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())
@@ -122,9 +144,17 @@ class StudentHomeFragment : BaseFragment() {
             Log.i("id_group",Preference(requireContext()).getPrefString("id_group").toString())
             studentGroup.text = "${Preference(requireContext()).getPrefString("group_name")}"
             studentMentor.text = Preference(requireContext()).getPrefString("group_mentor_name")
+            val announcement = Preference(requireContext()).getPrefString("group_announcement").toString()
+            Log.i("Announcement",announcement)
+            if (announcement=="" || announcement==null || announcement=="null"){
+                studentAnnouncement.text="Belum Ada Pengumuman"
+            }else{
+                studentAnnouncement.text=announcement
+            }
             student_mentor_contact.text =
                 "${Preference(requireContext()).getPrefString("group_mentor_contact")}"
         } else {
+            studentAnnouncement.text = "Anda Belum Memiliki Kelompok"
             studentGroup.text = "${getString(R.string.group)} :\nAnda Belum Terdaftar Di Kelompok"
             studentMentor.text = "-"
             student_mentor_contact.text= "-"

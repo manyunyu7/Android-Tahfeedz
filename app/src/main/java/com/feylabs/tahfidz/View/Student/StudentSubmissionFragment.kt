@@ -1,4 +1,4 @@
-package com.feylabs.tahfidz.View
+package com.feylabs.tahfidz.View.Student
 
 import android.content.pm.PackageManager
 import android.media.MediaPlayer
@@ -19,6 +19,8 @@ import com.feylabs.tahfidz.View.BaseView.BaseFragment
 import com.feylabs.tahfidz.ViewModel.UploadViewModel
 import com.github.squti.androidwaverecorder.WaveRecorder
 import kotlinx.android.synthetic.main.fragment_student_submission.*
+import kotlinx.android.synthetic.main.fragment_student_submission.anim_upload
+import kotlinx.android.synthetic.main.layout_loading_upload.*
 import java.io.File
 import java.util.*
 
@@ -279,14 +281,27 @@ class StudentSubmissionFragment : BaseFragment() {
 
 
         uploadViewModel.uploadFile(File(path), xstudent_id, xstudent_name, xgroup_id, start, end)
+        uploadViewModel.uploadedListener.observe(viewLifecycleOwner, Observer {
+            if (it!=null){
+                textUploadListener.text=it
+            }else{
+                textUploadListener.text="Loading"
+            }
+        })
         uploadViewModel.status.observe(viewLifecycleOwner, Observer {
             if (it) {
                 anim_upload.visibility = View.GONE
                 checkIfLocalFileExist()
-                "Success".showToast()
+                cfAlert(
+                    "Berhasil Mengupload Setoran",
+                    R.color.alert_default_icon_color, R.color.colorWhite
+                )
             } else {
                 anim_upload.visibility = View.GONE
-                "Gagal".showToast()
+                cfAlert(
+                    "Gagal Mengupload Setoran",
+                    R.color.alert_default_icon_color, R.color.colorWhite
+                )
                 checkIfLocalFileExist()
             }
         })
@@ -307,16 +322,20 @@ class StudentSubmissionFragment : BaseFragment() {
     private fun initializeSeekBar() {
         seekBarLocal.max = mp.duration
 
-        timerOS.scheduleAtFixedRate(object : TimerTask() {
-            override fun run() {
-                try {
-                    seekBarLocal.progress = mp.currentPosition
-                } catch (e: Exception) {
-                    seekBarLocal.progress = 0
+        try{
+            timerOS.scheduleAtFixedRate(object : TimerTask() {
+                override fun run() {
+                    try {
+                        seekBarLocal.progress = mp.currentPosition
+                    } catch (e: Exception) {
+                        seekBarLocal.progress = 0
+                    }
                 }
+            }, 0, 1000)
+        }catch (e : Exception){
+            //Nothing To DO
+        }
 
-            }
-        }, 0, 1000)
     }
 
     private fun playSound(path: String) {

@@ -15,7 +15,7 @@ import com.feylabs.tahfidz.R
 import com.feylabs.tahfidz.Util.SharedPreference.Preference
 import com.feylabs.tahfidz.View.SharedView.UserChangeProfile
 import com.feylabs.tahfidz.View.BaseView.BaseFragment
-import com.feylabs.tahfidz.View.MainActivity
+import com.feylabs.tahfidz.View.SharedView.MainActivity
 import com.feylabs.tahfidz.ViewModel.StudentViewModel
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_student_info.*

@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <uses-feature
         android:glEsVersion="0x00020000"
@@ -18,7 +19,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".View.MentorQuiz"></activity>
+        <activity android:name=".View.SharedView.WebsiteActivity"></activity>
+        <activity android:name=".View.SharedView.MentorQuiz" />
         <activity android:name=".View.Teacher.MentorProfile" />
         <activity android:name=".View.QuranModulesViews.DetailSurahActivity" />
         <activity android:name=".Model.TeacherRateSubmission" />
@@ -31,7 +33,7 @@
         <activity android:name=".View.BaseView.MusicActivity" />
         <activity android:name=".View.QuranModulesViews.ListSurahActivity" />
         <activity android:name=".View.SharedView.UserChangeProfile" />
-        <activity android:name=".View.MainActivity">
+        <activity android:name=".View.SharedView.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

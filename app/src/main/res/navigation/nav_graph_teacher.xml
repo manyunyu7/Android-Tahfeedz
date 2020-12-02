@@ -7,14 +7,9 @@
 
     <fragment
         android:id="@+id/mentorHome"
-        android:name="com.feylabs.tahfidz.View.Teacher.TeacherHomeFragment"
+        android:name="com.feylabs.tahfidz.View.Teacher.MentorHomeFragment"
         android:label="fragment_teacher_home"
         tools:layout="@layout/fragment_teacher_home" />
-    <fragment
-        android:id="@+id/mentorInfo"
-        android:name="com.feylabs.tahfidz.View.SharedView.TeacherInfoFragment"
-        android:label="TeacherInfoFragment"
-        tools:layout="@layout/fragment_teacher_info" />
     <fragment
         android:id="@+id/mentorSubmission"
         android:name="com.feylabs.tahfidz.View.SubmissionHistoryFragment"

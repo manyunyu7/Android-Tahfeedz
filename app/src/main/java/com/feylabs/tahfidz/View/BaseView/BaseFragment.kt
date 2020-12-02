@@ -1,6 +1,11 @@
 package com.feylabs.tahfidz.View.BaseView
 
+import android.R.attr.port
+import android.content.Context
 import android.content.pm.PackageManager
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.os.Build
 import android.os.Environment
 import android.util.Log
 import android.widget.ImageView
@@ -15,6 +20,10 @@ import com.squareup.picasso.MemoryPolicy
 import com.squareup.picasso.NetworkPolicy
 import com.squareup.picasso.Picasso
 import java.io.File
+import java.io.IOException
+import java.net.InetSocketAddress
+import java.net.Socket
+import java.net.SocketAddress
 
 
 open class BaseFragment : Fragment() {
@@ -37,17 +46,17 @@ open class BaseFragment : Fragment() {
 //    tempGroupData["group_mentor_name"] = mentor_name
 //    tempGroupData["group_mentor_contact"] = mentor_contact
 
-  var xstudent_id=""
-  var xstudent_name=""
-  var xgroup_id=""
+    var xstudent_id = ""
+    var xstudent_name = ""
+    var xgroup_id = ""
 
-    fun initID(){
+    fun initID() {
         xstudent_id = Preference(requireContext()).getPrefString("student_id").toString()
         xstudent_name = Preference(requireContext()).getPrefString("student_name").toString()
         xgroup_id = Preference(requireContext()).getPrefString("id_group").toString()
-        Log.i("deytaInit",xstudent_id)
-        Log.i("deytaInit",xstudent_name)
-        Log.i("deytaInit",xgroup_id)
+        Log.i("deytaInit", xstudent_id)
+        Log.i("deytaInit", xstudent_name)
+        Log.i("deytaInit", xgroup_id)
     }
 
     fun String.showToast() {
@@ -76,7 +85,7 @@ open class BaseFragment : Fragment() {
     fun downloadPicasso(target: ImageView) {
         checkPermission()
         //Setting Up URL
-        val  url = URL.STUDENT_PHOTO + Preference(requireContext()).getPrefString("student_photo")
+        val url = URL.STUDENT_PHOTO + Preference(requireContext()).getPrefString("student_photo")
         Picasso.get()
             .load(url)
             .tag("all-profile")
@@ -89,13 +98,15 @@ open class BaseFragment : Fragment() {
                 override fun onSuccess() {
                     "Berhasil Memuat Foto Profile"
                 }
+
                 override fun onError(e: java.lang.Exception?) {
-                    Log.i("fan-url-profile-info",url)
+                    Log.i("fan-url-profile-info", url)
                 }
             })
 
         //CREATE MEDIA DIRECTORY
-        val dir = File(Environment.getExternalStorageDirectory().toString() + "/Download/your folder/")
+        val dir =
+            File(Environment.getExternalStorageDirectory().toString() + "/Download/your folder/")
         dir.mkdirs() // creates needed dirs
 
 
@@ -109,12 +120,12 @@ open class BaseFragment : Fragment() {
             if (!mediaStorageDir.mkdirs()) {
                 Log.d("App", "failed to create directory")
             }
-        }else{
-            Log.i("Tahfidz","Success Create Directory")
+        } else {
+            Log.i("Tahfidz", "Success Create Directory")
         }
     }
 
-    fun cfAlert(message:String,bgColor:Int,textColor:Int) {
+    fun cfAlert(message: String, bgColor: Int, textColor: Int) {
         val cfAlert = CFAlertDialog.Builder(requireContext())
             .setDialogStyle(CFAlertDialog.CFAlertStyle.NOTIFICATION)
             .setTitle(message)
@@ -130,9 +141,9 @@ open class BaseFragment : Fragment() {
         cfAlert.show()
     }
 
-    fun downloadPicassoTeacher(target:ImageView) {
+    fun downloadPicassoTeacher(target: ImageView) {
         //Setting Up URL
-        val  url = URL.MENTOR_PHOTO + Preference(requireContext()).getPrefString("mentor_photo")
+        val url = URL.MENTOR_PHOTO + Preference(requireContext()).getPrefString("mentor_photo")
         Picasso.get()
             .load(url)
             .memoryPolicy(MemoryPolicy.NO_CACHE)
@@ -142,14 +153,79 @@ open class BaseFragment : Fragment() {
             .error(R.drawable.empty_profile)
             .into(target, object : com.squareup.picasso.Callback {
                 override fun onSuccess() {
-                    Log.i("fan-url-teacher-photo",url)
+                    Log.i("fan-url-teacher-photo", url)
                 }
 
                 override fun onError(e: java.lang.Exception?) {
-                    Log.i("fan-url-teacher-photo",url)
+                    Log.i("fan-url-teacher-photo", url)
                 }
             })
     }
+
+    fun isOnline(): Boolean {
+        try {
+            val sockaddr: SocketAddress = InetSocketAddress(URL.BASE_URL, port)
+            // Create an unbound socket
+            val sock = Socket()
+            // This method will block no more than timeoutMs.
+            // If the timeout occurs, SocketTimeoutException is thrown.
+            val timeoutMs = 2000 // 2 seconds
+            sock.connect(sockaddr, timeoutMs)
+            return true
+        } catch (e: IOException) {
+            return false
+        } finally {
+            val context = requireContext()
+            val connectivityManager =
+                context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+            if (connectivityManager != null) {
+                val capabilities =
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
+                    } else {
+                        val connectivityManager =
+                            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+                        val networkInfo = connectivityManager.activeNetworkInfo
+                        return networkInfo != null && networkInfo.isConnected
+                    }
+                if (capabilities != null) {
+                    when {
+                        capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> {
+                            Log.i("Internet", "NetworkCapabilities.TRANSPORT_CELLULAR")
+                            return true
+                        }
+                        capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> {
+                            Log.i("Internet", "NetworkCapabilities.TRANSPORT_WIFI")
+                            return true
+                        }
+                        capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> {
+                            Log.i("Internet", "NetworkCapabilities.TRANSPORT_ETHERNET")
+                            return true
+                        }
+                    }
+                }
+            }
+            return false
+        }
+    }
+
+    fun NoInternet(bgColor: Int, textColor: Int) {
+        val cfAlert = CFAlertDialog.Builder(requireContext())
+            .setDialogStyle(CFAlertDialog.CFAlertStyle.NOTIFICATION)
+            .setTitle("Koneksi Internet Tidak Ditemukan,\nAplikasi Tidak Dapat Berjalan Tanpa Koneksi Internet,\nSilakan periksa koneksi internet anda dan coba lagi nanti")
+            .setBackgroundColor(bgColor)
+            .setTextColor(-0)
+            .setCancelable(true)
+            .addButton(
+                "Tutup Aplikasi", -1, -1, CFAlertDialog.CFAlertActionStyle.POSITIVE,
+                CFAlertDialog.CFAlertActionAlignment.END
+            ) { dialog, which ->
+                dialog.dismiss()
+                requireContext()
+            }
+        cfAlert.show()
+    }
+
 
     fun addSurat() {
         s.clear()
@@ -383,9 +459,9 @@ open class BaseFragment : Fragment() {
         a.add(6)
 
         //Removing Ayah Regex on List s
-        for (i in 0 until s.size){
+        for (i in 0 until s.size) {
             var a = s[i].toString().split(".").toTypedArray()
-            s[i]=a[0].toString()
+            s[i] = a[0].toString()
         }
     }
 

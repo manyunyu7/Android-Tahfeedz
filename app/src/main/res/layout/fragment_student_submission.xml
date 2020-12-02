@@ -4,14 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".View.StudentSubmissionFragment">
+    tools:context=".View.Student.StudentSubmissionFragment">
 
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="match_parent"
         android:fillViewport="true"
-        app:layout_constraintBottom_toTopOf="@+id/relativeLayout2"
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
@@ -60,6 +59,63 @@
                 android:padding="10dp"
                 app:layout_constraintBottom_toTopOf="@+id/linearLayout"
                 app:layout_constraintTop_toTopOf="parent">
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:elevation="5dp"
+                    app:cardCornerRadius="10dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="10dp">
+
+
+                        <com.github.florent37.expansionpanel.ExpansionHeader
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:expansion_headerIndicator="@id/headerIndicator"
+                            app:expansion_layout="@id/expansionLayout"
+                            app:expansion_toggleOnClick="true">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="10dp"
+                                android:drawableStart="@drawable/ic_baseline_announcement_24"
+                                android:fontFamily="@font/quicksand_regular"
+                                android:gravity="center"
+                                android:text="Tata Cara Pengiriman"
+                                android:textColor="@color/colorBlack" />
+
+                            <ImageView
+                                android:id="@+id/headerIndicator"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical|right"
+                                android:layout_marginLeft="16dp"
+                                android:adjustViewBounds="true"
+                                app:srcCompat="@drawable/ic_expansion_header_indicator_grey_24dp" />
+                        </com.github.florent37.expansionpanel.ExpansionHeader>
+
+                        <com.github.florent37.expansionpanel.ExpansionLayout
+                            android:id="@+id/expansionLayout"
+                            app:expansion_expanded="true"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="10dp"
+                                android:fontFamily="@font/quicksand_regular"
+                                android:text="@string/how_to_record"
+                                android:textColor="@color/colorBlack" />
+                        </com.github.florent37.expansionpanel.ExpansionLayout>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
@@ -77,17 +133,17 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/montserrat_regular"
-                            android:text="Surat dan Ayat yang disetor"
-                            android:textColor="@color/colorNeoBlue"
-                            android:textSize="12sp" />
+                            android:fontFamily="@font/quicksand_regular"
+                            android:text="Dari : "
+                            android:textColor="@color/colorNeoBlue" />
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/quicksand_regular"
-                            android:text="Dari : "
-                            android:textColor="@color/colorNeoBlue" />
+                            android:fontFamily="@font/montserrat_regular"
+                            android:text="Surat dan Ayat yang disetor"
+                            android:textColor="@color/colorNeoBlue"
+                            android:textSize="12sp" />
 
                         <LinearLayout
                             android:layout_width="match_parent"

@@ -22,4 +22,5 @@
     <string name="info_group">Berikut adalah daftar kelompok yang anda bimbing untuk periode ini, klik kelompok untuk melihat detail</string>
     <string name="school_name">Aplikasi Tahfidz SD-IT Wahdah Islamiyah Bantaeng</string>
     <string name="load_contact">Memuat Kontak</string>
+    <string name="how_to_record">1. Pilih Surat dan Ayat yang Akan Disetorkan\n2.Klik Tombol Record Untuk Memulai Merekam, Tetap di halaman ini selama merekam\n3.Klik tombol kotak ( berhenti merekam ) untuk menyelesaikan rekaman, pastikan rekaman sudah tersimpan di aplikasi dengan memutar rekaman\n4.Klik Tombol Upload dan Tunggu hingga rekaman terupload\n5.Cek Halaman Setoran untuk melihat setoran</string>
 </resources>

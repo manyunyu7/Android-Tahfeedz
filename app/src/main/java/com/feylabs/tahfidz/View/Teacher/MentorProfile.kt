@@ -2,6 +2,7 @@ package com.feylabs.tahfidz.View.Teacher
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.animation.AnimationUtils
 import androidx.lifecycle.Observer
@@ -11,7 +12,7 @@ import com.feylabs.tahfidz.R
 import com.feylabs.tahfidz.Util.SharedPreference.Preference
 import com.feylabs.tahfidz.View.SharedView.UserChangeProfile
 import com.feylabs.tahfidz.View.BaseView.BaseActivity
-import com.feylabs.tahfidz.View.MainActivity
+import com.feylabs.tahfidz.View.SharedView.MainActivity
 import com.feylabs.tahfidz.ViewModel.MentorViewModel
 import kotlinx.android.synthetic.main.activity_mentor_profile.*
 import kotlinx.android.synthetic.main.layout_change_password.*
@@ -34,6 +35,11 @@ class MentorProfile : BaseActivity() {
             this
         )
 
+        titleMentorProfile.setOnClickListener {
+            super.onBackPressed()
+            finish()
+        }
+
         btnCloseChangePassword.setOnClickListener {
             lyt_change_password.apply {
                 animation = AnimationUtils.loadAnimation(
@@ -43,6 +49,33 @@ class MentorProfile : BaseActivity() {
                 visibility = View.GONE
             }
         }
+
+        btnChangePassword.setOnClickListener {
+            lyt_change_password.apply {
+                animation = AnimationUtils.loadAnimation(this@MentorProfile, R.anim.bottom_appear)
+                visibility = View.VISIBLE
+            }
+        }
+        btnSaveChangePassword.setOnClickListener {
+            val oldPass = etOldPassword.text.toString()
+            val newPass = etNewPassword.text.toString()
+            val newPassConf = etNewPasswordConfirmation.text.toString()
+            if (oldPass.isBlank() || newPass.isBlank() || newPassConf.isBlank()) {
+                "Lengkapi Bidang Yang Ada Terlebih Dahulu".showToast()
+            } else {
+                if (newPass != newPassConf) {
+                    etNewPassword.error = "Password Tidak Sesuai"
+                    etNewPasswordConfirmation.error = "Password Tidak Sesuai"
+                } else {
+                    anim_loading.visibility=View.VISIBLE
+                    mentorViewModel.changePassword(
+                        Preference(this).getPrefString("mentor_id").toString(),
+                        oldPass, newPass
+                    )
+                }
+            }
+        }
+
 
         btnSaveChange.setOnClickListener {
             if (et_name.text.toString().length < 3) {
@@ -61,13 +94,37 @@ class MentorProfile : BaseActivity() {
             }
         }
 
+        mentorViewModel.statusChangePassword.observe(this, Observer {
+            when (it) {
+                3 -> {
+                    //Do Nothing;
+                }
+                1 -> {
+                    anim_loading.visibility=View.GONE
+                    "Update Password Berhasil".showToast()
+                    cfAlert(
+                        "Berhasil Mengupdate Password",
+                        R.color.alert_default_icon_color, R.color.colorWhite
+                    )
+                }
+                2 -> {
+                    anim_loading.visibility=View.GONE
+                    "Update Password Gagal".showToast()
+                    cfAlert(
+                        "Gagal Mengupdate Password",
+                        R.color.colorRedPastel, R.color.colorWhite
+                    )
+                }
+            }
+        })
+
         btnChangeProfile.setOnClickListener {
-            val intent = Intent(this,UserChangeProfile::class.java)
-                intent.putExtra("mentor",true)
+            val intent = Intent(this, UserChangeProfile::class.java)
+            intent.putExtra("mentor", true)
             startActivity(intent)
         }
 
-        btnRefreshProfile.setOnClickListener{
+        btnRefreshProfile.setOnClickListener {
             mentorViewModel.getUpdatedData(
                 Preference(this).getPrefString("mentor_id").toString(),
                 this
@@ -81,6 +138,10 @@ class MentorProfile : BaseActivity() {
                 cfAlert(
                     "Berhasil Update Data",
                     R.color.alert_default_icon_color, R.color.colorWhite
+                )
+                mentorViewModel.getUpdatedData(
+                    Preference(this).getPrefString("mentor_id").toString(),
+                    this
                 )
             }
             if (it == 0) {
@@ -100,17 +161,20 @@ class MentorProfile : BaseActivity() {
             }
         }
 
+        mentorViewModel.mentorDataAfterUpdate.observe(this, Observer {
+            if (it != null) {
+                for ((key, value) in it) {
+                    Log.i("pref mentor $key", value)
+                    Preference(this).save(key, value)
+                }
+                updateLayout()
+            }
+        })
         mentorViewModel.statusGetUpdated.observe(this, Observer {
-            updateLayout()
             if (it == 3) {
                 anim_loading.showz()
-            }
-            if (it == 1) {
+            }else{
                 anim_loading.gonez()
-            }
-            if (it == 2 || it == 0) {
-                anim_loading.gonez()
-                "Gagal Mengambil Data Terbaru Dari Server".showToast()
             }
         })
 
@@ -133,8 +197,8 @@ class MentorProfile : BaseActivity() {
                     //Clear Preferences
                     Preference(this).clearPreferences()
                     //LOGOUT
-                   finish()
-                  startActivity(
+                    finish()
+                    startActivity(
                         Intent(this, MainActivity::class.java)
                     )
                     dialog.dismiss()

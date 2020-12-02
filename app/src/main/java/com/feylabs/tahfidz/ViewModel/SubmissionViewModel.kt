@@ -28,17 +28,25 @@ class SubmissionViewModel : ViewModel() {
     var statusDelete = MutableLiveData<Boolean>()
     val dataSubmission = MutableLiveData<MutableList<SubmissionModel>>()
 
-    fun retrieveSubmissionStudent(id: String , type : String) {
-        var param = if (type=="student") {
-            "student_id"
-        }else{
-            "group_id"
+    fun retrieveSubmissionStudent(id: String, type: String, isIndividually: Boolean = false,individualID : String) {
+        var param = ""
+        var ids = ""
+        ids=id
+        if (type=="student") {
+            param = "student_id"
+        }
+        if (type=="mentor"){
+            param = "group_id"
+        }
+        if (isIndividually){
+            param="student_id"
+            ids = individualID
         }
         Log.i("responseSub",id+param)
 
         val dataSubmissionAPI = mutableListOf<SubmissionModel>()
         AndroidNetworking.post(URL.SUBMISSION)
-            .addBodyParameter(param, id)
+            .addBodyParameter(param, ids)
             .build()
             .getAsJSONObject(object : JSONObjectRequestListener {
                 override fun onResponse(response: JSONObject) {

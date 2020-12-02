@@ -9,300 +9,376 @@
 
     <!-- TODO: Update blank fragment layout -->
 
-    <ScrollView
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshStudentHome"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="true">
+        android:layout_height="match_parent">
 
 
-        <LinearLayout
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="155dp">
-
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="220dp"
-                        android:background="@drawable/bg_header_daylight"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/bg_header_daylight" />
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentTop="true"
-                        android:orientation="vertical"
-                        android:padding="20dp">
-
-                        <androidx.cardview.widget.CardView
-                            android:id="@+id/card"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
-                            android:layout_centerInParent="true"
-                            android:visibility="visible"
-                            app:cardCornerRadius="33dp">
-
-                            <ImageView
-                                android:id="@+id/profile_pic"
-                                android:layout_width="66dp"
-                                android:layout_height="66dp"
-                                android:src="@drawable/empty_profile" />
-                        </androidx.cardview.widget.CardView>
-
-                        <TextView
-                            android:id="@+id/greeting"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentStart="true"
-                            android:layout_alignParentTop="true"
-                            android:layout_toLeftOf="@id/card"
-                            android:fontFamily="@font/sf_pro_rounded"
-                            android:text="Ahlan wa Sahlan"
-                            android:textColor="@color/colorWhite"
-                            android:textSize="17sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/student_name_home"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/greeting"
-                            android:layout_alignParentStart="true"
-                            android:layout_toLeftOf="@id/card"
-                            android:fontFamily="@font/sf_pro_rounded"
-                            android:maxLines="1"
-                            android:text="Razky Febriansyah"
-                            android:textColor="@color/colorWhite"
-                            android:textSize="20sp"
-                            android:textStyle="bold" />
-
-
-                    </RelativeLayout>
-                </FrameLayout>
-
-                <androidx.cardview.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginTop="100dp"
-                    android:layout_marginEnd="15dp"
-                    android:layout_marginBottom="5dp"
-                    android:elevation="10dp"
-                    app:cardBackgroundColor="@color/colorWhite"
-                    app:cardCornerRadius="15dp">
-
-                    <RelativeLayout
-                        android:id="@+id/info_group"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="5dp"
-                        android:orientation="horizontal"
-                        android:padding="8dp">
-
-
-                        <ImageView
-                            android:id="@+id/school_logo"
-                            android:layout_width="75dp"
-                            android:layout_height="75dp"
-                            android:layout_alignParentStart="true"
-                            android:layout_centerInParent="true"
-                            android:src="@drawable/ic_school_logo" />
-
-                        <com.facebook.shimmer.ShimmerFrameLayout
-                            android:id="@+id/shimmerMotCardStudentInfo"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
-                            android:layout_gravity="center"
-                            android:layout_marginStart="10dp"
-                            android:layout_toRightOf="@id/school_logo"
-                            android:orientation="vertical">
-
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:orientation="vertical">
-
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_toRightOf="@id/card"
-                                    android:fontFamily="@font/quicksand_bold"
-                                    android:text="@string/group_name"
-                                    android:textColor="@color/colorBlack"
-                                    android:textSize="15sp" />
-
-                                <TextView
-                                    android:id="@+id/studentGroup"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_toRightOf="@id/card"
-                                    android:fontFamily="@font/quicksand_regular"
-                                    android:text="Loading..."
-                                    android:textColor="@color/colorBlack"
-                                    android:textSize="15sp" />
-
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_toRightOf="@id/card"
-                                    android:fontFamily="@font/quicksand_bold"
-                                    android:text="Pembimbing : "
-                                    android:textColor="@color/colorBlack"
-                                    android:textSize="15sp" />
-
-                                <TextView
-                                    android:id="@+id/studentMentor"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_toRightOf="@id/card"
-                                    android:fontFamily="@font/quicksand_regular"
-                                    android:text="Loading..."
-                                    android:textColor="@color/colorBlack"
-                                    android:textSize="15sp" />
-
-                                <TextView
-                                    android:id="@+id/student_mentor_contact"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_toRightOf="@id/card"
-                                    android:fontFamily="@font/quicksand_regular"
-                                    android:text=""
-                                    android:textColor="@color/colorBlack"
-                                    android:textSize="15sp"
-                                    android:visibility="visible" />
-                            </LinearLayout>
-                        </com.facebook.shimmer.ShimmerFrameLayout>
-
-                    </RelativeLayout>
-                </androidx.cardview.widget.CardView>
-
-
-            </RelativeLayout>
+            android:fillViewport="true">
 
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingLeft="10dp"
-                android:paddingTop="20dp"
-                android:paddingRight="10dp">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/menuQuranCard"
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="155dp">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="220dp"
+                            android:background="@drawable/bg_header_daylight"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/bg_header_daylight" />
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentTop="true"
+                            android:orientation="vertical"
+                            android:padding="20dp">
+
+                            <androidx.cardview.widget.CardView
+                                android:id="@+id/card"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerInParent="true"
+                                android:visibility="visible"
+                                app:cardCornerRadius="33dp">
+
+                                <ImageView
+                                    android:id="@+id/profile_pic"
+                                    android:layout_width="66dp"
+                                    android:layout_height="66dp"
+                                    android:src="@drawable/empty_profile" />
+                            </androidx.cardview.widget.CardView>
+
+                            <TextView
+                                android:id="@+id/greeting"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentStart="true"
+                                android:layout_alignParentTop="true"
+                                android:layout_toLeftOf="@id/card"
+                                android:fontFamily="@font/sf_pro_rounded"
+                                android:text="Ahlan wa Sahlan"
+                                android:textColor="@color/colorWhite"
+                                android:textSize="17sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/student_name_home"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@id/greeting"
+                                android:layout_alignParentStart="true"
+                                android:layout_toLeftOf="@id/card"
+                                android:fontFamily="@font/sf_pro_rounded"
+                                android:maxLines="1"
+                                android:text="Razky Febriansyah"
+                                android:textColor="@color/colorWhite"
+                                android:textSize="20sp"
+                                android:textStyle="bold" />
+
+
+                        </RelativeLayout>
+                    </FrameLayout>
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="100dp"
+                        android:layout_marginEnd="15dp"
+                        android:layout_marginBottom="5dp"
+                        android:elevation="10dp"
+                        app:cardBackgroundColor="@color/colorWhite"
+                        app:cardCornerRadius="15dp">
+
+                        <RelativeLayout
+                            android:id="@+id/info_group"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="5dp"
+                            android:orientation="horizontal"
+                            android:padding="8dp">
+
+
+                            <ImageView
+                                android:id="@+id/school_logo"
+                                android:layout_width="75dp"
+                                android:layout_height="75dp"
+                                android:layout_alignParentStart="true"
+                                android:layout_centerInParent="true"
+                                android:src="@drawable/ic_school_logo" />
+
+                            <com.facebook.shimmer.ShimmerFrameLayout
+                                android:id="@+id/shimmerMotCardStudentInfo"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="10dp"
+                                android:layout_toRightOf="@id/school_logo"
+                                android:orientation="vertical">
+
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_toRightOf="@id/card"
+                                        android:fontFamily="@font/quicksand_bold"
+                                        android:text="@string/group_name"
+                                        android:textColor="@color/colorBlack"
+                                        android:textSize="15sp" />
+
+                                    <TextView
+                                        android:id="@+id/studentGroup"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_toRightOf="@id/card"
+                                        android:fontFamily="@font/quicksand_regular"
+                                        android:text="Loading..."
+                                        android:textColor="@color/colorBlack"
+                                        android:textSize="15sp" />
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_toRightOf="@id/card"
+                                        android:fontFamily="@font/quicksand_bold"
+                                        android:text="Pembimbing : "
+                                        android:textColor="@color/colorBlack"
+                                        android:textSize="15sp" />
+
+                                    <TextView
+                                        android:id="@+id/studentMentor"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_toRightOf="@id/card"
+                                        android:fontFamily="@font/quicksand_regular"
+                                        android:text="Loading..."
+                                        android:textColor="@color/colorBlack"
+                                        android:textSize="15sp" />
+
+                                    <TextView
+                                        android:id="@+id/student_mentor_contact"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_toRightOf="@id/card"
+                                        android:fontFamily="@font/quicksand_regular"
+                                        android:text=""
+                                        android:textColor="@color/colorBlack"
+                                        android:textSize="15sp"
+                                        android:visibility="visible" />
+                                </LinearLayout>
+                            </com.facebook.shimmer.ShimmerFrameLayout>
+
+                        </RelativeLayout>
+                    </androidx.cardview.widget.CardView>
+
+
+                </RelativeLayout>
+
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:cardCornerRadius="20dp"
-                    >
+                    android:orientation="vertical"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="20dp"
+                    android:paddingRight="10dp">
+
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:elevation="5dp"
+                        app:cardCornerRadius="10dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="10dp">
+
+
+                            <com.github.florent37.expansionpanel.ExpansionHeader
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                app:expansion_headerIndicator="@id/headerIndicator"
+                                app:expansion_layout="@id/expansionLayout"
+                                app:expansion_toggleOnClick="true">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="10dp"
+                                    android:drawableStart="@drawable/ic_baseline_announcement_24"
+                                    android:fontFamily="@font/quicksand_regular"
+                                    android:gravity="center"
+                                    android:text="Pengumuman"
+                                    android:textColor="@color/colorBlack" />
+
+                                <ImageView
+                                    android:id="@+id/headerIndicator"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical|right"
+                                    android:layout_marginLeft="16dp"
+                                    android:adjustViewBounds="true"
+                                    app:srcCompat="@drawable/ic_expansion_header_indicator_grey_24dp" />
+                            </com.github.florent37.expansionpanel.ExpansionHeader>
+
+                            <com.github.florent37.expansionpanel.ExpansionLayout
+                                android:id="@+id/expansionLayout"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+                                    android:id="@+id/studentAnnouncement"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="10dp"
+                                    android:fontFamily="@font/quicksand_regular"
+                                    android:text="Belum Ada Pengumuman"
+                                    android:textColor="@color/colorBlack" />
+                            </com.github.florent37.expansionpanel.ExpansionLayout>
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/menuQuranCard"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:cardCornerRadius="20dp">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:gravity="center">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="150dp"
+                                android:scaleType="fitXY"
+                                android:src="@drawable/ic_quran_card"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <LinearLayout
+                                android:id="@+id/linearLayout4"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintTop_toTopOf="parent">
+
+                                <TextView
+                                    android:id="@+id/label1"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="20dp"
+                                    android:fontFamily="@font/sf_pro_rounded"
+                                    android:text="Buka Alquran"
+                                    android:textColor="@color/colorBlack"
+                                    android:textSize="20sp" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_below="@id/label1"
+                                    android:layout_marginStart="20dp"
+                                    android:fontFamily="@font/sf_pro_rounded"
+                                    android:text="Klik Disini Untuk Membaca\n AlQuran AlKarim "
+                                    android:textColor="@color/colorBlack"
+                                    android:textSize="12sp" />
+                            </LinearLayout>
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                    </androidx.cardview.widget.CardView>
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:fontFamily="@font/quicksand_regular"
+                        android:text="Motivasi Hafalan Al-Quran"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="20sp" />
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:gravity="center"
+                        android:layout_alignParentTop="true">
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/recycler_mot"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:orientation="horizontal"
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:listitem="@layout/list_motivation" />
                         >
 
-                        <ImageView
+                        <com.facebook.shimmer.ShimmerFrameLayout
+                            android:id="@+id/shimmerMotLayout"
                             android:layout_width="match_parent"
-                            android:layout_height="150dp"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/ic_quran_card"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                        <LinearLayout
-                            android:id="@+id/linearLayout4"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintTop_toTopOf="parent">
-
-                            <TextView
-                                android:id="@+id/label1"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="20dp"
-                                android:fontFamily="@font/sf_pro_rounded"
-                                android:text="Buka Alquran"
-                                android:textColor="@color/colorBlack"
-                                android:textSize="20sp" />
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_below="@id/label1"
-                                android:layout_marginStart="20dp"
-                                android:fontFamily="@font/sf_pro_rounded"
-                                android:text="Klik Disini Untuk Membaca\n AlQuran AlKarim "
-                                android:textColor="@color/colorBlack"
-                                android:textSize="12sp" />
-                        </LinearLayout>
-
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-                </androidx.cardview.widget.CardView>
-
-                <TextView
-                    android:layout_marginTop="20dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/ambit_regular"
-                    android:text="Motivasi Hafalan Al-Quran"
-                    android:textColor="@color/colorBlack"
-                    android:textSize="20sp" />
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true">
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recycler_mot"
-                        android:layout_width="match_parent"
-                        android:layout_height="212dp"
-                        android:layout_centerVertical="true"
-                        android:orientation="horizontal"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:listitem="@layout/list_motivation" />
-
-                    >
-
-                    <com.facebook.shimmer.ShimmerFrameLayout
-                        android:id="@+id/shimmerMotLayout"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:orientation="vertical">
-
-                        <!-- Adding 15 rows of placeholders -->
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
                             android:orientation="vertical">
 
-                            <include layout="@layout/layout_recycler_mot_placeholder" />
-                        </LinearLayout>
-                    </com.facebook.shimmer.ShimmerFrameLayout>
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                            <!-- Adding 15 rows of placeholders -->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
 
+                                <include layout="@layout/layout_recycler_mot_placeholder" />
+                            </LinearLayout>
+                        </com.facebook.shimmer.ShimmerFrameLayout>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:fontFamily="@font/ambit_regular"
+                        android:text="Menu"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="20sp" />
+
+                    <include layout="@layout/layout_menu_student" />
+
+                </LinearLayout>
             </LinearLayout>
-        </LinearLayout>
-    </ScrollView>
-    <include layout="@layout/layout_loading_transparent"/>
+        </androidx.core.widget.NestedScrollView>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    <include layout="@layout/layout_loading_transparent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

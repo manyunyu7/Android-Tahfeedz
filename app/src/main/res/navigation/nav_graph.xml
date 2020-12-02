@@ -23,7 +23,12 @@
         tools:layout="@layout/fragment_submission_history" />
     <fragment
         android:id="@+id/studentSubmissionFragment"
-        android:name="com.feylabs.tahfidz.View.StudentSubmissionFragment"
+        android:name="com.feylabs.tahfidz.View.Student.StudentSubmissionFragment"
         android:label="fragment_student_submission"
         tools:layout="@layout/fragment_student_submission" />
+    <fragment
+        android:id="@+id/studentQuizFragment"
+        android:name="com.feylabs.tahfidz.View.SharedView.HomeQuizFragment"
+        android:label="fragment_student_quiz"
+        tools:layout="@layout/fragment_mentor_quiz" />
 </navigation>

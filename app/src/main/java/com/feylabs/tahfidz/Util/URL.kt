@@ -17,6 +17,16 @@ object URL {
     const val MENTOR_UPDATE = BASE_URL + "mentor/update_data_user.php"
     const val MENTOR_PHOTO = BASE_URL + "mentor/"
     const val MENTOR_UPDATE_IMG = BASE_URL + "mentor/update_img.php"
+    const val MENTOR_UPDATE_AUTH = BASE_URL + "mentor/update_pass_user.php"
+
+
+    const val GROUP_ANNOUNCEMENT = BASE_URL + "group/get_announcement.php"
+    const val UPDATE_ANNOUNCEMENT = BASE_URL + "group/update_announcement.php"
+
+
+    const val GET_QUIZ = BASE_URL + "quiz/get_quiz.php"
+    const val DELETE_QUIZ = BASE_URL + "quiz/delete_quiz.php"
+    const val CREATE_QUIZ = BASE_URL + "quiz/create_quiz.php"
 
     const val GROUP_DATA = BASE_URL + "group/group_info.php"
 //    http://202.157.177.52/API-Tahfidz/group/grouping_mentor_info.php

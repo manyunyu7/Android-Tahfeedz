@@ -4,14 +4,26 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".View.MentorQuiz">
+    tools:context=".View.SharedView.MentorQuiz">
 
     <fragment
         android:id="@+id/quizFragmentHost"
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         app:defaultNavHost="true"
-        app:navGraph="@navigation/bottom_nav_graph" />
+        app:layout_constraintBottom_toTopOf="@+id/quizBottomNavigation"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navGraph="@navigation/nav_graph_quiz" />
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/quizBottomNavigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="?android:attr/windowBackground"
+        app:labelVisibilityMode="labeled"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:menu="@menu/menu_quiz" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

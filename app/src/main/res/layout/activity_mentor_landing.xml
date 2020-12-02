@@ -7,7 +7,13 @@
     android:orientation="vertical">
 
 
-        <ScrollView
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshMentorLanding"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fillViewport="true">
@@ -35,10 +41,10 @@
 
 
                         <RelativeLayout
-                            android:layout_marginTop="20dp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_alignParentTop="true"
+                            android:layout_marginTop="20dp"
                             android:orientation="vertical"
                             android:padding="20dp">
 
@@ -158,20 +164,18 @@
                         android:orientation="vertical">
 
                         <androidx.cardview.widget.CardView
-                            android:layout_marginTop="10dp"
                             android:id="@+id/menuQuranCard"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            app:cardCornerRadius="20dp"
-                            >
+                            android:layout_marginTop="10dp"
+                            app:cardCornerRadius="20dp">
 
                             <androidx.constraintlayout.widget.ConstraintLayout
 
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:gravity="center"
-                                >
+                                android:gravity="center">
 
                                 <ImageView
                                     android:layout_width="match_parent"
@@ -214,10 +218,11 @@
 
                             </androidx.constraintlayout.widget.ConstraintLayout>
                         </androidx.cardview.widget.CardView>
+
                         <TextView
-                            android:layout_marginTop="10dp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
                             android:fontFamily="@font/sf_pro_rounded"
                             android:maxLines="1"
                             android:text="Menu"
@@ -226,14 +231,13 @@
                             android:textStyle="bold"
                             tools:layout_editor_absoluteX="10dp"
                             tools:layout_editor_absoluteY="20dp" />
-                        <include
-                            layout="@layout/layout_menu_mentor"
-                            />
+
+                        <include layout="@layout/layout_menu_mentor" />
 
                         <TextView
-                            android:layout_marginTop="10dp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
                             android:fontFamily="@font/sf_pro_rounded"
                             android:maxLines="1"
                             android:text="Daftar Kelompok"
@@ -251,6 +255,17 @@
                             android:text="@string/info_group"
                             android:textColor="@color/colorBlack"
                             android:textSize="15sp" />
+
+                        <TextView
+                            android:id="@+id/statusGroup"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/quicksand_regular"
+                            android:text=""
+                            android:textColor="@color/colorBlack"
+                            android:textSize="15sp"
+                            android:visibility="gone" />
+
                     </LinearLayout>
 
 
@@ -265,6 +280,9 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
             </LinearLayout>
-        </ScrollView>
+        </androidx.core.widget.NestedScrollView>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    <include layout="@layout/layout_loading_transparent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

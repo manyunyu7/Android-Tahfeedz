@@ -14,7 +14,6 @@ class CorrectionViewModel : ViewModel() {
     var message = MutableLiveData<MutableMap<String,String>>()
 
     fun updateSubmission(id:String,score:String,text:String){
-
         AndroidNetworking.post(URL.UPDATE_CORRECTION)
             .addBodyParameter("score",score)
             .addBodyParameter("correction",text)

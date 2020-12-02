@@ -1,4 +1,4 @@
-package com.feylabs.tahfidz.View
+package com.feylabs.tahfidz.View.SharedView
 
 import android.content.Intent
 import android.os.Bundle
@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.feylabs.tahfidz.R
 import com.feylabs.tahfidz.Util.SharedPreference.Preference
 import com.feylabs.tahfidz.View.BaseView.BaseActivity
+import com.feylabs.tahfidz.View.StudentContainer
 import com.feylabs.tahfidz.View.Teacher.MentorLanding
 import com.feylabs.tahfidz.ViewModel.MentorViewModel
 import com.feylabs.tahfidz.ViewModel.MotivationViewModel
@@ -20,6 +21,17 @@ import kotlinx.android.synthetic.main.layout_login_student.*
 import kotlinx.android.synthetic.main.layout_login_ustadz.*
 
 class MainActivity : BaseActivity() {
+
+    override fun onResume() {
+        super.onResume()
+        if (Preference(this).getPrefString("student_id") != null) {
+            startActivity(Intent(this, StudentContainer::class.java))
+        }
+        if (Preference(this).getPrefString("login_type") == "mentor") {
+            startActivity(Intent(this, MentorLanding::class.java))
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -27,9 +39,11 @@ class MainActivity : BaseActivity() {
 
 
         if (Preference(this).getPrefString("student_id") != null) {
+            finish()
             startActivity(Intent(this, StudentContainer::class.java))
         }
         if (Preference(this).getPrefString("login_type") == "mentor") {
+            finish()
             startActivity(Intent(this, MentorLanding::class.java))
         }
         buttonLayoutBinding()
@@ -51,7 +65,7 @@ class MainActivity : BaseActivity() {
                 "Mohon Isi Username dan Password Terlebih Dahulu".showToast()
             } else {
                 mentorViewModel.loginMentor(usr, pass)
-                anim_loading.visibility=View.VISIBLE
+                anim_loading.visibility = View.VISIBLE
             }
         }
 
@@ -65,8 +79,14 @@ class MainActivity : BaseActivity() {
                 anim_loading.visibility = View.VISIBLE
             }
         }
-        mentorViewModel.status.observe(this, Observer {
-            if (it["code"] == "200") {
+        mentorViewModel.loginStatus.observe(this, Observer {
+            if (it == 3) {
+                anim_loading.visibility = View.VISIBLE
+            } else {
+                anim_loading.visibility = View.GONE
+            }
+
+            if (it == 1) {
                 val mentorMap = mentorViewModel.getMentorData()
                 for ((key, value) in mentorMap) {
                     Log.i("-prefM$key", value)
@@ -74,13 +94,52 @@ class MainActivity : BaseActivity() {
                 }
                 finish()
                 startActivity(Intent(this, MentorLanding::class.java))
-            } else {
-                it["status"].toString().showToast()
+            }
+
+            if (it == 0) {
+                anim_loading.visibility = View.GONE
+                cfAlert(
+                    "Gagal Terhubung Dengan Server , Periksa Koneksi Internet Anda atau Coba Lagi Nanti"
+                    , 0, -1
+                )
+            }
+
+            if (it == 2) {
+                anim_loading.visibility = View.GONE
+                cfAlert(
+                    "Username atau Password Salah"
+                    , 0, -1
+                )
             }
         })
 
-        studentViewModel.status.observe(this, Observer {
-            if (it) {
+        studentViewModel.studentData.observe(this, Observer {
+            for ((key, value) in it) {
+                Log.i("data-student="+key, value)
+                Preference(this).save(key, value)
+            }
+        })
+
+        studentViewModel.groupData.observe(this, Observer {
+            for ((key, value) in it) {
+                Log.i("dataGroup=$key", value)
+                Preference(this).save(key, value)
+            }
+        })
+
+        studentViewModel.statusLogin.observe(this, Observer {
+            if (it == 3) {
+                anim_loading.visibility = View.VISIBLE
+            }
+            if (it == 2) {
+                anim_loading.visibility = View.GONE
+                cfAlert(
+                    "Username atau Password Salah"
+                    , 0, -1
+                )
+            }
+            if (it == 1) {
+                "Login Berhasil".showToast()
                 anim_loading.visibility = View.GONE
                 val studentData = studentViewModel.getStudentData()
                 val groupData = studentViewModel.getGroupData()
@@ -91,30 +150,25 @@ class MainActivity : BaseActivity() {
                 studentData.value?.toMap(studentMap)
                 groupData.value?.toMap(groupMap)
 
-                if (studentMap["kelompok"] != null || studentMap["kelompok"] != "null") {
-                    groupData.value?.toMap(groupMap)
-                    //Save Group Mapping to SharedPreference
-                    for ((key, value) in groupMap) {
-                        Log.i(key, value)
-                        Preference(this).save(key, value)
-                    }
-                }
+                Log.i("StudentData", studentData.toString())
+                Log.i("StudentMap", studentMap.toString())
 
-                //Saving Student Mapping to SharedPref
-                for ((key, value) in studentMap) {
-                    Log.i(key, value)
-                    Preference(this).save(key, value)
-                }
 
                 var studentName = Preference(this).getPrefString("student_name")
                 studentName?.showToast()
 
+                finish()
                 startActivity(Intent(this, StudentContainer::class.java))
-
-            } else {
-                anim_loading.visibility = View.GONE
-                "Username dan Password Salah".showToast()
             }
+
+            if (it == 0) {
+                anim_loading.visibility = View.GONE
+                cfAlert(
+                    "Gagal Terhubung Dengan Server , Periksa Koneksi Internet Anda atau Coba Lagi Nanti"
+                    , 0, -1
+                )
+            }
+
         })
 
 
@@ -139,6 +193,9 @@ class MainActivity : BaseActivity() {
             lyt_login_student.visibility = View.GONE
             lyt_login_student.animation = loadAnimation(this, R.anim.item_animation_gone_bottom)
         }
+    }
 
+    override fun onBackPressed() {
+        finishAffinity()
     }
 }

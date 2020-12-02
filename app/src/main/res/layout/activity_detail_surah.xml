@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
@@ -42,27 +43,31 @@
             </androidx.appcompat.widget.Toolbar>
         </com.google.android.material.appbar.AppBarLayout>
 
+
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:fillViewport="true"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
 
                 <androidx.cardview.widget.CardView
+                    android:id="@+id/cardView2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     app:cardCornerRadius="10dp"
-                    app:cardElevation="4dp">
+                    app:cardElevation="4dp"
+                    tools:layout_editor_absoluteX="10dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_margin="10dp"
                         android:orientation="vertical">
 
@@ -113,68 +118,42 @@
 
                 </androidx.cardview.widget.CardView>
 
-                <RelativeLayout
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvAyat"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="0dp"
+                    android:layout_margin="5dp"
+                    app:layout_constraintBottom_toTopOf="@+id/cardMP3"
+                    app:layout_constraintTop_toBottomOf="@+id/cardView2"
+                    tools:layout_editor_absoluteX="5dp" />
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rvAyat"
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardMP3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:elevation="4dp"
+                    app:cardBackgroundColor="@color/colorNeoBlue"
+                    app:cardCornerRadius="26dp"
+                    app:layout_constraintBottom_toBottomOf="parent">
+
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_margin="5dp" />
+                        android:layout_height="wrap_content"
+                        android:padding="10dp">
 
-                </RelativeLayout>
+                        <WebView
+                            android:id="@+id/QuranMp3"
+                            android:layout_width="match_parent"
+                            android:layout_height="90dp" />
+                    </LinearLayout>
 
-            </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
 
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
-
-        <FrameLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|center|end">
-
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/fabStop"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:src="@drawable/ic_stop"
-                app:backgroundTint="@color/colorPrimaryDark"
-                app:elevation="4dp" />
-
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/fabPlay"
-                android:visibility="gone"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:src="@drawable/ic_play"
-                app:backgroundTint="@color/colorPrimaryDark"
-                app:elevation="4dp" />
-
-        </FrameLayout>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/cardMP3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:elevation="4dp"
-        app:cardBackgroundColor="@color/colorNeoBlue"
-        app:cardCornerRadius="26dp"
-        app:layout_constraintBottom_toBottomOf="@+id/coordinatorLayout">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="10dp">
-
-            <WebView
-                android:id="@+id/QuranMp3"
-                android:layout_width="match_parent"
-                android:layout_height="90dp" />
-        </LinearLayout>
-
-    </com.google.android.material.card.MaterialCardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

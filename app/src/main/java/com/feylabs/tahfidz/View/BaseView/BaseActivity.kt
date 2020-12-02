@@ -1,5 +1,9 @@
 package com.feylabs.tahfidz.View.BaseView
 
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.os.Build
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
@@ -14,6 +18,12 @@ import com.squareup.picasso.NetworkPolicy
 import com.squareup.picasso.Picasso
 
 open class BaseActivity : AppCompatActivity() {
+
+
+
+
+
+
 
     fun String.showToast(){
         Toast.makeText(this@BaseActivity,this,Toast.LENGTH_LONG).show()
@@ -81,5 +91,55 @@ open class BaseActivity : AppCompatActivity() {
                 dialog.dismiss()
             }
         cfAlert.show()
+    }
+
+    fun NoInternet(bgColor:Int,textColor:Int) {
+        val cfAlert = CFAlertDialog.Builder(this)
+            .setDialogStyle(CFAlertDialog.CFAlertStyle.NOTIFICATION)
+            .setTitle("Koneksi Internet Tidak Ditemukan , Aplikasi Tidak Dapat Berjalan Tanpa Koneksi Internet, Silakan periksa koneksi internet anda dan coba lagi nanti")
+            .setBackgroundColor(bgColor)
+            .setTextColor(textColor)
+            .setCancelable(true)
+            .addButton(
+                "Tutup Aplikasi", -1, -1, CFAlertDialog.CFAlertActionStyle.POSITIVE,
+                CFAlertDialog.CFAlertActionAlignment.END
+            ) { dialog, which ->
+                dialog.dismiss()
+                finishAffinity()
+            }
+        cfAlert.show()
+    }
+
+    fun isOnline(): Boolean {
+        val context = this
+        val connectivityManager =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        if (connectivityManager != null) {
+            val capabilities =
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
+                } else {
+                    val connectivityManager=getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+                    val networkInfo=connectivityManager.activeNetworkInfo
+                    return  networkInfo!=null && networkInfo.isConnected
+                }
+            if (capabilities != null) {
+                when {
+                    capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> {
+                        Log.i("Internet", "NetworkCapabilities.TRANSPORT_CELLULAR")
+                        return true
+                    }
+                    capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> {
+                        Log.i("Internet", "NetworkCapabilities.TRANSPORT_WIFI")
+                        return true
+                    }
+                    capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> {
+                        Log.i("Internet", "NetworkCapabilities.TRANSPORT_ETHERNET")
+                        return true
+                    }
+                }
+            }
+        }
+        return false
     }
 }

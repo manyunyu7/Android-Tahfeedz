@@ -21,6 +21,11 @@ class GroupAdapter : RecyclerView.Adapter<GroupAdapter.HolderGroupAdapter>() {
         notifyDataSetChanged()
     }
 
+    fun clearData(){
+        listGroup.clear()
+        notifyDataSetChanged()
+    }
+
     inner class HolderGroupAdapter(view: View) : RecyclerView.ViewHolder(view) {
         var name = itemView.tvGroupName
         var card_container = itemView.card_data

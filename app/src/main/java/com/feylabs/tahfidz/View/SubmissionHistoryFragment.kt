@@ -35,6 +35,10 @@ class SubmissionHistoryFragment : BaseFragment() {
     lateinit var submissionAdapter: SubmissionAdapter
     lateinit var submissionViewModel: SubmissionViewModel
 
+    private var isIndividually : Boolean =false
+    private lateinit var individualID : String
+
+
     //Login Type
     var type = ""
     var prefGetter = ""
@@ -47,6 +51,8 @@ class SubmissionHistoryFragment : BaseFragment() {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
+        isIndividually = arguments?.getBoolean("isIndividually") ?: false
+        individualID = arguments?.getString("student_id") ?: "0"
     }
 
     override fun onResume() {
@@ -83,7 +89,7 @@ class SubmissionHistoryFragment : BaseFragment() {
 
         submissionViewModel.retrieveSubmissionStudent(
             Preference(requireContext()).getPrefString(prefGetter).toString(),
-            type
+            type,isIndividually,individualID
         )
 
         // Inflate the layout for this fragment
@@ -110,7 +116,6 @@ class SubmissionHistoryFragment : BaseFragment() {
             .get(SubmissionViewModel::class.java)
 
         submissionViewModel.dataSubmission.observe(viewLifecycleOwner, Observer { list ->
-
             anim_loading.visibility = View.GONE
             submissionAdapter.setData(list)
             recycler_submission.setHasFixedSize(true)
@@ -138,7 +143,7 @@ class SubmissionHistoryFragment : BaseFragment() {
         submissionViewModel.retrieveSubmissionStudent(
             Preference(requireContext()).getPrefString(prefGetter).toString(),
             type
-        )
+        ,isIndividually,individualID)
     }
 
     companion object {
