@@ -206,18 +206,62 @@
                                     android:ellipsize="end"
                                     android:fontFamily="@font/quicksand_regular"
                                     android:maxLines="1"
-                                    android:text="Al-Baqoroh:1 - Al-Baqoroh:256"
+                                    android:text="Ayat Yang Disetorkan Ditampilkan Disini"
                                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
                                     android:textColor="@color/colorWhite" />
                             </LinearLayout>
                         </LinearLayout>
+                        <WebView
+                            android:id="@+id/sub_det_mp3View"
+                            android:layout_width="match_parent"
+                            android:layout_height="90dp" />
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:fontFamily="@font/quicksand_bold"
-                            android:text="Nilai Setoran : "
+                            android:text="Nilai Kelancaran : "
+                            android:textColor="@color/colorWhite"
+                            android:textSize="15sp" />
+
+
+                        <TextView
+                            android:id="@+id/sub_det_score_itqan"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/quicksand_regular"
+                            android:text="Belum Dinilai"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="15sp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/quicksand_bold"
+                            android:text="Nilai Tajwid : "
+                            android:textColor="@color/colorWhite"
+                            android:textSize="15sp" />
+
+
+                        <TextView
+                            android:id="@+id/sub_det_score_tajwid"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/quicksand_regular"
+                            android:text="Belum Dinilai"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="15sp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/quicksand_bold"
+                            android:text="Nilai Akhir : "
                             android:textColor="@color/colorWhite"
                             android:textSize="15sp" />
 
@@ -231,11 +275,6 @@
                             android:text="Belum Dinilai"
                             android:textColor="@color/colorWhite"
                             android:textSize="15sp" />
-
-                        <WebView
-                            android:id="@+id/sub_det_mp3View"
-                            android:layout_width="match_parent"
-                            android:layout_height="90dp" />
                     </LinearLayout>
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>

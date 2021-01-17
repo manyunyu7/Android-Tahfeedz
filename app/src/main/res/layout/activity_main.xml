@@ -86,10 +86,10 @@
 
 
         <LinearLayout
-            android:visibility="invisible"
+            android:visibility="visible"
             android:id="@+id/btnForgotPassword"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="13dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -100,6 +100,7 @@
                 android:layout_height="wrap_content"
                 android:text="Lupa Password ? Klik Disini"
                 android:textColor="@color/colorWhite"
+                android:textStyle="bold"
                 android:fontFamily="@font/montserrat_regular"/>
 
         </LinearLayout>
@@ -111,6 +112,6 @@
 
     <include layout="@layout/layout_login_ustadz" />
     <include layout="@layout/layout_login_student" />
-    <include layout="@layout/layout_forgot_password"/>
+    <include layout="@layout/layout_contact_admin"/>
     <include layout="@layout/layout_loading_transparent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

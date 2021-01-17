@@ -380,5 +380,6 @@
         </androidx.core.widget.NestedScrollView>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
+    <include layout="@layout/layout_contact_admin"/>
     <include layout="@layout/layout_loading_transparent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

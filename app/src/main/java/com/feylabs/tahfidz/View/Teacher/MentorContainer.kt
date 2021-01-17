@@ -1,4 +1,4 @@
-package com.feylabs.tahfidz.View
+package com.feylabs.tahfidz.View.Teacher
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

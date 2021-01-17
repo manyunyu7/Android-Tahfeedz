@@ -116,6 +116,12 @@ class SubmissionHistoryFragment : BaseFragment() {
             .get(SubmissionViewModel::class.java)
 
         submissionViewModel.dataSubmission.observe(viewLifecycleOwner, Observer { list ->
+            if (list==null){
+                cfAlert(
+                    "Belum Ada Setoran Yang Dikumpulkan",
+                    R.color.alert_default_icon_color, R.color.colorWhite
+                )
+            }
             anim_loading.visibility = View.GONE
             submissionAdapter.setData(list)
             recycler_submission.setHasFixedSize(true)
@@ -130,8 +136,8 @@ class SubmissionHistoryFragment : BaseFragment() {
         })
 
         submissionViewModel.status.observe(viewLifecycleOwner, Observer {
-            if (it) {
-                anim_loading.visibility = View.GONE
+            if (it==3) {
+                anim_loading.visibility = View.VISIBLE
             } else {
                 anim_loading.visibility = View.GONE
             }

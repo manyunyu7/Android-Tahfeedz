@@ -111,6 +111,7 @@ class StudentViewModel : ViewModel() {
 
     fun getStudentData(id: String) {
         statusGetUpdated.postValue(3)
+        tempUpdatedData.clear()
         AndroidNetworking.post(URL.STUDENT_DATA)
             .addBodyParameter("id", id)
             .addHeaders("id", id)
@@ -121,7 +122,6 @@ class StudentViewModel : ViewModel() {
                     Log.i("FAN-getStudentData", response.toString())
                     Log.i("FAN-getStudentData", id)
                     if (response.getInt("http_code") == 200) {
-
                         val student = response.getJSONObject("student")
                         val id = student.getString("id")
                         val name = student.getString("name")
@@ -168,7 +168,7 @@ class StudentViewModel : ViewModel() {
                             tempUpdatedGroupData["group_mentor_name"] = "null"
                             tempUpdatedGroupData["group_mentor_contact"] = "null"
                         }
-                        studentData.postValue(tempStudentData)
+                        studentData.postValue(tempUpdatedData)
                         groupData.postValue(tempUpdatedGroupData)
                         statusGetUpdated.postValue(1)
                     } else {

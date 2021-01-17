@@ -76,7 +76,6 @@ class StudentInfoFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        updateListener()
         updateLayout()
 
         //ADD PHOTO TO UI
@@ -149,8 +148,51 @@ class StudentInfoFragment : BaseFragment() {
         }
 
         btnRefreshProfile.setOnClickListener {
-            updateListener()
+            studentViewModel.getStudentData(
+                Preference(requireContext()).getPrefString("student_id").toString()
+            )
         }
+
+        studentViewModel.statusGetUpdated.observe(viewLifecycleOwner, Observer {
+            if (it == 3) {
+                anim_loading.visibility = View.VISIBLE
+            }
+            if (it == 1) {
+                anim_loading.visibility = View.GONE
+                val studentData = studentViewModel.getStudentData()
+                val groupData = studentViewModel.getGroupData()
+                val studentMap = mutableMapOf<String, String>()
+                val groupMap = mutableMapOf<String, String>()
+
+                //Saving value of studentData from LiveData to studentMap
+                studentData.value?.toMap(studentMap)
+                groupData.value?.toMap(groupMap)
+
+                if (studentMap["kelompok"] != null || studentMap["kelompok"] != "null") {
+                    groupData.value?.toMap(groupMap)
+                    //Save Group Mapping to SharedPreference
+                    for ((key, value) in groupMap) {
+                        Log.i(key, value)
+                        Preference(requireContext()).save(key, value)
+                    }
+                }
+                //Saving Student Mapping to SharedPref
+                for ((key, value) in studentMap) {
+                    Log.i(key, value)
+                    Preference(requireContext()).save(key, value)
+                }
+                tv_name.text = studentMap["student_name"]
+                et_name.setText(studentMap["student_name"])
+                et_nisn.text = studentMap["student_nisn"]
+                et_email.setText(studentMap["student_email"])
+                et_contact.setText(studentMap["student_contact"])
+                tv_class.text = studentMap["student_class"]
+            } else {
+                anim_loading.visibility = View.GONE
+
+            }
+            updateLayout()
+        })
 
         btnSaveChange.setOnClickListener {
             if (et_name.text.toString().length < 3) {
@@ -165,20 +207,24 @@ class StudentInfoFragment : BaseFragment() {
                 studentViewModel.updateData(
                     id, name, email, contact
                 )
-
-
-                studentViewModel.statusUpdateBasic.observe(viewLifecycleOwner, Observer {
-                    if (it == 1) {
-                        "Berhasil Update Data".showToast()
-                        updateListener()
-                    }
-                    if (it == 0) {
-                        updateListener()
-                        "Gagal Mengupdate Data, Periksa Koneksi Internet Anda".showToast()
-                    }
-                })
             }
         }
+
+
+        studentViewModel.statusUpdateBasic.observe(viewLifecycleOwner, Observer {
+            if (it!=3){
+                anim_loading.visibility=View.GONE
+            }
+            if (it == 1) {
+                "Berhasil Update Data".showToast()
+                studentViewModel.getStudentData(
+                    Preference(requireContext()).getPrefString("student_id").toString()
+                )
+            }
+            if (it == 0) {
+                "Gagal Mengupdate Data, Periksa Koneksi Internet Anda".showToast()
+            }
+        })
 
 
 
@@ -226,52 +272,6 @@ class StudentInfoFragment : BaseFragment() {
         et_email.setText(pref.getPrefString("student_email"))
         et_contact.setText(pref.getPrefString("student_contact"))
         tv_class.text = pref.getPrefString("student_class")
-    }
-
-    private fun updateListener() {
-        studentViewModel.getStudentData(
-            Preference(requireContext()).getPrefString("student_id").toString()
-        )
-        studentViewModel.statusGetUpdated.observe(viewLifecycleOwner, Observer {
-            if (it == 3) {
-                anim_loading.visibility = View.VISIBLE
-            }
-            if (it == 1) {
-                anim_loading.visibility = View.GONE
-                val studentData = studentViewModel.getStudentData()
-                val groupData = studentViewModel.getGroupData()
-                val studentMap = mutableMapOf<String, String>()
-                val groupMap = mutableMapOf<String, String>()
-
-                //Saving value of studentData from LiveData to studentMap
-                studentData.value?.toMap(studentMap)
-                groupData.value?.toMap(groupMap)
-
-                if (studentMap["kelompok"] != null || studentMap["kelompok"] != "null") {
-                    groupData.value?.toMap(groupMap)
-                    //Save Group Mapping to SharedPreference
-                    for ((key, value) in groupMap) {
-                        Log.i(key, value)
-                        Preference(requireContext()).save(key, value)
-                    }
-                }
-                //Saving Student Mapping to SharedPref
-                for ((key, value) in studentMap) {
-                    Log.i(key, value)
-                    Preference(requireContext()).save(key, value)
-                }
-                tv_name.text = studentMap["student_name"]
-                et_name.setText(studentMap["student_name"])
-                et_nisn.text = studentMap["student_nisn"]
-                et_email.setText(studentMap["student_email"])
-                et_contact.setText(studentMap["student_contact"])
-                tv_class.text = studentMap["student_class"]
-            } else {
-                anim_loading.visibility = View.GONE
-
-            }
-            updateLayout()
-        })
     }
 
 

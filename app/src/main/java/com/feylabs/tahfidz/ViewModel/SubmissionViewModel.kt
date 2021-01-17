@@ -11,20 +11,8 @@ import com.feylabs.tahfidz.Util.URL
 import org.json.JSONObject
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 class SubmissionViewModel : ViewModel() {
-    var status = MutableLiveData<Boolean>()
+    var status = MutableLiveData<Int>()
     var statusDelete = MutableLiveData<Boolean>()
     val dataSubmission = MutableLiveData<MutableList<SubmissionModel>>()
 
@@ -45,6 +33,7 @@ class SubmissionViewModel : ViewModel() {
         Log.i("responseSub",id+param)
 
         val dataSubmissionAPI = mutableListOf<SubmissionModel>()
+        status.postValue(3)
         AndroidNetworking.post(URL.SUBMISSION)
             .addBodyParameter(param, ids)
             .build()
@@ -74,16 +63,16 @@ class SubmissionViewModel : ViewModel() {
                             )
 
                         }
-                        status.postValue(true)
+                        status.postValue(1)
                         dataSubmission.postValue(dataSubmissionAPI)
                     } else {
-                        status.postValue(false)
+                        status.postValue(2)
                     }
                 }
 
                 override fun onError(anError: ANError?) {
                     Log.i("responSub", anError.toString())
-                    status.postValue(false)
+                    status.postValue(0)
                 }
             })
     }
@@ -112,7 +101,4 @@ class SubmissionViewModel : ViewModel() {
             })
     }
 
-    fun getStat() : MutableLiveData<Boolean>{
-        return status
-    }
 }

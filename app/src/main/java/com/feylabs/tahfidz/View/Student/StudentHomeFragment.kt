@@ -8,21 +8,26 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.feylabs.tahfidz.Model.AdminAdapter
 import com.feylabs.tahfidz.Model.MotAdapter
 import com.feylabs.tahfidz.R
 import com.feylabs.tahfidz.Util.SharedPreference.Preference
 import com.feylabs.tahfidz.View.BaseView.BaseFragment
 import com.feylabs.tahfidz.View.QuranModulesViews.ListSurahActivity
 import com.feylabs.tahfidz.View.SharedView.MentorQuiz
+import com.feylabs.tahfidz.ViewModel.AdminViewModel
 import com.feylabs.tahfidz.ViewModel.MotivationViewModel
 import com.feylabs.tahfidz.ViewModel.StudentViewModel
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_student_home.*
+import kotlinx.android.synthetic.main.layout_contact_admin.*
 import kotlinx.android.synthetic.main.layout_loading_transparent.*
 import kotlinx.android.synthetic.main.layout_menu_group.*
+import kotlinx.android.synthetic.main.layout_menu_mentor.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -39,6 +44,7 @@ class StudentHomeFragment : BaseFragment() {
     private var param1: String? = null
     private var param2: String? = null
     lateinit var studentViewModel: StudentViewModel
+    lateinit var adminViewModel: AdminViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,17 +68,68 @@ class StudentHomeFragment : BaseFragment() {
         studentViewModel.getStudentData(
             Preference(requireContext()).getPrefString("student_id").toString()
         )
+        adminViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())
+            .get(AdminViewModel::class.java)
+        adminViewModel.getAdmin()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         shimmerMotCardStudentInfo.startShimmer()
 
+        adminViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())
+            .get(AdminViewModel::class.java)
+        adminViewModel.getAdmin()
         swipeRefreshStudentHome.setOnRefreshListener {
             swipeRefreshStudentHome.isRefreshing=false
             studentViewModel.getStudentData(Preference(requireContext()).getPrefString("student_ID").toString())
             anim_loading.visibility=View.VISIBLE
         }
+
+        val adminAdapter = AdminAdapter()
+        adminViewModel.dataAdmin.observe(viewLifecycleOwner, Observer {
+            if (it!=null){
+                adminAdapter.setData(it)
+                rv_admin.setHasFixedSize(true)
+                rv_admin.layoutManager=LinearLayoutManager(requireContext())
+                rv_admin.adapter=adminAdapter
+            }else{
+                "Tidak Ada Data Admin".showToast()
+            }
+        })
+
+        btn_call_admin.setOnClickListener {
+            adminViewModel.getAdmin()
+            lyt_contact_admin.visibility=View.VISIBLE
+            lyt_contact_admin.animation= AnimationUtils.loadAnimation(requireContext(), R.anim.bottom_appear)
+        }
+
+        btnCloseAdmin.setOnClickListener {
+            lyt_contact_admin.visibility=View.GONE
+            lyt_contact_admin.animation=
+                AnimationUtils.loadAnimation(requireContext(), R.anim.item_animation_gone_bottom)
+        }
+
+
+        adminViewModel.statusGetAdmin.observe(viewLifecycleOwner, Observer {
+            if (it==3){
+                anim_loading.visibility=View.VISIBLE
+            }else{
+                anim_loading.visibility=View.GONE
+            }
+
+            if (it==1){
+                //Do Nothing
+            }
+
+            //If Internet is Not Available
+            if (it==0){
+                cfAlert(
+                    "Koneksi Internet Tidak Ditemukan , Periksa Koneksi Internet Anda atau Coba Lagi Nanti"
+                    , 0, -1
+                )
+            }
+        })
 
         if (!isOnline()) {
             NoInternet(
@@ -94,6 +151,9 @@ class StudentHomeFragment : BaseFragment() {
         studentViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())
             .get(StudentViewModel::class.java)
         studentViewModel.statusGetUpdated.observe(viewLifecycleOwner, Observer {
+            if (it==3){
+                anim_loading.visibility=View.VISIBLE
+            }
             if (it==1) {
                 anim_loading.visibility = View.GONE
                 val studentData = studentViewModel.getStudentData()
@@ -122,7 +182,6 @@ class StudentHomeFragment : BaseFragment() {
                 updatingStudentGroupDataUI()
                 anim_loading.visibility = View.GONE
             }
-
             //Update
             updatingStudentGroupDataUI()
         })

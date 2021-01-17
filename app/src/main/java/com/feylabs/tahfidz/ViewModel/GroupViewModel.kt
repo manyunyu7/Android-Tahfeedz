@@ -119,11 +119,11 @@ class GroupViewModel : ViewModel() {
             })
     }
 
-    fun retrieveGroupMember(mentor_id_: String) {
+    fun retrieveGroupMember(group_id: String) {
         var tempStat = 3
         statusRetrieveGroupMember.value = (tempStat)
         AndroidNetworking.post(URL.GROUP_DATA)
-            .addBodyParameter("mentor_id", mentor_id_)
+            .addBodyParameter("group_id", group_id)
             .build()
             .getAsJSONObject(object : JSONObjectRequestListener {
                 override fun onResponse(response: JSONObject) {

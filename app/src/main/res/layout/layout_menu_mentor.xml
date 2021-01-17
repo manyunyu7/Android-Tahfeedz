@@ -87,7 +87,7 @@
 
 
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/btn_all_student"
+                android:id="@+id/btn_call_admin"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
@@ -116,7 +116,7 @@
                         android:layout_weight="1"
                         android:fontFamily="@font/montserrat_regular"
                         android:gravity="center"
-                        android:text="Siswa \n Bimbingan"
+                        android:text="Hubungi\nAdmin"
                         android:textAlignment="center"
                         android:textColor="#5E5E5E" />
                 </LinearLayout>

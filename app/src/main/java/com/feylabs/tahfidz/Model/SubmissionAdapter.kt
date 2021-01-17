@@ -99,6 +99,9 @@ class SubmissionAdapter : RecyclerView.Adapter<SubmissionAdapter.SubmissionHolde
         holder.sub_start_end.text = listData[position].start + "-\n" + listData[position].end
 
         holder.itemView.setOnClickListener { v ->
+            try {
+
+
             //CONFIG BOTTOM NAVIGATION UI===========================================================
             val activity = holder.itemView.context as Activity
             subDetailBottomSheet = SubBottomSheet(activity)
@@ -169,6 +172,7 @@ class SubmissionAdapter : RecyclerView.Adapter<SubmissionAdapter.SubmissionHolde
                     putExtra("data", listData[position])
                     putExtra("url", subDetMp3.url)
                 }
+                subDetailBottomSheet.dismiss()
                 activity.startActivity(intent)
             }
 
@@ -178,6 +182,7 @@ class SubmissionAdapter : RecyclerView.Adapter<SubmissionAdapter.SubmissionHolde
             subDetMp3.setDownloadListener { url, userAgent, contentDisposition, mimetype, contentLength ->
                 val i = Intent(Intent.ACTION_VIEW)
                 i.data = Uri.parse(url)
+                subDetailBottomSheet.dismiss()
                 holder.itemView.context.startActivity(i)
             }
             subDetMp3.webViewClient = object : WebViewClient() {
@@ -219,8 +224,12 @@ class SubmissionAdapter : RecyclerView.Adapter<SubmissionAdapter.SubmissionHolde
                     }
                 cfAlert.show()
             }
+        }catch (e:Exception){
+            }
         }
+
     }
+
 
 
     private fun deleteSubmission(

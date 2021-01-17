@@ -13,7 +13,7 @@ import org.json.JSONObject
 import java.io.File
 
 class UploadViewModel : ViewModel() {
-    var status = MutableLiveData<Boolean>()
+    var statusUpload = MutableLiveData<Int>()
     var message = MutableLiveData<String>()
     var uploadedListener = MutableLiveData<String>()
 
@@ -23,14 +23,10 @@ class UploadViewModel : ViewModel() {
         student_name: String,
         group_id: String,
         start: String,
-        end: String
+        end: String,
+        type: String
     ) {
-        Log.i("dataUpload", file.toString())
-        Log.i("dataUpload", student_id)
-        Log.i("dataUpload", student_name)
-        Log.i("dataUpload", group_id)
-        Log.i("dataUpload", start)
-        Log.i("dataUpload", end)
+        statusUpload.postValue(3)
         AndroidNetworking.upload(URL.UPLOAD_SUBMISSION)
             .addMultipartFile("inputSubmission", file)
             .addMultipartParameter("studentID", student_id)
@@ -38,6 +34,7 @@ class UploadViewModel : ViewModel() {
             .addMultipartParameter("group", group_id)
             .addMultipartParameter("start", start)
             .addMultipartParameter("end", end)
+            .addMultipartParameter("type", type)
             .build()
             .setUploadProgressListener { bytesUploaded, totalBytes ->
                 // do anything with progress
@@ -50,18 +47,15 @@ class UploadViewModel : ViewModel() {
                 override fun onResponse(response: JSONObject) {
                     Log.i("UploadRespon", response.toString())
                     if (response.getInt("response_code") == 0) {
-                        status.postValue(false)
-                        message.postValue(response.getString("message"))
+                        statusUpload.postValue(2)
                     } else if (response.getInt("response_code") == 1) {
-                        status.postValue(true)
-                        message.postValue(response.getString("message"))
+                        statusUpload.postValue(1)
                     }
                 }
 
                 override fun onError(anError: ANError) {
                     Log.i("UploadRespon", anError.toString())
-                    status.postValue(false)
-                    message.postValue("FAN Error")
+                    statusUpload.postValue(0)
                 }
             })
     }

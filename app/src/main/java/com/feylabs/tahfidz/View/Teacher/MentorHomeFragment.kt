@@ -35,7 +35,7 @@ class MentorHomeFragment : BaseFragment() {
     private var param1: String? = null
     private var param2: String? = null
 
-    var mentor_id = ""
+    var group_id = ""
     lateinit var groupMemberAdapter: GroupMemberAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,14 +53,15 @@ class MentorHomeFragment : BaseFragment() {
         groupViewModel.retrieveGroupAnnouncement(
             Preference(requireContext()).getPrefString("group_temp").toString()
         )
-        groupViewModel.retrieveGroupMember(mentor_id)
+        group_id = Preference(requireContext()).getPrefString("group_temp").toString()
+        groupViewModel.retrieveGroupMember(group_id)
 
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        mentor_id = Preference(requireContext()).getPrefString("mentor_id").toString()
 
+        group_id = Preference(requireContext()).getPrefString("group_temp").toString()
         groupMemberAdapter = GroupMemberAdapter()
 
         val groupViewModel =
@@ -70,7 +71,8 @@ class MentorHomeFragment : BaseFragment() {
         groupViewModel.retrieveGroupAnnouncement(
             Preference(requireContext()).getPrefString("group_temp").toString()
         )
-        groupViewModel.retrieveGroupMember(mentor_id)
+        group_id = Preference(requireContext()).getPrefString("group_temp").toString()
+        groupViewModel.retrieveGroupMember(group_id)
 
 
 

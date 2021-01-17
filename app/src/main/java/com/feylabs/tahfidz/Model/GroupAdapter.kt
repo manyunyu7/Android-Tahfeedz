@@ -1,7 +1,6 @@
 package com.feylabs.tahfidz.Model
 
 import android.content.Intent
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,7 +8,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.feylabs.tahfidz.R
 import com.feylabs.tahfidz.Util.SharedPreference.Preference
-import com.feylabs.tahfidz.View.MentorContainer
+import com.feylabs.tahfidz.View.Teacher.MentorContainer
 import kotlinx.android.synthetic.main.list_group.view.*
 
 class GroupAdapter : RecyclerView.Adapter<GroupAdapter.HolderGroupAdapter>() {
@@ -59,7 +58,8 @@ class GroupAdapter : RecyclerView.Adapter<GroupAdapter.HolderGroupAdapter>() {
 
         holder.itemView.setOnClickListener {
             Preference(context).save("group_temp",listGroup[position].group_id)
-            context.startActivity(Intent(context,MentorContainer::class.java))
+            context.startActivity(Intent(context,
+                MentorContainer::class.java))
         }
     }
 }

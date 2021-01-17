@@ -2,7 +2,9 @@ package com.feylabs.tahfidz.Util
 
 object URL {
 
-    const val BASE_URL = "http://192.168.1.89/API-Tahfidz/"
+    const val BASE_URL = "http://tahfidz.sditwahdahbtg.com/"
+    const val LARAVEL_URL = "http://web-tahfidz.sditwahdahbtg.com/"
+    const val MENTOR_DASHBOARD = LARAVEL_URL + "login/mentor"
 
     const val LOGIN_STUDENT = BASE_URL + "student/login.php"
     const val LOGIN_MENTOR = BASE_URL + "mentor/login.php"
@@ -23,6 +25,7 @@ object URL {
     const val GROUP_ANNOUNCEMENT = BASE_URL + "group/get_announcement.php"
     const val UPDATE_ANNOUNCEMENT = BASE_URL + "group/update_announcement.php"
 
+    const val GET_ADMIN = BASE_URL+"admin/get_admin.php"
 
     const val GET_QUIZ = BASE_URL + "quiz/get_quiz.php"
     const val DELETE_QUIZ = BASE_URL + "quiz/delete_quiz.php"

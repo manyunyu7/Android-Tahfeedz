@@ -43,7 +43,6 @@ class StudentSubmissionFragment : BaseFragment() {
     lateinit var mr: MediaRecorder
     lateinit var mp: MediaPlayer
     private lateinit var waveRecorder :  WaveRecorder
-    var handler = android.os.Handler()
     var timeWhenStopped: Long = 0 // for chronometer
 
     //Timer, substitute for deprecated handler
@@ -169,8 +168,6 @@ class StudentSubmissionFragment : BaseFragment() {
             timer.stop()
             statusRecord.text = getString(R.string.label_init_record)
             lastRecorderFileLabel.text = path
-
-
         }
 
 
@@ -222,10 +219,15 @@ class StudentSubmissionFragment : BaseFragment() {
 
     private fun initUI() {
         val init = mutableListOf(1, 2, 3, 4, 5, 6, 7)
+        val submission_type =
+            mutableListOf("Ziyadah / Hafalan Baru","Muroja'ah / Pengulangan","Ujian Kenaikan Juz")
         spinnerAyahStart.setItems(init)
         spinnerAyahEnd.setItems(init)
         spinnerSurahStart?.setItems(s)
         spinnerSurahEnd?.setItems(s)
+
+        spinnerType.setItems(submission_type)
+
         val mapSurah = mutableMapOf<String, Int>()
         //Mapping Surah with each of it ayah count
         for (i in 0 until s.size) {
@@ -277,10 +279,9 @@ class StudentSubmissionFragment : BaseFragment() {
         //Variables to Upload Recorded Surah to Server
         val start = "$surahStart:$ayahStart"
         val end = "$surahEnd:$ayahEnd"
+        val type = spinnerType.text.toString()
 
-
-
-        uploadViewModel.uploadFile(File(path), xstudent_id, xstudent_name, xgroup_id, start, end)
+        uploadViewModel.uploadFile(File(path), xstudent_id, xstudent_name, xgroup_id, start, end,type)
         uploadViewModel.uploadedListener.observe(viewLifecycleOwner, Observer {
             if (it!=null){
                 textUploadListener.text=it
@@ -288,21 +289,34 @@ class StudentSubmissionFragment : BaseFragment() {
                 textUploadListener.text="Loading"
             }
         })
-        uploadViewModel.status.observe(viewLifecycleOwner, Observer {
-            if (it) {
-                anim_upload.visibility = View.GONE
+        uploadViewModel.statusUpload.observe(viewLifecycleOwner, Observer {
+            checkIfLocalFileExist()
+            if (it==3){
+                anim_upload.visibility=View.VISIBLE
+            }else{
+                anim_upload.visibility=View.GONE
+            }
+
+            if (it==1) {
                 checkIfLocalFileExist()
                 cfAlert(
                     "Berhasil Mengupload Setoran",
                     R.color.alert_default_icon_color, R.color.colorWhite
                 )
-            } else {
-                anim_upload.visibility = View.GONE
+            }
+
+            if (it==0){
                 cfAlert(
-                    "Gagal Mengupload Setoran",
+                    "Gagal Mengupload Setoran , Periksa Koneksi Internet Anda atau Coba Lagi Nanti",
                     R.color.alert_default_icon_color, R.color.colorWhite
                 )
-                checkIfLocalFileExist()
+            }
+
+            if (it==2){
+                cfAlert(
+                    "Gagal Mengupload Setoran , File Setoran Bermasalah",
+                    R.color.alert_default_icon_color, R.color.colorWhite
+                )
             }
         })
     }
