@@ -64,171 +64,151 @@ class SubmissionAdapter : RecyclerView.Adapter<SubmissionAdapter.SubmissionHolde
         listData[position].id = "#SE" + listData[position].id
         holder.sub_id.text = listData[position].id
         holder.sub_date.text = listData[position].date
-        var status = listData[position].status
-        var score = if(listData[position].score==""){
-            0
-        }else{
-            listData[position].score.toInt()
-        }
-        var checkStatus = 0
+        var status_code = listData[position].status_code
+        val status_text = listData[position].status_text
+
+        var checkStatus = status_code.toInt()
         var scoreCategory = ""
 
-        when (score) {
-            in 0..20 -> scoreCategory = "Maqbul"
-            in 30..70 -> scoreCategory = "Jayyid"
-            in 70..90 -> scoreCategory = "Jayyid Jiddan Murtafi'"
-            in 90..100 -> scoreCategory = "Mumtaz"
+        if (status_code != "1") {
+            holder.sub_status.setBackgroundResource(R.drawable.bg_status_waiting)
         }
 
-        //LOGIC FOR SETTING BIG AND SMALL SCORE LABEL AT BOTTOM LAYOUT
-        when (status) {
-            "0" -> {
-                checkStatus = 0
-                status = "Menunggu Dinilai"
-                holder.sub_status.setBackgroundResource(R.drawable.bg_status_waiting)
-            }
-            "1" -> {
-                checkStatus = 1
-                status = "Sudah Dinilai"
-            }
-        }
-        holder.sub_status.text = status
-
-
+        holder.sub_status.text = status_text
         holder.sub_start_end.text = listData[position].start + "-\n" + listData[position].end
 
         holder.itemView.setOnClickListener { v ->
             try {
+                //CONFIG BOTTOM NAVIGATION UI===========================================================
+                val activity = holder.itemView.context as Activity
+                subDetailBottomSheet = SubBottomSheet(activity)
+                val subDetId = subDetailBottomSheet.sub_det_id
+                val subDetBtnClose = subDetailBottomSheet.btnCloseBottom
+                val subDetDate = subDetailBottomSheet.sub_det_date
+                val subStartEnd = subDetailBottomSheet.sub_start_end
+                val subStartStatus = subDetailBottomSheet.sub_det_status
+                val subDetScoreSmall = subDetailBottomSheet.sub_det_score_small
+                val subDetScoreBig = subDetailBottomSheet.sub_det_score_big
+                val subDetMp3 = subDetailBottomSheet.sub_det_mp3View
+                val btnConfDeleteSubmission = subDetailBottomSheet.btnConfDeleteSubmission
+                val btnSeeCorrectionSubmission = subDetailBottomSheet.btnSeeCorrection
+                val cardDelete = subDetailBottomSheet.deleteCard
+                val subDetScoreCategory = subDetailBottomSheet.sub_det_category_score
 
+                subDetailBottomSheet.sub_det_score_ahkam.text = listData[position].score_ahkam
+                subDetailBottomSheet.sub_det_score_makhroj.text = listData[position].score_makhroj
+                subDetailBottomSheet.sub_det_score_tajwid.text = listData[position].score_tajwid
+                subDetailBottomSheet.sub_det_score_itqan.text = listData[position].score_itqan
 
-            //CONFIG BOTTOM NAVIGATION UI===========================================================
-            val activity = holder.itemView.context as Activity
-            subDetailBottomSheet = SubBottomSheet(activity)
-            val subDetId = subDetailBottomSheet.sub_det_id
-            val subDetBtnClose = subDetailBottomSheet.btnCloseBottom
-            val subDetDate= subDetailBottomSheet.sub_det_date
-            val subStartEnd = subDetailBottomSheet.sub_start_end
-            val subStartStatus = subDetailBottomSheet.sub_det_status
-            val subDetScoreSmall = subDetailBottomSheet.sub_det_score_small
-            val subDetScoreBig = subDetailBottomSheet.sub_det_score_big
-            val subDetMp3 = subDetailBottomSheet.sub_det_mp3View
-            val btnConfDeleteSubmission = subDetailBottomSheet.btnConfDeleteSubmission
-            val btnSeeCorrectionSubmission = subDetailBottomSheet.btnSeeCorrection
-            val cardDelete = subDetailBottomSheet.deleteCard
-            val subDetScoreCategory = subDetailBottomSheet.sub_det_category_score
+                subDetailBottomSheet.show()
 
-            subDetailBottomSheet.show()
-
-            val loginType = Preference(activity).getPrefString("login_type")
-            if (loginType == "student") {
-                btnSeeCorrectionSubmission.text = "Lihat Catatan/Koreksi Pembimbing"
-            } else {
-                cardDelete.visibility = View.GONE
-                btnSeeCorrectionSubmission.text = "Input/Edit Koreksi dan Nilai"
-            }
-
-            subDetBtnClose.setOnClickListener {
-                subDetailBottomSheet.dismiss()
-            }
-
-            when (checkStatus) {
-                0 -> {
-                    status = "Menunggu Dinilai"
-                    subDetScoreBig.text = holder.itemView.context.getString(R.string.not_graded)
-                    subDetScoreSmall.text = holder.itemView.context.getString(R.string.not_graded)
-                    subStartStatus.text = holder.itemView.context.getString(R.string.not_graded)
-                    subDetScoreCategory.visibility=View.GONE
-
+                val loginType = Preference(activity).getPrefString("login_type")
+                if (loginType == "student") {
+                    btnSeeCorrectionSubmission.text = "Lihat Catatan/Koreksi Pembimbing"
+                } else {
+                    cardDelete.visibility = View.GONE
+                    btnSeeCorrectionSubmission.text = "Input/Edit Koreksi dan Nilai"
                 }
-                1 -> {
-                    status = "Sudah Dinilai"
-                    subStartStatus.text = "Sudah Dinilai"
-                    subDetScoreBig.text = listData[position].score
-                    subDetScoreSmall.text = listData[position].score
-                    subDetScoreCategory.visibility=View.VISIBLE
-                    subDetScoreCategory.text=scoreCategory
+
+                subDetBtnClose.setOnClickListener {
+                    subDetailBottomSheet.dismiss()
                 }
-            }
 
-            // SET UP UI FOR BOTTOM LAYOUT =========================================================
-            subDetId.text = listData[position].id
-            subStartEnd.text = "${listData[position].start} - ${listData[position].end}"
-            subDetDate.text=listData[position].date
+                when (checkStatus) {
+                    0 -> {
+                        subDetScoreBig.text = holder.itemView.context.getString(R.string.not_graded)
+                        subDetScoreSmall.text =
+                            holder.itemView.context.getString(R.string.not_graded)
+                        subStartStatus.text = holder.itemView.context.getString(R.string.not_graded)
+                        subDetScoreCategory.visibility = View.GONE
 
-
-
-
-            var mp3Path = listData[position].audio
-                .replaceFirst(".", "")
-                .replaceFirst("/", "")
-                .replace(" ", "%20")
-
-
-
-            btnSeeCorrectionSubmission.setOnClickListener {
-                val intent = Intent(holder.itemView.context, CorrectionDetailActivity::class.java)
-                intent.apply {
-                    putExtra("data", listData[position])
-                    putExtra("url", subDetMp3.url)
-                }
-                subDetailBottomSheet.dismiss()
-                activity.startActivity(intent)
-            }
-
-
-            //SETTING UP MP3========================================================================
-            subDetMp3.settings.javaScriptEnabled = true
-            subDetMp3.setDownloadListener { url, userAgent, contentDisposition, mimetype, contentLength ->
-                val i = Intent(Intent.ACTION_VIEW)
-                i.data = Uri.parse(url)
-                subDetailBottomSheet.dismiss()
-                holder.itemView.context.startActivity(i)
-            }
-            subDetMp3.webViewClient = object : WebViewClient() {
-                override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
-                    view?.loadUrl(API_Endpoint.MP3_MOBILE + mp3Path)
-                    return true
-                }
-            }
-            subDetMp3.loadUrl(API_Endpoint.MP3_MOBILE + mp3Path)
-            Log.i("MP3View URL", API_Endpoint.MP3_MOBILE + mp3Path)
-
-
-            //DELETE SUBMISSION=====================================================================
-            btnConfDeleteSubmission.setOnClickListener {
-                // Create Alert using Builder
-                val cfAlert = CFAlertDialog.Builder(activity)
-                    .setDialogStyle(CFAlertDialog.CFAlertStyle.ALERT)
-                    .setTitle("Anda Yakin Ingin Menghapus Setoran Ini ??")
-                    .setMessage("File yang sudah dihapus tidak dapat dikembalikan")
-                    .addButton(
-                        "HAPUS",
-                        -1,
-                        -1,
-                        CFAlertDialog.CFAlertActionStyle.POSITIVE,
-                        CFAlertDialog.CFAlertActionAlignment.END
-                    ) { dialog, which ->
-                        //Call Delete Submission Function
-                        deleteSubmission(
-                            listData[position].id.removeRange(0, 3),
-                            position, activity
-                        )
-                        dialog.dismiss()
                     }
-                    .addButton(
-                        "BATAL", -1, -1, CFAlertDialog.CFAlertActionStyle.NEGATIVE,
-                        CFAlertDialog.CFAlertActionAlignment.END
-                    ) { dialog, which ->
-                        dialog.dismiss()
+                    1 -> {
+                        subStartStatus.text = "Sudah Dinilai"
+                        subDetScoreBig.text = listData[position].score_final
+                        subDetScoreSmall.text = listData[position].score_final
+                        subDetScoreCategory.visibility = View.VISIBLE
+                        subDetScoreCategory.text = scoreCategory
                     }
-                cfAlert.show()
-            }
-        }catch (e:Exception){
+                }
+
+                // SET UP UI FOR BOTTOM LAYOUT =========================================================
+                subDetId.text = listData[position].id
+                subStartEnd.text = "${listData[position].start} - ${listData[position].end}"
+                subDetDate.text = listData[position].date
+
+
+                var mp3Path = listData[position].audio
+                    .replaceFirst(".", "")
+                    .replaceFirst("/", "")
+                    .replace(" ", "%20")
+
+
+
+                btnSeeCorrectionSubmission.setOnClickListener {
+                    val intent =
+                        Intent(holder.itemView.context, CorrectionDetailActivity::class.java)
+                    intent.apply {
+                        putExtra("data", listData[position])
+                        putExtra("url", subDetMp3.url)
+                    }
+                    subDetailBottomSheet.dismiss()
+                    activity.startActivity(intent)
+                }
+
+
+                //SETTING UP MP3========================================================================
+                subDetMp3.settings.javaScriptEnabled = true
+                subDetMp3.setDownloadListener { url, userAgent, contentDisposition, mimetype, contentLength ->
+                    val i = Intent(Intent.ACTION_VIEW)
+                    i.data = Uri.parse(url)
+                    subDetailBottomSheet.dismiss()
+                    holder.itemView.context.startActivity(i)
+                }
+                subDetMp3.webViewClient = object : WebViewClient() {
+                    override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
+                        view?.loadUrl(API_Endpoint.MP3_MOBILE + mp3Path)
+                        return true
+                    }
+                }
+                subDetMp3.loadUrl(API_Endpoint.MP3_MOBILE + mp3Path)
+                Log.i("MP3View URL", API_Endpoint.MP3_MOBILE + mp3Path)
+
+
+                //DELETE SUBMISSION=====================================================================
+                btnConfDeleteSubmission.setOnClickListener {
+                    // Create Alert using Builder
+                    val cfAlert = CFAlertDialog.Builder(activity)
+                        .setDialogStyle(CFAlertDialog.CFAlertStyle.ALERT)
+                        .setTitle("Anda Yakin Ingin Menghapus Setoran Ini ??")
+                        .setMessage("File yang sudah dihapus tidak dapat dikembalikan")
+                        .addButton(
+                            "HAPUS",
+                            -1,
+                            -1,
+                            CFAlertDialog.CFAlertActionStyle.POSITIVE,
+                            CFAlertDialog.CFAlertActionAlignment.END
+                        ) { dialog, which ->
+                            //Call Delete Submission Function
+                            deleteSubmission(
+                                listData[position].id.removeRange(0, 3),
+                                position, activity
+                            )
+                            dialog.dismiss()
+                        }
+                        .addButton(
+                            "BATAL", -1, -1, CFAlertDialog.CFAlertActionStyle.NEGATIVE,
+                            CFAlertDialog.CFAlertActionAlignment.END
+                        ) { dialog, which ->
+                            dialog.dismiss()
+                        }
+                    cfAlert.show()
+                }
+            } catch (e: Exception) {
             }
         }
 
     }
-
 
 
     private fun deleteSubmission(

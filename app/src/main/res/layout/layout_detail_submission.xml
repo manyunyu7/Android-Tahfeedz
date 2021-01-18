@@ -39,7 +39,7 @@
                     android:textSize="29sp" />
 
                 <TextView
-                    android:id="@+id/lastRecorderFileLabel"
+                    android:id="@+id/label_description"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/title"
@@ -215,7 +215,35 @@
                             android:id="@+id/sub_det_mp3View"
                             android:layout_width="match_parent"
                             android:layout_height="90dp" />
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/quicksand_bold"
+                            android:text="Nilai Akhir : "
+                            android:textColor="@color/colorWhite"
+                            android:textSize="17sp" />
 
+
+
+                        <TextView
+                            android:id="@+id/sub_det_score_small"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/quicksand_regular"
+                            android:text="-"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="17sp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/quicksand_bold"
+                            android:text="Detail Nilai : "
+                            android:textColor="@color/colorWhite"
+                            android:textSize="15sp" />
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -232,7 +260,47 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:fontFamily="@font/quicksand_regular"
-                            android:text="Belum Dinilai"
+                            android:text="-"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="15sp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/quicksand_bold"
+                            android:text="Nilai Hukum Bacaan : "
+                            android:textColor="@color/colorWhite"
+                            android:textSize="15sp" />
+
+
+                        <TextView
+                            android:id="@+id/sub_det_score_ahkam"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/quicksand_regular"
+                            android:text="-"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="15sp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/quicksand_bold"
+                            android:text="Nilai Makhroj Huruf : "
+                            android:textColor="@color/colorWhite"
+                            android:textSize="15sp" />
+
+
+                        <TextView
+                            android:id="@+id/sub_det_score_makhroj"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/quicksand_regular"
+                            android:text="-"
                             android:textColor="@color/colorWhite"
                             android:textSize="15sp" />
 
@@ -252,29 +320,11 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:fontFamily="@font/quicksand_regular"
-                            android:text="Belum Dinilai"
-                            android:textColor="@color/colorWhite"
-                            android:textSize="15sp" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:fontFamily="@font/quicksand_bold"
-                            android:text="Nilai Akhir : "
+                            android:text="-"
                             android:textColor="@color/colorWhite"
                             android:textSize="15sp" />
 
 
-                        <TextView
-                            android:id="@+id/sub_det_score_small"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:fontFamily="@font/quicksand_regular"
-                            android:text="Belum Dinilai"
-                            android:textColor="@color/colorWhite"
-                            android:textSize="15sp" />
                     </LinearLayout>
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>

@@ -74,7 +74,7 @@ class SubmissionDetailStudent : BaseActivity()  {
         sub_det_id.text="#SE"+dataIntentParcel.id
         sub_det_date.text=dataIntentParcel.date
         sub_start_end.text=dataIntentParcel.start +"-"+dataIntentParcel.end
-        sub_det_status.text=dataIntentParcel.status
+        sub_det_status.text=dataIntentParcel.status_text
 
         val title = intent.getStringExtra("title")
         textSource.text = API_Endpoint.MP3 + mp3Path

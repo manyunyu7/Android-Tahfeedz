@@ -50,7 +50,8 @@ class SubmissionViewModel : ViewModel() {
                         for (i in 0 until submission.length()) {
                             val sub_id = submission.getJSONObject(i).getString("id_submission")
                             val sub_student_id = submission.getJSONObject(i).getString("id_student")
-                            val sub_status = submission.getJSONObject(i).getString("status")
+                            val sub_status_code = submission.getJSONObject(i).getString("status")
+                            val sub_status_text = submission.getJSONObject(i).getString("status_text")
                             val sub_date = submission.getJSONObject(i).getString("date")
                             val sub_student_name =
                                 submission.getJSONObject(i).getString("student_name")
@@ -68,11 +69,26 @@ class SubmissionViewModel : ViewModel() {
                                 submission.getJSONObject(i).getString("score_makhroj")
                             val sub_score_tajwid =
                                 submission.getJSONObject(i).getString("score_tajwid")
+                            val sub_score_final =
+                                submission.getJSONObject(i).getString("score_tajwid")
 
                             dataSubmissionAPI.add(
                                 SubmissionModel(
-                                    sub_id, sub_student_id, sub_date, sub_student_name, sub_status,
-                                    sub_start, sub_end, sub_audio, sub_score, sub_correction
+                                    id = sub_id,
+                                    id_student = sub_student_id,
+                                    date = sub_date,
+                                    studentName = sub_student_name,
+                                    status_code = sub_status_code,
+                                    status_text = sub_status_text,
+                                    start = sub_start,
+                                    end = sub_end,
+                                    audio = sub_audio,
+                                    correction = sub_correction,
+                                    score_ahkam = sub_score_ahkam,
+                                    score_itqan = sub_score_itqan,
+                                    score_makhroj = sub_score_makhroj,
+                                    score_tajwid = sub_score_tajwid,
+                                    score_final = sub_score_final
                                 )
                             )
 
