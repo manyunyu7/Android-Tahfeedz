@@ -2,14 +2,12 @@ package com.feylabs.tahfidz.ViewModel
 
 import android.content.Context
 import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.androidnetworking.AndroidNetworking
 import com.androidnetworking.error.ANError
 import com.androidnetworking.interfaces.JSONObjectRequestListener
-import com.feylabs.tahfidz.Util.SharedPreference.Preference
-import com.feylabs.tahfidz.Util.URL
+import com.feylabs.tahfidz.Util.API_Endpoint
 import org.json.JSONObject
 
 
@@ -36,7 +34,7 @@ class MentorViewModel : ViewModel() {
 
     fun loginMentor(username: String, password: String) {
         loginStatus.postValue(3)
-        AndroidNetworking.post(URL.LOGIN_MENTOR)
+        AndroidNetworking.post(API_Endpoint.LOGIN_MENTOR)
             .addBodyParameter("username", username)
             .addBodyParameter("password", password)
             .build()
@@ -97,7 +95,7 @@ class MentorViewModel : ViewModel() {
         var tempStatusGetUpdated = 3
         statusGetUpdated.postValue(3)
         var tempUpdatedData = mutableMapOf<String,String>()
-        AndroidNetworking.post(URL.MENTOR_DATA)
+        AndroidNetworking.post(API_Endpoint.MENTOR_DATA)
             .addBodyParameter("id", id)
             .build()
             .getAsJSONObject(object : JSONObjectRequestListener {
@@ -143,7 +141,7 @@ class MentorViewModel : ViewModel() {
     }
 
     fun changePassword(id: String, old: String, new: String) {
-        AndroidNetworking.post(URL.MENTOR_UPDATE_AUTH)
+        AndroidNetworking.post(API_Endpoint.MENTOR_UPDATE_AUTH)
             .addBodyParameter("mentor_id", id)
             .addBodyParameter("old_password", old)
             .addBodyParameter("new_password", new)
@@ -167,7 +165,7 @@ class MentorViewModel : ViewModel() {
 
     fun updateData(id: String, name: String, email: String, contact: String) {
         statusUpdateBasic.postValue(3)
-        AndroidNetworking.post(URL.MENTOR_UPDATE)
+        AndroidNetworking.post(API_Endpoint.MENTOR_UPDATE)
             .addBodyParameter("mentor_id", id)
             .addBodyParameter("name", name)
             .addBodyParameter("email", email)

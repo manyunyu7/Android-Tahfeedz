@@ -1,14 +1,12 @@
 package com.feylabs.tahfidz.ViewModel
 
 import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.androidnetworking.AndroidNetworking
 import com.androidnetworking.error.ANError
 import com.androidnetworking.interfaces.JSONObjectRequestListener
-import com.androidnetworking.interfaces.UploadProgressListener
-import com.feylabs.tahfidz.Util.URL
+import com.feylabs.tahfidz.Util.API_Endpoint
 import org.json.JSONObject
 import java.io.File
 
@@ -27,7 +25,7 @@ class UploadViewModel : ViewModel() {
         type: String
     ) {
         statusUpload.postValue(3)
-        AndroidNetworking.upload(URL.UPLOAD_SUBMISSION)
+        AndroidNetworking.upload(API_Endpoint.UPLOAD_SUBMISSION)
             .addMultipartFile("inputSubmission", file)
             .addMultipartParameter("studentID", student_id)
             .addMultipartParameter("studentName", student_name)

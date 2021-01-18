@@ -8,7 +8,7 @@ import com.androidnetworking.error.ANError
 import com.androidnetworking.interfaces.JSONObjectRequestListener
 import com.feylabs.tahfidz.Model.GroupMemberModel
 import com.feylabs.tahfidz.Model.GroupModel
-import com.feylabs.tahfidz.Util.URL
+import com.feylabs.tahfidz.Util.API_Endpoint
 import org.json.JSONObject
 
 class GroupViewModel : ViewModel() {
@@ -32,7 +32,7 @@ class GroupViewModel : ViewModel() {
     fun retrieveGroupAnnouncement(group_id:String){
         statusRetrieveGroupAnnouncement.postValue(3)
         Log.i("Fan-Group-announcement", "Group_id : $group_id")
-        AndroidNetworking.post(URL.GROUP_ANNOUNCEMENT)
+        AndroidNetworking.post(API_Endpoint.GROUP_ANNOUNCEMENT)
             .addBodyParameter("group_id", group_id)
             .build()
             .getAsJSONObject(object : JSONObjectRequestListener {
@@ -57,7 +57,7 @@ class GroupViewModel : ViewModel() {
     fun updateGroupAnnouncement(group_id: String,announcement:String){
         statusUpdateAnnouncement.postValue(3)
         Log.i("Fan-update-announcement", "Group_id : $group_id")
-        AndroidNetworking.post(URL.UPDATE_ANNOUNCEMENT)
+        AndroidNetworking.post(API_Endpoint.UPDATE_ANNOUNCEMENT)
             .addBodyParameter("group_id", group_id)
             .addBodyParameter("text_announcement", announcement)
             .build()
@@ -83,7 +83,7 @@ class GroupViewModel : ViewModel() {
 
     fun retrieveGroupList(mentor_id: String) {
         tempGroupList.clear()
-        AndroidNetworking.post(URL.GROUPING_MENTOR)
+        AndroidNetworking.post(API_Endpoint.GROUPING_MENTOR)
             .addBodyParameter("mentor_id", mentor_id)
             .build()
             .getAsJSONObject(object : JSONObjectRequestListener {
@@ -122,7 +122,7 @@ class GroupViewModel : ViewModel() {
     fun retrieveGroupMember(group_id: String) {
         var tempStat = 3
         statusRetrieveGroupMember.value = (tempStat)
-        AndroidNetworking.post(URL.GROUP_DATA)
+        AndroidNetworking.post(API_Endpoint.GROUP_DATA)
             .addBodyParameter("group_id", group_id)
             .build()
             .getAsJSONObject(object : JSONObjectRequestListener {

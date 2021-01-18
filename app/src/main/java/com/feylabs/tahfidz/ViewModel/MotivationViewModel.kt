@@ -6,7 +6,7 @@ import com.androidnetworking.AndroidNetworking
 import com.androidnetworking.error.ANError
 import com.androidnetworking.interfaces.JSONObjectRequestListener
 import com.feylabs.tahfidz.Model.MotModel
-import com.feylabs.tahfidz.Util.URL
+import com.feylabs.tahfidz.Util.API_Endpoint
 import org.json.JSONObject
 
 class MotivationViewModel : ViewModel() {
@@ -15,7 +15,7 @@ class MotivationViewModel : ViewModel() {
 
     fun getMot() {
         var tempListMot = mutableListOf<MotModel>()
-        AndroidNetworking.post(URL.MOT)
+        AndroidNetworking.post(API_Endpoint.MOT)
             .build()
             .getAsJSONObject(object : JSONObjectRequestListener {
                 override fun onResponse(response: JSONObject) {

@@ -7,7 +7,7 @@ import com.androidnetworking.AndroidNetworking
 import com.androidnetworking.error.ANError
 import com.androidnetworking.interfaces.JSONObjectRequestListener
 import com.feylabs.tahfidz.Model.SubmissionModel
-import com.feylabs.tahfidz.Util.URL
+import com.feylabs.tahfidz.Util.API_Endpoint
 import org.json.JSONObject
 
 
@@ -16,25 +16,30 @@ class SubmissionViewModel : ViewModel() {
     var statusDelete = MutableLiveData<Boolean>()
     val dataSubmission = MutableLiveData<MutableList<SubmissionModel>>()
 
-    fun retrieveSubmissionStudent(id: String, type: String, isIndividually: Boolean = false,individualID : String) {
+    fun retrieveSubmissionStudent(
+        id: String,
+        type: String,
+        isIndividually: Boolean = false,
+        individualID: String
+    ) {
         var param = ""
         var ids = ""
-        ids=id
-        if (type=="student") {
+        ids = id
+        if (type == "student") {
             param = "student_id"
         }
-        if (type=="mentor"){
+        if (type == "mentor") {
             param = "group_id"
         }
-        if (isIndividually){
-            param="student_id"
+        if (isIndividually) {
+            param = "student_id"
             ids = individualID
         }
-        Log.i("responseSub",id+param)
+        Log.i("responseSub", id + param)
 
         val dataSubmissionAPI = mutableListOf<SubmissionModel>()
         status.postValue(3)
-        AndroidNetworking.post(URL.SUBMISSION)
+        AndroidNetworking.post(API_Endpoint.SUBMISSION)
             .addBodyParameter(param, ids)
             .build()
             .getAsJSONObject(object : JSONObjectRequestListener {
@@ -52,13 +57,22 @@ class SubmissionViewModel : ViewModel() {
                             val sub_start = submission.getJSONObject(i).getString("start")
                             val sub_end = submission.getJSONObject(i).getString("end")
                             val sub_audio = submission.getJSONObject(i).getString("audio")
-                            val sub_score = submission.getJSONObject(i).getString("score")
                             val sub_correction = submission.getJSONObject(i).getString("correction")
+
+                            val sub_score = submission.getJSONObject(i).getString("score")
+                            val sub_score_ahkam =
+                                submission.getJSONObject(i).getString("score_ahkam")
+                            val sub_score_itqan =
+                                submission.getJSONObject(i).getString("score_itqan")
+                            val sub_score_makhroj =
+                                submission.getJSONObject(i).getString("score_makhroj")
+                            val sub_score_tajwid =
+                                submission.getJSONObject(i).getString("score_tajwid")
 
                             dataSubmissionAPI.add(
                                 SubmissionModel(
                                     sub_id, sub_student_id, sub_date, sub_student_name, sub_status,
-                                    sub_start, sub_end, sub_audio,sub_score,sub_correction
+                                    sub_start, sub_end, sub_audio, sub_score, sub_correction
                                 )
                             )
 
@@ -81,12 +95,12 @@ class SubmissionViewModel : ViewModel() {
         submissionID: String
     ) {
         Log.i("id_submission", submissionID)
-        AndroidNetworking.post(URL.DELETE_SUBMISSION)
+        AndroidNetworking.post(API_Endpoint.DELETE_SUBMISSION)
             .addBodyParameter("submission_id", submissionID)
             .build()
             .getAsJSONObject(object : JSONObjectRequestListener {
                 override fun onResponse(response: JSONObject) {
-                    Log.i("FAN-delSub",response.toString())
+                    Log.i("FAN-delSub", response.toString())
                     if (response.getInt("response_code") == 1) {
                         statusDelete.postValue(true)
                     } else {
@@ -95,7 +109,7 @@ class SubmissionViewModel : ViewModel() {
                 }
 
                 override fun onError(anError: ANError) {
-                    Log.i("FAN-delSub",anError.toString())
+                    Log.i("FAN-delSub", anError.toString())
                     statusDelete.postValue(false)
                 }
             })

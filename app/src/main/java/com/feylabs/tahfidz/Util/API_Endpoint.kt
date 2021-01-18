@@ -1,13 +1,15 @@
 package com.feylabs.tahfidz.Util
 
-object URL {
+object API_Endpoint {
 
     const val BASE_URL = "http://tahfidz.sditwahdahbtg.com/"
     const val LARAVEL_URL = "http://web-tahfidz.sditwahdahbtg.com/"
     const val MENTOR_DASHBOARD = LARAVEL_URL + "login/mentor"
 
+//    Auth Level
     const val LOGIN_STUDENT = BASE_URL + "student/login.php"
     const val LOGIN_MENTOR = BASE_URL + "mentor/login.php"
+
     const val STUDENT_DATA = BASE_URL + "student/student_info.php"
     const val STUDENT_PHOTO = BASE_URL + "student/"
     const val STUDENT_UPDATE_IMG = BASE_URL + "student/update_img.php"
@@ -32,12 +34,9 @@ object URL {
     const val CREATE_QUIZ = BASE_URL + "quiz/create_quiz.php"
 
     const val GROUP_DATA = BASE_URL + "group/group_info.php"
-//    http://202.157.177.52/API-Tahfidz/group/grouping_mentor_info.php
     const val GROUPING_MENTOR = BASE_URL + "group/grouping_mentor_info.php"
-//    param : mentor_id or group_id via post or get
 
-//    const val SUBMISSION_HISTORY = BASE_URL+"submission/get_submission_student.php"
-    const val SUBMISSION = BASE_URL+"submission/api_get_submission.php"
+    const val SUBMISSION = BASE_URL+"submission/api_get_submission_master.php"
     const val UPLOAD_SUBMISSION = BASE_URL+"submission/upload_submission.php"
     const val DELETE_SUBMISSION = BASE_URL+"submission/delete_submission.php"
     const val MP3 = BASE_URL+"submission/"

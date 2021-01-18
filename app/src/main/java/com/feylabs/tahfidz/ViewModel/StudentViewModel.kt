@@ -7,8 +7,7 @@ import androidx.lifecycle.ViewModel
 import com.androidnetworking.AndroidNetworking
 import com.androidnetworking.error.ANError
 import com.androidnetworking.interfaces.JSONObjectRequestListener
-import com.feylabs.tahfidz.Util.SharedPreference.Preference
-import com.feylabs.tahfidz.Util.URL
+import com.feylabs.tahfidz.Util.API_Endpoint
 import org.json.JSONObject
 
 
@@ -35,7 +34,7 @@ class StudentViewModel : ViewModel() {
 
     fun loginStudent(username: String, password: String) {
         statusLogin.postValue(3)
-        AndroidNetworking.post(URL.LOGIN_STUDENT)
+        AndroidNetworking.post(API_Endpoint.LOGIN_STUDENT)
             .addBodyParameter("username", username)
             .addBodyParameter("password", password)
             .build()
@@ -112,7 +111,7 @@ class StudentViewModel : ViewModel() {
     fun getStudentData(id: String) {
         statusGetUpdated.postValue(3)
         tempUpdatedData.clear()
-        AndroidNetworking.post(URL.STUDENT_DATA)
+        AndroidNetworking.post(API_Endpoint.STUDENT_DATA)
             .addBodyParameter("id", id)
             .addHeaders("id", id)
             .build()
@@ -185,7 +184,7 @@ class StudentViewModel : ViewModel() {
 
     fun updateData(id: String, name: String, email: String, contact: String) {
         statusUpdateBasic.postValue(3)
-        AndroidNetworking.post(URL.STUDENT_UPDATE_BASIC)
+        AndroidNetworking.post(API_Endpoint.STUDENT_UPDATE_BASIC)
             .addBodyParameter("student_id", id)
             .addBodyParameter("name", name)
             .addBodyParameter("email", email)
@@ -210,7 +209,7 @@ class StudentViewModel : ViewModel() {
 
     fun changePassword(id: String, old: String, new: String) {
         var temp = 99
-        AndroidNetworking.post(URL.STUDENT_UPDATE_AUTH)
+        AndroidNetworking.post(API_Endpoint.STUDENT_UPDATE_AUTH)
             .addBodyParameter("student_id", id)
             .addBodyParameter("old_password", old)
             .addBodyParameter("new_password", new)

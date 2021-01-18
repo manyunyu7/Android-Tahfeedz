@@ -6,9 +6,8 @@ import androidx.lifecycle.ViewModel
 import com.androidnetworking.AndroidNetworking
 import com.androidnetworking.error.ANError
 import com.androidnetworking.interfaces.JSONObjectRequestListener
-import com.feylabs.tahfidz.Model.MotModel
 import com.feylabs.tahfidz.Model.QuizModel
-import com.feylabs.tahfidz.Util.URL
+import com.feylabs.tahfidz.Util.API_Endpoint
 import org.json.JSONObject
 
 class QuizViewModel : ViewModel() {
@@ -20,7 +19,7 @@ class QuizViewModel : ViewModel() {
 
     fun getQuiz(id : String) {
         var tempList = mutableListOf<QuizModel>()
-        AndroidNetworking.post(URL.GET_QUIZ)
+        AndroidNetworking.post(API_Endpoint.GET_QUIZ)
             .addBodyParameter("group_id",id)
             .build()
             .getAsJSONObject(object : JSONObjectRequestListener {
@@ -65,7 +64,7 @@ class QuizViewModel : ViewModel() {
 
     fun insertQuiz(id : String,title:String,gform_link:String,desc:String) {
         var tempList = mutableListOf<QuizModel>()
-        AndroidNetworking.post(URL.CREATE_QUIZ)
+        AndroidNetworking.post(API_Endpoint.CREATE_QUIZ)
             .addBodyParameter("group_id",id)
             .addBodyParameter("title",title)
             .addBodyParameter("gform_link",gform_link)

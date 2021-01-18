@@ -12,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.crowdfire.cfalertdialog.CFAlertDialog
 import com.feylabs.tahfidz.R
 import com.feylabs.tahfidz.Util.SharedPreference.Preference
-import com.feylabs.tahfidz.Util.URL
+import com.feylabs.tahfidz.Util.API_Endpoint
 import com.squareup.picasso.MemoryPolicy
 import com.squareup.picasso.NetworkPolicy
 import com.squareup.picasso.Picasso
@@ -30,7 +30,7 @@ open class BaseActivity : AppCompatActivity() {
     }
     fun downloadPicasso(target:ImageView) {
         //Setting Up URL
-        val  url = URL.STUDENT_PHOTO + Preference(this).getPrefString("student_photo")
+        val  url = API_Endpoint.STUDENT_PHOTO + Preference(this).getPrefString("student_photo")
         Picasso.get()
             .load(url)
             .memoryPolicy(MemoryPolicy.NO_CACHE)
@@ -50,7 +50,7 @@ open class BaseActivity : AppCompatActivity() {
 
     fun downloadPicassoTeacher(target:ImageView) {
         //Setting Up URL
-        val  url = URL.MENTOR_PHOTO + Preference(this).getPrefString("mentor_photo")
+        val  url = API_Endpoint.MENTOR_PHOTO + Preference(this).getPrefString("mentor_photo")
         Picasso.get()
             .load(url)
             .memoryPolicy(MemoryPolicy.NO_CACHE)

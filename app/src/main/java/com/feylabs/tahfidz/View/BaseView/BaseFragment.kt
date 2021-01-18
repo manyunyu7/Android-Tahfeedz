@@ -15,7 +15,7 @@ import androidx.fragment.app.Fragment
 import com.crowdfire.cfalertdialog.CFAlertDialog
 import com.feylabs.tahfidz.R
 import com.feylabs.tahfidz.Util.SharedPreference.Preference
-import com.feylabs.tahfidz.Util.URL
+import com.feylabs.tahfidz.Util.API_Endpoint
 import com.squareup.picasso.MemoryPolicy
 import com.squareup.picasso.NetworkPolicy
 import com.squareup.picasso.Picasso
@@ -85,7 +85,7 @@ open class BaseFragment : Fragment() {
     fun downloadPicasso(target: ImageView) {
         checkPermission()
         //Setting Up URL
-        val url = URL.STUDENT_PHOTO + Preference(requireContext()).getPrefString("student_photo")
+        val url = API_Endpoint.STUDENT_PHOTO + Preference(requireContext()).getPrefString("student_photo")
         Picasso.get()
             .load(url)
             .tag("all-profile")
@@ -143,7 +143,7 @@ open class BaseFragment : Fragment() {
 
     fun downloadPicassoTeacher(target: ImageView) {
         //Setting Up URL
-        val url = URL.MENTOR_PHOTO + Preference(requireContext()).getPrefString("mentor_photo")
+        val url = API_Endpoint.MENTOR_PHOTO + Preference(requireContext()).getPrefString("mentor_photo")
         Picasso.get()
             .load(url)
             .memoryPolicy(MemoryPolicy.NO_CACHE)
@@ -164,7 +164,7 @@ open class BaseFragment : Fragment() {
 
     fun isOnline(): Boolean {
         try {
-            val sockaddr: SocketAddress = InetSocketAddress(URL.BASE_URL, port)
+            val sockaddr: SocketAddress = InetSocketAddress(API_Endpoint.BASE_URL, port)
             // Create an unbound socket
             val sock = Socket()
             // This method will block no more than timeoutMs.

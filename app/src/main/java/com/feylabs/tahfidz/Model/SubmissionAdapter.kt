@@ -19,9 +19,8 @@ import com.crowdfire.cfalertdialog.CFAlertDialog
 import com.feylabs.tahfidz.R
 import com.feylabs.tahfidz.Util.SharedPreference.Preference
 import com.feylabs.tahfidz.Util.SubBottomSheet
-import com.feylabs.tahfidz.Util.URL
+import com.feylabs.tahfidz.Util.API_Endpoint
 import com.feylabs.tahfidz.View.CorrectionDetailActivity
-import kotlinx.android.synthetic.main.layout_detail_submission.*
 import kotlinx.android.synthetic.main.layout_detail_submission.view.*
 import kotlinx.android.synthetic.main.list_submission.view.*
 import kotlinx.android.synthetic.main.list_submission.view.sub_start_end
@@ -187,12 +186,12 @@ class SubmissionAdapter : RecyclerView.Adapter<SubmissionAdapter.SubmissionHolde
             }
             subDetMp3.webViewClient = object : WebViewClient() {
                 override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
-                    view?.loadUrl(URL.MP3_MOBILE + mp3Path)
+                    view?.loadUrl(API_Endpoint.MP3_MOBILE + mp3Path)
                     return true
                 }
             }
-            subDetMp3.loadUrl(URL.MP3_MOBILE + mp3Path)
-            Log.i("MP3View URL", URL.MP3_MOBILE + mp3Path)
+            subDetMp3.loadUrl(API_Endpoint.MP3_MOBILE + mp3Path)
+            Log.i("MP3View URL", API_Endpoint.MP3_MOBILE + mp3Path)
 
 
             //DELETE SUBMISSION=====================================================================
@@ -241,7 +240,7 @@ class SubmissionAdapter : RecyclerView.Adapter<SubmissionAdapter.SubmissionHolde
         val loading = activity.findViewById(R.id.anim_loading) as LinearLayout
         loading.visibility = View.VISIBLE
         Log.i("id_submission", submissionID)
-        AndroidNetworking.post(URL.DELETE_SUBMISSION)
+        AndroidNetworking.post(API_Endpoint.DELETE_SUBMISSION)
             .addBodyParameter("submission_id", submissionID)
             .build()
             .getAsJSONObject(object : JSONObjectRequestListener {

@@ -17,7 +17,7 @@ import com.androidnetworking.interfaces.JSONObjectRequestListener
 import com.crowdfire.cfalertdialog.CFAlertDialog
 import com.feylabs.tahfidz.R
 import com.feylabs.tahfidz.Util.SharedPreference.Preference
-import com.feylabs.tahfidz.Util.URL
+import com.feylabs.tahfidz.Util.API_Endpoint
 import com.feylabs.tahfidz.View.BaseView.BaseActivity
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImageView
@@ -83,7 +83,7 @@ class UserChangeProfile : BaseActivity() {
 
     fun updateProfilePicMentor() {
         anim_loading.visibility = View.VISIBLE
-        AndroidNetworking.upload(URL.MENTOR_UPDATE_IMG)
+        AndroidNetworking.upload(API_Endpoint.MENTOR_UPDATE_IMG)
             .addMultipartFile("uploaded_files", imageFile)
             .addMultipartParameter("mentor_id", Preference(this).getPrefString("mentor_id"))
             .build()
@@ -113,7 +113,7 @@ class UserChangeProfile : BaseActivity() {
 
     fun updateProfilePic() {
         anim_loading.visibility = View.VISIBLE
-        AndroidNetworking.upload(URL.STUDENT_UPDATE_IMG)
+        AndroidNetworking.upload(API_Endpoint.STUDENT_UPDATE_IMG)
             .addMultipartFile("uploaded_files", imageFile)
             .addMultipartParameter("student_id", Preference(this).getPrefString("student_id"))
             .build()

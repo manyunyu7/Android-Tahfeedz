@@ -15,7 +15,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.feylabs.tahfidz.Model.SubmissionModel
 import com.feylabs.tahfidz.R
-import com.feylabs.tahfidz.Util.URL
+import com.feylabs.tahfidz.Util.API_Endpoint
 import com.feylabs.tahfidz.View.BaseView.BaseActivity
 import com.feylabs.tahfidz.ViewModel.SubmissionViewModel
 import com.tapadoo.alerter.Alerter
@@ -54,12 +54,12 @@ class SubmissionDetailStudent : BaseActivity()  {
         })
         mp3View.webViewClient = object : WebViewClient() {
             override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
-                view?.loadUrl(URL.MP3_MOBILE+mp3Path)
+                view?.loadUrl(API_Endpoint.MP3_MOBILE+mp3Path)
                 return true
             }
         }
-        mp3View.loadUrl(URL.MP3_MOBILE+mp3Path)
-        Log.i("MP3View URL",URL.MP3_MOBILE+mp3Path)
+        mp3View.loadUrl(API_Endpoint.MP3_MOBILE+mp3Path)
+        Log.i("MP3View URL",API_Endpoint.MP3_MOBILE+mp3Path)
 
         //init mpPlayer
         mp=MediaPlayer()
@@ -77,11 +77,11 @@ class SubmissionDetailStudent : BaseActivity()  {
         sub_det_status.text=dataIntentParcel.status
 
         val title = intent.getStringExtra("title")
-        textSource.text = URL.MP3 + mp3Path
+        textSource.text = API_Endpoint.MP3 + mp3Path
 
         btnStart.setOnClickListener {
             if (currentStat=="null"){
-                playSound(URL.MP3+mp3Path)
+                playSound(API_Endpoint.MP3+mp3Path)
                 playState()
             }else{
                 resumeSound()

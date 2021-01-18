@@ -3,7 +3,6 @@ package com.feylabs.tahfidz.View.QuranModulesViews
 import android.annotation.SuppressLint
 import android.app.ProgressDialog
 import android.content.Intent
-import android.media.AudioManager
 import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Build
@@ -12,7 +11,6 @@ import android.os.Handler
 import android.text.Html
 import android.util.Log
 import android.view.MenuItem
-import android.view.View
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.Toast
@@ -27,12 +25,11 @@ import com.feylabs.tahfidz.Model.QuranModul.AyatAdapter
 import com.feylabs.tahfidz.Model.QuranModul.ModelSurah
 import com.feylabs.tahfidz.R
 import com.feylabs.tahfidz.Util.QuranAPI.Api
-import com.feylabs.tahfidz.Util.URL
+import com.feylabs.tahfidz.Util.API_Endpoint
 
 import kotlinx.android.synthetic.main.activity_detail_surah.*
 import org.json.JSONArray
 import org.json.JSONException
-import java.io.IOException
 import java.util.*
 
 /**
@@ -88,12 +85,12 @@ class DetailSurahActivity : AppCompatActivity() {
             }
             QuranMp3.webViewClient = object : WebViewClient() {
                 override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
-                    view?.loadUrl(URL.MP3_MOBILE + audio.toString())
+                    view?.loadUrl(API_Endpoint.MP3_MOBILE + audio.toString())
                     return true
                 }
             }
-            QuranMp3.loadUrl(URL.MP3_MOBILE + audio.toString())
-            Log.i("MP3View URL",URL.MP3_MOBILE + audio.toString())
+            QuranMp3.loadUrl(API_Endpoint.MP3_MOBILE + audio.toString())
+            Log.i("MP3View URL",API_Endpoint.MP3_MOBILE + audio.toString())
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) tvKet.text = Html.fromHtml(keterangan,
                 Html.FROM_HTML_MODE_COMPACT)

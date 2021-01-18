@@ -6,8 +6,7 @@ import com.androidnetworking.AndroidNetworking
 import com.androidnetworking.error.ANError
 import com.androidnetworking.interfaces.JSONObjectRequestListener
 import com.feylabs.tahfidz.Model.AdminModel
-import com.feylabs.tahfidz.Model.MotModel
-import com.feylabs.tahfidz.Util.URL
+import com.feylabs.tahfidz.Util.API_Endpoint
 import org.json.JSONObject
 
 class AdminViewModel : ViewModel() {
@@ -18,7 +17,7 @@ class AdminViewModel : ViewModel() {
 
     fun getAdmin() {
         var tempListAdmin = mutableListOf<AdminModel>()
-        AndroidNetworking.post(URL.GET_ADMIN)
+        AndroidNetworking.post(API_Endpoint.GET_ADMIN)
             .build()
             .getAsJSONObject(object : JSONObjectRequestListener {
                 override fun onResponse(response: JSONObject) {

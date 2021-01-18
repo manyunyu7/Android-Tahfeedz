@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import com.androidnetworking.AndroidNetworking
 import com.androidnetworking.error.ANError
 import com.androidnetworking.interfaces.JSONObjectRequestListener
-import com.feylabs.tahfidz.Util.URL
+import com.feylabs.tahfidz.Util.API_Endpoint
 import org.json.JSONObject
 
 class CorrectionViewModel : ViewModel() {
@@ -14,7 +14,7 @@ class CorrectionViewModel : ViewModel() {
     var message = MutableLiveData<MutableMap<String,String>>()
 
     fun updateSubmission(id:String,score:String,text:String){
-        AndroidNetworking.post(URL.UPDATE_CORRECTION)
+        AndroidNetworking.post(API_Endpoint.UPDATE_CORRECTION)
             .addBodyParameter("score",score)
             .addBodyParameter("correction",text)
             .addBodyParameter("submission_id",text)

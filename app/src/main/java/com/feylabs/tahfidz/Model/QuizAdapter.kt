@@ -1,6 +1,5 @@
 package com.feylabs.tahfidz.Model
 
-import android.app.Dialog
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
@@ -9,10 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.androidnetworking.AndroidNetworking
 import com.androidnetworking.error.ANError
@@ -20,9 +15,8 @@ import com.androidnetworking.interfaces.JSONObjectRequestListener
 import com.crowdfire.cfalertdialog.CFAlertDialog
 import com.feylabs.tahfidz.R
 import com.feylabs.tahfidz.Util.SharedPreference.Preference
-import com.feylabs.tahfidz.Util.URL
+import com.feylabs.tahfidz.Util.API_Endpoint
 import com.feylabs.tahfidz.View.SharedView.WebsiteActivity
-import com.feylabs.tahfidz.ViewModel.QuizViewModel
 import kotlinx.android.synthetic.main.list_quiz.view.*
 import org.json.JSONObject
 
@@ -78,7 +72,7 @@ class QuizAdapter :
 
     fun deleteQuiz(id: String, position: Int, dialog: DialogInterface): Int {
         var tempReturn = 0
-        AndroidNetworking.post(URL.DELETE_QUIZ)
+        AndroidNetworking.post(API_Endpoint.DELETE_QUIZ)
             .addBodyParameter("quiz_id", id)
             .build()
             .getAsJSONObject(object : JSONObjectRequestListener {

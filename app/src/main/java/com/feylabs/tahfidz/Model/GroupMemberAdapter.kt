@@ -5,12 +5,11 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.crowdfire.cfalertdialog.CFAlertDialog
 import com.feylabs.tahfidz.R
-import com.feylabs.tahfidz.Util.URL
+import com.feylabs.tahfidz.Util.API_Endpoint
 import com.squareup.picasso.MemoryPolicy
 import com.squareup.picasso.NetworkPolicy
 import com.squareup.picasso.Picasso
@@ -53,7 +52,7 @@ class GroupMemberAdapter : RecyclerView.Adapter<GroupMemberAdapter.HolderGroupMe
         holder.nisn.text = listGroup[position].student_nisn
         holder.u_class.text = listGroup[position].student_class
 
-        var studentProfileUrl = URL.STUDENT_PHOTO + listGroup[position].student_photo
+        var studentProfileUrl = API_Endpoint.STUDENT_PHOTO + listGroup[position].student_photo
 
         if (listGroup[position].student_gender == "L") {
             Picasso.get()

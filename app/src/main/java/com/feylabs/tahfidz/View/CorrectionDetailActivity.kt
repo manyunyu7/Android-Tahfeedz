@@ -12,7 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.feylabs.tahfidz.Model.SubmissionModel
 import com.feylabs.tahfidz.R
 import com.feylabs.tahfidz.Util.SharedPreference.Preference
-import com.feylabs.tahfidz.Util.URL
+import com.feylabs.tahfidz.Util.API_Endpoint
 import com.feylabs.tahfidz.View.BaseView.BaseActivity
 import com.feylabs.tahfidz.ViewModel.CorrectionViewModel
 import kotlinx.android.synthetic.main.activity_correction_detail.*
@@ -56,7 +56,7 @@ class CorrectionDetailActivity : BaseActivity() {
                 "Berikut adalah hasil koreksi hafalan yang sudah anda setorkan kepada pembimbing"
             btnRefresh.visibility = View.GONE
 
-            var url_sub_id = URL.SHOW_CORRECTION+getParcelize?.id?.removeRange(0,3)
+            var url_sub_id = API_Endpoint.SHOW_CORRECTION+getParcelize?.id?.removeRange(0,3)
             correction_note_student.loadUrl(url_sub_id)
             correction_note_student.webViewClient = object : WebViewClient() {
                 override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
@@ -72,7 +72,7 @@ class CorrectionDetailActivity : BaseActivity() {
             tv_descDetailCorrection.text = "Masukkan Koreksi Dari Bacaan Quran yang dibacakan Siswa"
             tv_titleDetailCorrection.text = "Nilai Bacaan Siswa"
             btnRefresh.visibility = View.VISIBLE
-            var url_sub_id = URL.INPUT_CORRECTION+getParcelize?.id?.removeRange(0,3)
+            var url_sub_id = API_Endpoint.INPUT_CORRECTION+getParcelize?.id?.removeRange(0,3)
 
             correction_note_student.webViewClient = object : WebViewClient() {
                 override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
